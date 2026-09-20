@@ -6,7 +6,7 @@
 [![Lessons](https://img.shields.io/badge/មេរៀន-១៨%20ជំពូក-orange?style=for-the-badge&logo=java&logoColor=white)](#-មាតិកាវគ្គសិក្សា-table-of-contents)
 [![Slides](https://img.shields.io/badge/Slide%20Deck-៨៧%20ស្លាយ-blue?style=for-the-badge)](slides/README.md)
 [![Language](https://img.shields.io/badge/ភាសា-ខេមរភាសា-red?style=for-the-badge)](#)
-[![Next Course](https://img.shields.io/badge/វគ្គបន្ទាប់-Java%20Advance-purple?style=for-the-badge)](https://github.com/sakousa856-sketch/java-advance-for-developers-khmer)
+[![Next Course](https://img.shields.io/badge/វគ្គបន្ទាប់-Java%20Advance-purple?style=for-the-badge)](../02-advance-java/README.md)
 [![License](https://img.shields.io/badge/អាជ្ញាប័ណ្ណ-MIT-green?style=for-the-badge)](LICENSE)
 
 ---
@@ -88,12 +88,8 @@ flowchart LR
 
 ---
 
-## 🔗 ស៊េរីវគ្គសិក្សាពាក់ព័ន្ធ (Sister Repositories)
+## 🧭 ការរុករកវគ្គសិក្សា (Course Navigation)
 
-| វគ្គសិក្សា | ឃ្លាំងកូដ (Repository) | ខ្លឹមសារសំខាន់ៗ | ស្ថានភាព |
-| :--- | :--- | :--- | :---: |
-| **01. Basic Java** | [java-basic-for-developers-khmer](https://github.com/sakousa856-sketch/java-basic-for-developers-khmer) | មូលដ្ឋានគ្រឹះ, Syntax, Types, Flow, Arrays | ✅ Active |
-| **02. Advance Java** | [java-advance-for-developers-khmer](https://github.com/sakousa856-sketch/java-advance-for-developers-khmer) | Object-Oriented Programming (OOP) ស៊ីជម្រៅ | ✅ ពេញលេញ |
-| **03. Spring Framework** | [spring-framework-for-developers-khmer](https://github.com/sakousa856-sketch/spring-framework-for-developers-khmer) | IoC Container, Dependency Injection, Bean, AOP | ✅ ពេញលេញ |
-| **04. Spring Boot** | [spring-boot-for-developers-khmer](https://github.com/sakousa856-sketch/spring-boot-for-developers-khmer) | RESTful APIs, Spring Data JPA, Microservices | ✅ ពេញលេញ |
-| **05. Interview Prep** | [java-spring-interview-handbook-khmer](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer) | ១២ មូលដ្ឋានត្រៀមសម្ភាសន៍ការងារសហគ្រាស | ✅ ពេញលេញ |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Vault) | វគ្គបន្ទាប់ (Next Course) |
+| :--- | :---: | :--- |
+| *ចាប់ផ្តើម (Start of Curriculum)* | [🏠 មាតិកាធំ](../README.md) | [Course 02: Advance Java →](../02-advance-java/README.md) |

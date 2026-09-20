@@ -6,7 +6,7 @@
 [![Lessons](https://img.shields.io/badge/មេរៀន-១៨%20ជំពូក-orange?style=for-the-badge&logo=java&logoColor=white)](#-មាតិកាវគ្គសិក្សា-table-of-contents)
 [![Slides](https://img.shields.io/badge/Slide%20Deck-៨៦%20ស្លាយ-blue?style=for-the-badge)](slides/README.md)
 [![Language](https://img.shields.io/badge/ភាសា-ខេមរភាសា-red?style=for-the-badge)](#)
-[![Next Course](https://img.shields.io/badge/វគ្គបន្ទាប់-Spring%20Framework-green?style=for-the-badge)](https://github.com/sakousa856-sketch/spring-framework-for-developers-khmer)
+[![Next Course](https://img.shields.io/badge/វគ្គបន្ទាប់-Spring%20Framework-green?style=for-the-badge)](../03-spring-framework/README.md)
 [![License](https://img.shields.io/badge/អាជ្ញាប័ណ្ណ-MIT-brightgreen?style=for-the-badge)](LICENSE)
 
 ---
@@ -89,9 +89,8 @@ flowchart LR
 
 ---
 
-## 🔗 ស៊េរីវគ្គសិក្សាពាក់ព័ន្ធ (Sister Repositories)
+## 🧭 ការរុករកវគ្គសិក្សា (Course Navigation)
 
-- 📘 [មូលដ្ឋានគ្រឹះ Java (Basic Java)](https://github.com/sakousa856-sketch/java-basic-for-developers-khmer)
-- 📙 [Spring Framework Core Architecture](https://github.com/sakousa856-sketch/spring-framework-for-developers-khmer)
-- 📕 [Spring Boot Enterprise & Microservices](https://github.com/sakousa856-sketch/spring-boot-for-developers-khmer)
-- 💼 [Java & Spring Interview Handbook](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Vault) | វគ្គបន្ទាប់ (Next Course) |
+| :--- | :---: | :--- |
+| [← Course 01: Basic Java](../01-basic-java/README.md) | [🏠 មាតិកាធំ](../README.md) | [Course 03: Spring Framework →](../03-spring-framework/README.md) |
