@@ -1,60 +1,57 @@
-# Part 5: Versions of Spring
+# Part 5: កំណែទម្រង់ និងប្រវត្តិនៃ Spring Versions (Versions of Spring)
+![កំណែទម្រង់នៃ Spring Framework](./assets/overview-of-versions-of-spring.jpg "Overview of versions of Spring Framework")
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+## មាតិកា (Table of Contents)
 
-![Overview of versions of Spring Framework](./assets/overview-of-versions-of-spring.jpg "Overview of versions of Spring Framework")
-
-## Table of Contents
-
-- [1. The Evolution of Spring](#1-the-evolution-of-spring)
-- [2. Major Version Milestones (1.0 to 6.0)](#2-major-version-milestones-10-to-60)
-- [3. Version Milestones Table](#3-version-milestones-table)
-- [4. Key Takeaways for Spring 6.0+](#4-key-takeaways-for-spring-60)
+- [1. ប្រវត្តិនៃការវិវត្តន៍របស់ Spring Framework](#1-ប្រវត្តិនៃការវិវត្តន៍របស់-spring-framework)
+- [2. បណ្ដាជំនាន់ធំៗពី Spring 1.0 ដល់ Spring 6.0](#2-បណ្ដាជំនាន់ធំៗពី-spring-10-ដល់-spring-60)
+- [3. តារាងវិវត្តន៍ជំនាន់ (Version Milestones Table)](#3-តារាងវិវត្តន៍ជំនាន់-version-milestones-table)
+- [4. ចំណុចសំខាន់ក្នុង Spring 6.0+ (The Modern Era)](#4-ចំណុចសំខាន់ក្នុង-spring-60-the-modern-era)
 
 ---
 
-## 1. The Evolution of Spring
+## 1. ប្រវត្តិនៃការវិវត្តន៍របស់ Spring Framework
 
-First created by [Rod Johnson](https://en.wikipedia.org/wiki/Rod_Johnson_(programmer)) in 2003, the **Spring Framework** has continuously adapted over two decades to lead the enterprise Java landscape—pioneering annotations, REST, microservices, and reactive programming.
-
----
-
-## 2. Major Version Milestones (1.0 to 6.0)
-
-- **Spring 0.9 (2003):** Initial incarnation derived from the code examples in Rod Johnson's book.
-- **Spring 1.0 (March 24, 2004):** First official production release (1.0 GA), predominantly focused on XML configurations.
-- **Spring 2.0 (October 2006):** Introduced custom XML namespaces and native AspectJ support.
-- **Spring 2.5 (November 2007):** Revolutionary release introducing **Annotations** (`@Component`, `@Autowired`, `@Service`, `@Repository`), dramatically reducing XML dependency.
-- **Spring 3.0 (December 2009):** Introduced the **Spring Expression Language (SpEL)**, Java-based configuration (`@Configuration`, `@Bean`), environment profiles, and first-class RESTful web support.
-- **Spring 4.0 (December 2013):** Added full support for **Java 8** (Lambdas, Date/Time API), WebSocket capabilities, and conditional bean registration paving the way for **Spring Boot**.
-- **Spring 5.0 (2017):** Major release bringing **Spring WebFlux** (reactive programming via Project Reactor), seamless **Kotlin** integration, and an HTTP/2 foundation.
-- **Spring 6.0 (November 22, 2022):** Generational leap requiring **Java 17+** as the minimum baseline, migrating packages to **`jakarta.*` (Jakarta EE 9+)**, and enabling **Ahead-of-Time (AOT)** compilation with **GraalVM Native Images** for instant startup and low memory footprints.
+**Spring Framework** ត្រូវបានបង្កើតឡើងដំបូងដោយលោក [Rod Johnson](https://en.wikipedia.org/wiki/Rod_Johnson_(programmer)) ក្នុងឆ្នាំ ២០០៣។ ឆ្លងកាត់រយៈពេលជាង ២ ទសវត្សរ៍ Spring បានផ្លាស់ប្តូរមុខមាត់របស់ពិភព Enterprise Java ទាំងស្រុង ដោយបន្តវិវត្តន៍តាមសម័យកាល បច្ចេកវិទ្យា Cloud, Microservices, និង Reactive Architecture។
 
 ---
 
-## 3. Version Milestones Table
+## 2. បណ្ដាជំនាន់ធំៗពី Spring 1.0 ដល់ Spring 6.0
 
-| Version | Release Year | Min Java Version | Key Innovations |
+- **Spring 0.9 (២០០៣):** កំណែដំបូងដែលទាញចេញពីកូដគំរូក្នុងសៀវភៅរបស់ Rod Johnson។
+- **Spring 1.0 (២៤ មីនា ២០០៤):** កំណែទម្រង់ជាផ្លូវការដំបូងគេបង្អស់ (1.0 GA) ដែលផ្អែកលើការកំណត់តាមរយៈ XML Configuration។
+- **Spring 2.0 (តុលា ២០០៦):** ណែនាំ XML Namespaces ថ្មីៗ និងការគាំទ្រ AspectJ។
+- **Spring 2.5 (វិច្ឆិកា ២០០៧):** នាំមកនូវមុខងារបដិវត្តន៍ដ៏អស្ចារ្យគឺ **Annotations** (`@Component`, `@Autowired`, `@Service`, `@Repository`) ដែលបានកាត់បន្ថយការពឹងផ្អែកលើ XML យ៉ាងច្រើនលើសលប់។
+- **Spring 3.0 (ធ្នូ ២០០៩):** ណែនាំ **Spring Expression Language (SpEL)**, ការកំណត់តាម JavaConfig (`@Configuration`, `@Bean`), Environment Profiles, និងការគាំទ្រ RESTful Architecture ពេញលេញ។
+- **Spring 4.0 (ធ្នូ ២០១៣):** កំណែដំបូងដែលគាំទ្រពេញលេញនូវ **Java 8** (Lambdas, Optional), WebSocket module, និងការត្រួសត្រាយផ្លូវឱ្យកើតមាន **Spring Boot**។
+- **Spring 5.0 (២០១៧):** នាំមកនូវ **Spring WebFlux** (Reactive & Non-blocking web stack), ការគាំទ្រភាសា **Kotlin** យ៉ាងរលូន, និងតម្រូវការអប្បបរមាត្រឹម Java 8+ / Java 9។
+- **Spring 6.0 (២២ វិច្ឆិកា ២០២២):** ផ្លាស់ប្តូរទៅកាន់យុគសម័យ Cloud Native ដោយកំណត់យក **Java 17+** ជាកម្រិតអប្បបរមា, ផ្លាស់ប្តូរ Package ពី `javax.*` ទៅ **`jakarta.*` (Jakarta EE 9+)**, និងគាំទ្រ **Ahead-of-Time (AOT)** Compilation ជាមួយ **GraalVM Native Images** ធ្វើឱ្យកម្មវិធី Start ត្រឹមរង្វង់ Milliseconds!
+
+---
+
+## 3. តារាងវិវត្តន៍ជំនាន់ (Version Milestones Table)
+
+| ជំនាន់ (Version) | កាលបរិច្ឆេទចេញផ្សាយ | តម្រូវការ Java អប្បបរមា | មុខងារលេចធ្លោបំផុត |
 | :--- | :--- | :--- | :--- |
-| **Spring 1.0** | 2004 | Java 1.3 / 1.4 | Core IoC Container, XML Bean Definition |
-| **Spring 2.5** | 2007 | Java 5 | Annotation-driven configuration (`@Autowired`) |
-| **Spring 3.0** | 2009 | Java 5 / 6 | SpEL, Java-based Configuration, REST APIs |
-| **Spring 4.0** | 2013 | Java 8 | Java 8 features, WebSockets, Conditional beans |
-| **Spring 5.0** | 2017 | Java 8+ | Reactive WebFlux, Kotlin support, HTTP/2 |
-| **Spring 6.0** | 2022 | **Java 17+** | Jakarta EE 9+, GraalVM Native Image, AOT Engine |
+| **Spring 1.0** | ២០០៤ | Java 1.3 / 1.4 | Core IoC Container, XML Config |
+| **Spring 2.5** | ២០០៧ | Java 5 | Annotation-driven configuration (`@Autowired`) |
+| **Spring 3.0** | ២០០៩ | Java 5 / 6 | SpEL, Java-based Configuration, REST APIs |
+| **Spring 4.0** | ២០១៣ | Java 8 | Java 8 Lambda support, WebSocket, Conditional beans |
+| **Spring 5.0** | ២០១៧ | Java 8+ | Reactive WebFlux, Kotlin support, HTTP/2 |
+| **Spring 6.0** | ២០២២ | **Java 17+** | Jakarta EE 9+, GraalVM Native Image, AOT |
 
 ---
 
-## 4. Key Takeaways for Spring 6.0+
+## 4. ចំណុចសំខាន់ក្នុង Spring 6.0+ (The Modern Era)
 
-When developing modern applications with **Spring Boot 3.x** and **Spring 6.x**:
-1. **Java Baseline:** Java 17 or Java 21 LTS is strictly required.
-2. **Jakarta Namespace:** All imports previously in `javax.servlet.*`, `javax.persistence.*`, and `javax.validation.*` are now under `jakarta.*`.
+ប្រសិនបើអ្នកកំពុងរៀន ឬអភិវឌ្ឍកម្មវិធីថ្មីជាមួយ **Spring Boot 3.x** ឬ **Spring Framework 6.x**៖
+1. **Java Baseline:** អ្នកត្រូវតែប្រើប្រាស់ Java 17 ឬ Java 21 LTS ឡើងទៅ។
+2. **Jakarta Namespace:** រាល់ Import statements ពាក់ព័ន្ធនឹង Servlet, Persistence, Validation ត្រូវបានប្តូរពី `javax.persistence.*` ទៅជា `jakarta.persistence.*` ទាំងអស់។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 4: Spring Modules Architecture](../04-modules-of-spring/README.md) | [📚 Spring Framework Index](../README.md) | [Part 6: What Is IoC? →](../06-what-is-ioc/README.md) |
+| [← Part 4: ស្ថាបត្យកម្ម និង Modules របស់ Spring](../04-modules-of-spring/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 6: តើ Inversion of Control (IoC) ជាអ្វី? →](../06-what-is-ioc/README.md) |

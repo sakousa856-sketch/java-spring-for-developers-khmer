@@ -1,31 +1,29 @@
-# Lesson 6: Declarative Transaction Management with @Transactional
+# មេរៀនទី ៦: ការគ្រប់គ្រង Transaction ជាមួយ @Transactional (Declarative Transaction Management)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../05-caching-providers-redis/README.md) | [មេរៀនបន្ទាប់ →](../07-dto-mapping/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../05-caching-providers-redis/README.md) | [Next Lesson →](../07-dto-mapping/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Spring Boot @Transactional Todo Service](../../examples/02-spring-data-jpa-postgresql)  
-> 📄 **Source Code Files:** [`TodoService.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/service/TodoService.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Spring Boot @Transactional Todo Service](../../examples/02-spring-data-jpa-postgresql)  
+> 📄 **File កូដជាក់ស្តែង:** [`TodoService.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/service/TodoService.java)
 
 
 ---
 
-## Table of Contents
-1. [ACID Properties in Relational Databases](#acid-properties)
-2. [Declarative Transactions with @Transactional](#declarative-transactions)
+## មាតិកា (Table of Contents)
+1. [គោលការណ៍ ACID នៃ Database Transactions](#គោលការណ៍-acid)
+2. [Declarative Transaction Management ជាមួយ @Transactional](#declarative-transaction-management)
 3. [Transaction Propagation Behaviors](#transaction-propagation-behaviors)
 4. [Transaction Isolation Levels](#transaction-isolation-levels)
-5. [Rollback Semantics (Checked vs Unchecked Exceptions)](#rollback-semantics)
-6. [The Self-Invocation Proxy Pitfall](#the-self-invocation-proxy-pitfall)
+5. [Rollback Rules (Checked vs Unchecked Exceptions)](#rollback-rules)
+6. [កំហុសទូទៅ (Self-Invocation Pitfall)](#កំហុសទូទៅ-self-invocation)
 
 ---
 
-## ACID Properties
-A database transaction is a logical unit of work adhering strictly to ACID principles:
-- **Atomicity**: All operations succeed together or all changes are rolled back (All-or-Nothing).
-- **Consistency**: Database invariants and business rules are preserved before and after execution.
-- **Isolation**: Concurrent transactions execute independently without dirty reads or state collisions.
-- **Durability**: Committed data survives unexpected hardware or server failures.
+## គោលការណ៍ ACID
+Transaction គឺជាឯកតានៃការងារ (Unit of Work) ដែលត្រូវតែបំពេញតាមគោលការណ៍ ACID៖
+- **A (Atomicity)**: ប្រតិបត្តិការទាំងអស់ត្រូវតែជោគជ័យទាំងអស់ បើបរាជ័យមួយត្រូវ rollback ត្រឡប់មកដើមវិញទាំងអស់ (All or Nothing)។
+- **C (Consistency)**: រក្សាទិន្នន័យឱ្យស្ថិតក្នុងស្ថានភាពត្រឹមត្រូវតាមច្បាប់អាជីវកម្ម។
+- **I (Isolation)**: Transactions ដែលដំណើរការដំណាលគ្នាមិនត្រូវរំខានគ្នាទៅវិញទៅមកឡើយ។
+- **D (Durability)**: ពេល commit រួចរាល់ ទិន្នន័យត្រូវបានកត់ត្រាទុកជាអចិន្ត្រៃយ៍ ទោះបីជា Server ដាច់ភ្លើងក៏ដោយ។
 
 ```mermaid
 sequenceDiagram
@@ -41,7 +39,9 @@ sequenceDiagram
 
 ---
 
-## Declarative Transactions with @Transactional
+## Declarative Transaction Management ជាមួយ @Transactional
+
+ដាក់ `@Transactional` នៅលើ Service Class ឬ Service Method៖
 
 ```java
 @Service
@@ -73,38 +73,39 @@ public class OrderService {
 
 ## Transaction Propagation Behaviors
 
-| Propagation | Semantics |
+| Propagation | អាកប្បកិរិយា |
 | :--- | :--- |
-| `REQUIRED` *(Default)* | Joins existing transaction or creates a new one if none exists |
-| `REQUIRES_NEW` | Always suspends current transaction and creates a completely independent transaction |
-| `SUPPORTS` | Executes within transaction if present; executes non-transactionally otherwise |
-| `NOT_SUPPORTED` | Always executes non-transactionally, suspending any active transaction |
-| `MANDATORY` | Requires an active transaction, throwing an exception if none is present |
+| `REQUIRED` *(Default)* | ប្រសិនបើមាន Transaction ស្រាប់ ចូលរួមជាមួយវា; បើគ្មានទេ បង្កើត Transaction ថ្មី |
+| `REQUIRES_NEW` | បង្កើត Transaction ថ្មីស្រឡាងជានិច្ច ដោយផ្អាក (suspend) Transaction បច្ចុប្បន្នបណ្តោះអាសន្ន |
+| `SUPPORTS` | ប្រសិនបើមាន Transaction ដំណើរការក្នុង Transaction; បើគ្មាន ដំណើរការដោយគ្មាន Transaction |
+| `NOT_SUPPORTED` | ដំណើរការដោយគ្មាន Transaction ជានិច្ច (ផ្អាក Transaction ដែលមានស្រាប់) |
+| `MANDATORY` | ទាមទារឱ្យមាន Transaction ជាដាច់ខាត បើគ្មាននឹងបោះ Exception |
 
 ---
 
-## Rollback Semantics
-By default:
-- Spring automatically rolls back for **Unchecked Exceptions** (`RuntimeException` and subclasses).
-- Spring **does not** roll back for **Checked Exceptions** (`java.lang.Exception`).
+## Rollback Rules
 
-To rollback on checked exceptions:
+តាមលំនាំដើម (Default):
+- Spring នឹង **Rollback** តែចំពោះ **Unchecked Exceptions** (`RuntimeException` និង `Error`) ប៉ុណ្ណោះ។
+- ចំពោះ **Checked Exceptions** (`Exception`), Spring **មិន Rollback ឡើយ**!
+
+### ដំណោះស្រាយ:
 ```java
-@Transactional(rollbackFor = {Exception.class, CustomException.class})
-public void process() throws CustomException {
-    // Will rollback upon throwing CustomException
+@Transactional(rollbackFor = {Exception.class, CustomCheckedException.class})
+public void updateAccount() throws CustomCheckedException {
+    // នឹង rollback ទោះបីជាបោះ Checked Exception ក៏ដោយ
 }
 ```
 
 ---
 
-## The Self-Invocation Proxy Pitfall
-Spring intercepts transaction boundaries using dynamic AOP proxies. If method `a()` calls method `b()` inside the exact same class instance, the proxy boundary is bypassed and `@Transactional` on `b()` will not take effect.
+## កំហុសទូទៅ: Self-Invocation
+Spring AOP Proxy ដំណើរការបានលុះត្រាតែ method ត្រូវបានហៅពីខាងក្រៅ Class (External Caller)។ ប្រសិនបើ method A ហៅ method B ក្នុង class តែមួយ `@Transactional` លើ method B នឹងមិនមានប្រសិទ្ធភាពឡើយ!
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Distributed Caching with Redis](../05-caching-providers-redis/README.md) | [📚 Module Index](../README.md) | [DTO Mapping with MapStruct and Java Records →](../07-dto-mapping/README.md) |
+| [← Caching Providers និង Redis Integration (Spring Boot Caching with Redis)](../05-caching-providers-redis/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការបម្លែងទិន្នន័យ DTO ជាមួយ MapStruct និង ModelMapper (DTO Mapping Patterns) →](../07-dto-mapping/README.md) |

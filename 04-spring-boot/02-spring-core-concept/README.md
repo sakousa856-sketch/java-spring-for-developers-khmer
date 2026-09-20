@@ -1,16 +1,13 @@
-# Module 2: Spring Core Concepts & Fundamentals
-
-> 🌐 **Language / ភាសា:** 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md) | 🇬🇧 **[English](README.md)**
-
+# Module 2: គោលគំនិតគ្រឹះនៃ Spring Core (Spring Core Concepts)
 ![Module 2: Spring Core Concepts & Fundamentals](../assets/web_development.webp)
 
-## 📖 Module Overview
+## 📖 សេចក្តីផ្តើមអំពី Module
 
-Deep dive into Spring's architectural engine: Inversion of Control (IoC), Dependency Injection (DI), Bean lifecycles, Bean scopes, Autowiring, and DispatcherServlet.
+សិក្សាស៊ីជម្រៅអំពីយន្តការស្នូលរបស់ Spring Framework រួមមាន Inversion of Control (IoC), Dependency Injection, Bean Scopes, Bean Lifecycle, និង DispatcherServlet។
 
 ---
 
-## 🗺️ Module Learning Roadmap
+## 🗺️ ផែនទីសិក្សាប្រចាំ Module (Learning Roadmap)
 
 ```mermaid
 flowchart TD
@@ -23,29 +20,30 @@ flowchart TD
     L7["07. Create a Spring Bean in 3 Ways"] --> L8["08. Spring Autowiring (@Autowired)"]
     L8["08. Spring Autowiring (@Autowired)"] --> L9["09. What is DispatcherServlet in Spring"]
     L9["09. What is DispatcherServlet in Spring"] --> L10["10. Build Tools: Maven vs Gradle"]
+
 ```
 
 ---
 
-## 📚 Lessons in This Module (10 Lessons)
+## 📚 បញ្ជីមេរៀនក្នុង Module (10 Lessons)
 
-| Lesson | Topic | Description |
+| មេរៀន (Lesson) | ប្រធានបទ (Topic) | ការពិពណ៌នា (Description) |
 | :---: | :--- | :--- |
-| **01** | [Inversion of Control (IoC)](01-inversion-of-control/README.md) | Understanding the Inversion of Control paradigm |
-| **02** | [Dependency Injection (DI)](02-dependency-injection/README.md) | Practical Dependency Injection in enterprise Java |
-| **03** | [BeanFactory vs ApplicationContext](03-beanfactory-vs-applicationcontext/README.md) | Comparing Spring's lightweight BeanFactory and rich ApplicationContext |
-| **04** | [Spring Bean Lifecycle](04-spring-bean-lifecycle/README.md) | The complete lifecycle phases of a managed Spring Bean |
-| **05** | [Singleton and Prototype Scopes](05-singleton-and-prototype-scopes/README.md) | Deep dive into Singleton (default) vs Prototype bean scopes |
-| **06** | [Custom Bean Scope in Spring](06-custom-bean-scope/README.md) | Creating custom bean scopes in Spring |
-| **07** | [Create a Spring Bean in 3 Ways](07-create-spring-bean-3-ways/README.md) | 3 ways to declare beans: XML, Java @Bean, and @Component scan |
-| **08** | [Spring Autowiring (@Autowired)](08-spring-autowiring/README.md) | Automated dependency wiring with @Autowired and @Qualifier |
-| **09** | [What is DispatcherServlet in Spring](09-dispatcherservlet/README.md) | DispatcherServlet: Front Controller pattern and HTTP routing |
-| **10** | [Build Tools: Maven vs Gradle](10-build-tools-maven-gradle/README.md) | Build automation tools: Maven POM vs Gradle DSL |
+| **01** | [Inversion of Control (IoC)](01-inversion-of-control/README.md) | ស្វែងយល់អំពីគោលការណ៍ IoC និង IoC Container |
+| **02** | [Dependency Injection (DI)](02-dependency-injection/README.md) | ការអនុវត្ត Dependency Injection ជាក់ស្តែងក្នុង Java |
+| **03** | [BeanFactory vs ApplicationContext](03-beanfactory-vs-applicationcontext/README.md) | ការប្រៀបធៀបប្រភេទ Container ទាំងពីររបស់ Spring |
+| **04** | [Spring Bean Lifecycle](04-spring-bean-lifecycle/README.md) | ដំណាក់កាលទាំង ៧ នៃវដ្តជីវិតរបស់ Spring Bean |
+| **05** | [Singleton and Prototype Scopes](05-singleton-and-prototype-scopes/README.md) | ការយល់ដឹងអំពី Singleton (default) និង Prototype Scope |
+| **06** | [Custom Bean Scope in Spring](06-custom-bean-scope/README.md) | របៀបបង្កើត Scope ផ្ទាល់ខ្លួនតាមតម្រូវការអាជីវកម្ម |
+| **07** | [Create a Spring Bean in 3 Ways](07-create-spring-bean-3-ways/README.md) | វិធីទាំង ៣ ក្នុងការបង្កើត Bean (XML, Java Config, Component Scan) |
+| **08** | [Spring Autowiring (@Autowired)](08-spring-autowiring/README.md) | យន្តការចាក់បញ្ចូល Bean ដោយស្វ័យប្រវត្តិតាម Type/Name |
+| **09** | [What is DispatcherServlet in Spring](09-dispatcherservlet/README.md) | ស្ថាបត្យកម្ម Front Controller និងការគ្រប់គ្រង Web Request |
+| **10** | [Build Tools: Maven vs Gradle](10-build-tools-maven-gradle/README.md) | ការគ្រប់គ្រង Dependencies, Plugins, និង Lifecycle ក្នុង Maven & Gradle |
 
 ---
 
-## 🧭 Navigation
+## 🧭 ការរុករក (Navigation)
 
-| Previous | Main Index | Next Module |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Index) | បន្ទាប់ (Next Module) |
 | :--- | :---: | :--- |
-| [Module 1: Getting Started](../01-getting-started-with-spring-boot/README.md) | [📚 Spring Boot Home](../README.md) | [Module 3: Core Features →](../03-spring-boot-core-features/README.md) |
+| [Module 1: Getting Started](../01-getting-started-with-spring-boot/README.md) | [📚 មាតិកា Spring Boot](../README.md) | [Module 3: Core Features →](../03-spring-boot-core-features/README.md) |

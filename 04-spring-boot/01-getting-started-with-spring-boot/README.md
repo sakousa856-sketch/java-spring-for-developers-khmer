@@ -1,16 +1,13 @@
-# Module 1: Getting Started with Spring Boot
-
-> 🌐 **Language / ភាសា:** 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md) | 🇬🇧 **[English](README.md)**
-
+# Module 1: ចាប់ផ្តើមដំបូងជាមួយ Spring Boot (Getting Started)
 ![Module 1: Getting Started with Spring Boot](../assets/spring_boot_main.webp)
 
-## 📖 Module Overview
+## 📖 សេចក្តីផ្តើមអំពី Module
 
-Foundational overview of Spring Boot: core motivations, the 4 architectural pillars, Spring vs Spring Boot vs Spring MVC, and workspace setup across STS, Eclipse, and IntelliJ IDEA.
+ស្វែងយល់ពីប្រវត្តិ និយមន័យ សសរទ្រូងទាំង ៤ ភាពខុសគ្នារវាង Spring vs Spring Boot vs Spring MVC និងការដំឡើងបរិស្ថានអភិវឌ្ឍន៍លើ STS, Eclipse, និង IntelliJ IDEA។
 
 ---
 
-## 🗺️ Module Learning Roadmap
+## 🗺️ ផែនទីសិក្សាប្រចាំ Module (Learning Roadmap)
 
 ```mermaid
 flowchart TD
@@ -20,26 +17,27 @@ flowchart TD
     L4["04. Spring Tool Suite (STS) Setup"] --> L5["05. Eclipse IDE Setup"]
     L5["05. Eclipse IDE Setup"] --> L6["06. IntelliJ IDEA Project Setup"]
     L6["06. IntelliJ IDEA Project Setup"] --> L7["07. Run Spring Boot Application"]
+
 ```
 
 ---
 
-## 📚 Lessons in This Module (7 Lessons)
+## 📚 បញ្ជីមេរៀនក្នុង Module (7 Lessons)
 
-| Lesson | Topic | Description |
+| មេរៀន (Lesson) | ប្រធានបទ (Topic) | ការពិពណ៌នា (Description) |
 | :---: | :--- | :--- |
-| **01** | [Introduction to Spring Boot](01-introduction-to-spring-boot/README.md) | Core definition and 4 architectural pillars |
-| **02** | [Spring vs Spring Boot](02-spring-vs-spring-boot/README.md) | Exhaustive comparison of Spring Framework vs Spring Boot |
-| **03** | [Spring MVC vs Spring Boot](03-spring-mvc-vs-spring-boot/README.md) | Distinguishing web framework presentation from holistic bootstrapping |
-| **04** | [Spring Tool Suite (STS) Setup](04-sts-project-setup/README.md) | Scaffolding Spring Boot projects inside Spring Tool Suite 4 |
-| **05** | [Eclipse IDE Setup](05-eclipse-ide-setup/README.md) | Integrating Spring Tools suite plugins into Eclipse IDE |
-| **06** | [IntelliJ IDEA Project Setup](06-intellij-idea-setup/README.md) | Bootstrapping Spring Boot projects via Spring Initializr in IntelliJ |
-| **07** | [Run Spring Boot Application](07-run-spring-boot-application/README.md) | 4 execution mechanics: IDE, Maven wrapper, standalone JAR, CLI |
+| **01** | [Introduction to Spring Boot](01-introduction-to-spring-boot/README.md) | និយមន័យ និងសសរទ្រូងទាំង ៤ របស់ Spring Boot |
+| **02** | [Spring vs Spring Boot](02-spring-vs-spring-boot/README.md) | ការប្រៀបធៀបស៊ីជម្រៅរវាង Spring Framework និង Spring Boot |
+| **03** | [Spring MVC vs Spring Boot](03-spring-mvc-vs-spring-boot/README.md) | បែងចែកឱ្យច្បាស់រវាង Web MVC Layer និង Application Bootstrapper |
+| **04** | [Spring Tool Suite (STS) Setup](04-sts-project-setup/README.md) | ការដំឡើង និងបង្កើតគម្រោងដំបូងលើ Spring Tool Suite 4 |
+| **05** | [Eclipse IDE Setup](05-eclipse-ide-setup/README.md) | ការតម្លើង Spring Tools Plugin និងបង្កើត Maven Project លើ Eclipse |
+| **06** | [IntelliJ IDEA Project Setup](06-intellij-idea-setup/README.md) | ការបង្កើតគម្រោងតាម Spring Initializr លើ IntelliJ IDEA |
+| **07** | [Run Spring Boot Application](07-run-spring-boot-application/README.md) | វិធីទាំង ៤ ក្នុងការ Run App (IDE, CLI, Maven Wrapper, JAR) |
 
 ---
 
-## 🧭 Navigation
+## 🧭 ការរុករក (Navigation)
 
-| Previous | Main Index | Next Module |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Index) | បន្ទាប់ (Next Module) |
 | :--- | :---: | :--- |
-| [← Spring Boot Home](../README.md) | [📚 Spring Boot Home](../README.md) | [Module 2: Spring Core Concept →](../02-spring-core-concept/README.md) |
+| [← មាតិកាធំ Spring Boot](../README.md) | [📚 មាតិកា Spring Boot](../README.md) | [Module 2: Spring Core Concept →](../02-spring-core-concept/README.md) |

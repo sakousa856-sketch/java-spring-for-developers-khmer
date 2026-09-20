@@ -1,31 +1,29 @@
-# Lesson 4: Full Microservices Sample Project
+# មេរៀនទី ៤: គម្រោងគំរូ Microservices ពេញលេញ (Full Microservices Sample Project)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../03-deploy-aws-elastic-beanstalk/README.md) | [មេរៀនបន្ទាប់ →](../../08-spring-boot-with-kafka/01-kafka-producer/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../03-deploy-aws-elastic-beanstalk/README.md) | [Next Lesson →](../../08-spring-boot-with-kafka/01-kafka-producer/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [E-Commerce Microservices Multi-Module System](../../examples/05-microservices-ecommerce)  
-> 📄 **Source Code Files:** [`docker-compose.yml`](../../examples/05-microservices-ecommerce/docker-compose.yml) | [`eureka-server/pom.xml`](../../examples/05-microservices-ecommerce/eureka-server/pom.xml) | [`api-gateway/pom.xml`](../../examples/05-microservices-ecommerce/api-gateway/pom.xml) | [`product-service/pom.xml`](../../examples/05-microservices-ecommerce/product-service/pom.xml) | [`order-service/pom.xml`](../../examples/05-microservices-ecommerce/order-service/pom.xml)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [E-Commerce Microservices Multi-Module System](../../examples/05-microservices-ecommerce)  
+> 📄 **File កូដជាក់ស្តែង:** [`docker-compose.yml`](../../examples/05-microservices-ecommerce/docker-compose.yml) | [`eureka-server/pom.xml`](../../examples/05-microservices-ecommerce/eureka-server/pom.xml) | [`api-gateway/pom.xml`](../../examples/05-microservices-ecommerce/api-gateway/pom.xml) | [`product-service/pom.xml`](../../examples/05-microservices-ecommerce/product-service/pom.xml) | [`order-service/pom.xml`](../../examples/05-microservices-ecommerce/order-service/pom.xml)
 
 
 ---
 
-## Table of Contents
-1. [E-Commerce Microservices Architecture Overview](#architecture-overview)
-2. [Multi-Module Maven Structure](#multi-module-structure)
-3. [Building the Product Service](#product-service)
-4. [Building the Order Service with OpenFeign](#order-service)
-5. [Docker Compose Orchestration](#docker-compose-orchestration)
-6. [End-to-End Verification](#end-to-end-verification)
+## មាតិកា (Table of Contents)
+1. [ទិដ្ឋភាពទូទៅនៃគម្រោង E-Commerce Microservices](#ទិដ្ឋភាពទូទៅនៃគម្រោង)
+2. [រចនាសម្ព័ន្ធ Multi-module Architecture](#រចនាសម្ព័ន្ធ-multi-module)
+3. [ការបង្កើត Product Service](#ការបង្កើត-product-service)
+4. [ការបង្កើត Order Service ជាមួយ FeignClient](#ការបង្កើត-order-service)
+5. [Docker Compose សម្រាប់ Orchestrate Services ទាំងអស់](#docker-compose-orchestration)
+6. [ការធ្វើតេស្តលំហូរការងារទាំងមូល (End-to-End Test)](#ការធ្វើតេស្ត)
 
 ---
 
-## Architecture Overview
-In this capstone project for Module 7, we implement an **E-Commerce Microservices Platform** composed of four cooperating applications:
-1. **Eureka Server (Port 8761)**: Service Discovery Registry
-2. **API Gateway (Port 8080)**: Intelligent Edge Router
-3. **Product Service (Port 8081)**: Catalog & Inventory Management
-4. **Order Service (Port 8082)**: Order Processing leveraging OpenFeign for inter-service communication
+## ទិដ្ឋភាពទូទៅនៃគម្រោង
+នៅក្នុងគម្រោងបញ្ចប់ Module 7 នេះ យើងនឹងសាងសង់ **E-Commerce Microservices Platform** មួយពេញលេញដែលមានសេវាកម្មចំនួន ៤៖
+1. **Eureka Server (Port 8761)**: Service Registry
+2. **API Gateway (Port 8080)**: Reverse Proxy & Dynamic Routing
+3. **Product Service (Port 8081)**: គ្រប់គ្រងទំនិញ
+4. **Order Service (Port 8082)**: គ្រប់គ្រងការបញ្ជាទិញ (ហៅ FeignClient ទៅ Product Service)
 
 ```mermaid
 sequenceDiagram
@@ -43,11 +41,12 @@ sequenceDiagram
     OS->>DB: Save Order
     OS-->>GW: Order Placed Response
     GW-->>User: 201 Created
+
 ```
 
 ---
 
-## OpenFeign Client in Order Service
+## ការបង្កើត OpenFeign Client នៅក្នុង Order Service
 
 ```java
 package com.example.orderservice.client;
@@ -82,6 +81,7 @@ public class OrderService {
     }
 
     public OrderResponse createOrder(CreateOrderRequest req) {
+        // ហៅ FeignClient ទៅកាន់ Product Service តាមរយៈ Eureka Discovery
         ProductDto product = productClient.getProductById(req.productId());
         
         if (product.stock() < req.quantity()) {
@@ -98,7 +98,7 @@ public class OrderService {
 
 ---
 
-## Docker Compose Orchestration
+## Docker Compose សម្រាប់ Orchestrate ប្រព័ន្ធទាំងមូល
 
 ```yaml
 version: '3.8'
@@ -133,8 +133,8 @@ services:
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Deploying Spring Boot to AWS Elastic Beanstalk](../03-deploy-aws-elastic-beanstalk/README.md) | [📚 Module Index](../README.md) | [Event-Driven Messaging Architecture and Kafka Producer with KafkaTemplate →](../../08-spring-boot-with-kafka/01-kafka-producer/README.md) |
+| [← ការ Deploy Spring Boot ទៅកាន់ AWS Elastic Beanstalk (Deploying to AWS)](../03-deploy-aws-elastic-beanstalk/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ស្ថាបត្យកម្ម Event-Driven Messaging និង Kafka Producer ជាមួយ KafkaTemplate →](../../08-spring-boot-with-kafka/01-kafka-producer/README.md) |

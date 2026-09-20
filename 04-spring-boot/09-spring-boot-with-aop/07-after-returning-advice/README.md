@@ -1,18 +1,16 @@
-# Lesson 7: Using @AfterReturning Advice
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../06-after-throwing-advice/README.md) | [Next Lesson →](../08-aop-vs-oop/README.md)
+# មេរៀនទី ៧: ការប្រើប្រាស់ @AfterReturning Advice (After Returning Advice)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../06-after-throwing-advice/README.md) | [មេរៀនបន្ទាប់ →](../08-aop-vs-oop/README.md)
 
 ---
 
-## Table of Contents
-1. [Introduction to @AfterReturning](#introduction)
-2. [Binding Return Objects via the returning Attribute](#returning-attribute)
-3. [Audit Logging of Successful Operations](#audit-logging)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើមអំពី @AfterReturning](#សេចក្តីផ្តើម)
+2. [ការទាញយក Return Value តាមរយៈ Attribute returning](#attribute-returning)
+3. [ករណីប្រើប្រាស់: Audit Logging ពេលប្រតិបត្តិការជោគជ័យ](#audit-logging)
 
 ---
 
-## Practical @AfterReturning Audit Aspect
+## ឧទាហរណ៍ជាក់ស្តែង @AfterReturning Audit
 
 ```java
 package com.example.aspect;
@@ -42,8 +40,8 @@ public class AuditLogAspect {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Using @AfterThrowing Advice](../06-after-throwing-advice/README.md) | [📚 Module Index](../README.md) | [AOP vs OOP (Aspect-Oriented vs Object-Oriented Programming) →](../08-aop-vs-oop/README.md) |
+| [← ការប្រើប្រាស់ @AfterThrowing Advice (After Throwing Advice in Spring Boot)](../06-after-throwing-advice/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រៀបធៀប AOP និង OOP (Aspect-Oriented vs Object-Oriented Programming) →](../08-aop-vs-oop/README.md) |

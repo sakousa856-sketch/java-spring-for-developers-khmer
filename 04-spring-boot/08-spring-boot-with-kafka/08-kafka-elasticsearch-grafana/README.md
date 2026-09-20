@@ -1,20 +1,18 @@
-# Lesson 8: Kafka Observability with Elasticsearch, Prometheus, and Grafana
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../07-create-configure-topics/README.md) | [Next Lesson →](../09-dynamic-kafka-listener/README.md)
+# មេរៀនទី ៨: ការតាមដាន Kafka Metrics ជាមួយ Elasticsearch និង Grafana (Kafka Observability)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../07-create-configure-topics/README.md) | [មេរៀនបន្ទាប់ →](../09-dynamic-kafka-listener/README.md)
 
 ---
 
-## Table of Contents
-1. [End-to-End Kafka Observability Architecture](#observability-architecture)
-2. [Critical Broker and Consumer Lag Metrics](#critical-metrics)
-3. [Prometheus JMX Exporter Integration](#prometheus-exporter)
-4. [Grafana Operational Dashboards](#grafana-dashboards)
-5. [Log Aggregation with Elasticsearch and Kibana](#elasticsearch-logging)
+## មាតិកា (Table of Contents)
+1. [ស្ថាបត្យកម្ម Full Observability សម្រាប់ Kafka](#ស្ថាបត្យកម្ម-observability)
+2. [Consumer Lag និង Broker Metrics សំខាន់ៗ](#consumer-lag)
+3. [Prometheus JMX Exporter Setup](#prometheus-jmx-exporter)
+4. [ការរៀបចំ Grafana Dashboard](#grafana-dashboard)
+5. [ការបញ្ជូន Logs ទៅកាន់ Elasticsearch & Kibana](#elasticsearch-logging)
 
 ---
 
-## End-to-End Observability Architecture
+## ស្ថាបត្យកម្ម Full Observability
 
 ```mermaid
 graph TD
@@ -24,19 +22,20 @@ graph TD
     
     SpringApp["Spring Boot App"] -->|Filebeat / Logstash| ES[("Elasticsearch")]
     ES --> Kibana["Kibana Log Visualizer"]
+
 ```
 
 ---
 
-## Critical Metrics
-- **Consumer Lag**: Unconsumed messages buffered in topic partitions.
-- **BytesInPerSec / BytesOutPerSec**: Network throughput metrics.
-- **UnderReplicatedPartitions**: Indicates partition replica synchronization health.
+## Key Kafka Metrics
+- **Consumer Lag**: ចំនួន records ក្នុង partition ដែលផលិតលើសពីការ consume (សូចនាករដំបូងនៃការកកស្ទះ)។
+- **BytesInPerSec / BytesOutPerSec**: Network throughput របស់ broker។
+- **UnderReplicatedPartitions**: បង្ហាញពី failure នៃ replication nodes។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Creating and Configuring Kafka Topics Programmatically](../07-create-configure-topics/README.md) | [📚 Module Index](../README.md) | [Dynamic Kafka Listener Endpoint Registration →](../09-dynamic-kafka-listener/README.md) |
+| [← ការបង្កើត និងកំណត់រចនាសម្ព័ន្ធ Topics ដោយស្វ័យប្រវត្តិ (Programmatic Topic Configuration)](../07-create-configure-topics/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការបង្កើត Dynamic Kafka Listener Endpoint (Dynamic Kafka Listener Registration) →](../09-dynamic-kafka-listener/README.md) |

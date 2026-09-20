@@ -1,30 +1,28 @@
-# Lesson 5: 05-singleton-and-prototype-scopes
+# មេរៀនទី ៥: 05-singleton-and-prototype-scopes
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../04-spring-bean-lifecycle/README.md) | [មេរៀនបន្ទាប់ →](../06-custom-bean-scope/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../04-spring-bean-lifecycle/README.md) | [Next Lesson →](../06-custom-bean-scope/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Defining Bean Scopes](#1-defining-bean-scopes)
-- [2. Singleton vs Prototype Matrix](#2-singleton-vs-prototype-matrix)
-- [3. The Prototype-in-Singleton Injection Dilemma](#3-the-prototype-in-singleton-injection-dilemma)
-- [4. Summary](#4-summary)
+- [1. ស្វែងយល់ពី Bean Scopes ក្នុង Spring](#1-ស្វែងយល់ពី-bean-scopes-ក្នុង-spring)
+- [2. ការប្រៀបធៀប Singleton vs Prototype](#2-ការប្រៀបធៀប-singleton-vs-prototype)
+- [3. បញ្ហាប្រឈម៖ Inject Prototype ចូលក្នុង Singleton Bean](#3-បញ្ហាប្រឈម-inject-prototype-ចូលក្នុង-singleton-bean)
+- [4. សង្ខេប](#4-សង្ខេប)
 
 ---
 
-## 1. Defining Bean Scopes
+## 1. ស្វែងយល់ពី Bean Scopes ក្នុង Spring
 
-Bean Scopes dictate the lifecycle span and instantiation cardinality of managed objects inside the Spring ApplicationContext.
+Scope កំណត់ពីចំនួន Object Instances ដែលត្រូវបង្កើត និងអាយុកាលរស់នៅរបស់ Bean នៅក្នុង Spring IoC Container។
 
 ---
 
-## 2. Singleton vs Prototype Matrix
+## 2. ការប្រៀបធៀប Singleton vs Prototype
 
-| Metric | Singleton Scope (Default) | Prototype Scope |
+| លក្ខណៈពិសេស | Singleton Scope (Default) | Prototype Scope |
 | :--- | :--- | :--- |
-| **Cardinality** | Exactly **one instance** per IoC container | **A new instance** created for each lookup/injection |
-| **Destruction Lifecycle** | Managed completely by Spring | Discarded by Spring after instantiation (`@PreDestroy` not called) |
-| **State Mutability** | Stateless across concurrent threads | Stateful instance isolation |
+| **ចំនួន Instance** | បង្កើតតែ **១ គត់** ក្នុង Container ទាំងមូល | បង្កើត **ថ្មីមួយជានិច្ច** រាល់ពេលមានការស្នើសុំ |
+| **ការគ្រប់គ្រង Destruction** | Spring គ្រប់គ្រងរហូតដល់ Shutdown | Spring បង្កើតរួចប្រគល់ឱ្យ Client (មិនគ្រប់គ្រង `@PreDestroy` ទេ) |
+| **Statefulness** | Stateless (គ្មានរក្សាទុក User State) | Stateful (ផ្ទុកទិន្នន័យដាច់ដោយឡែក) |
 
 ```java
 // 1. Singleton (Default)
@@ -33,29 +31,29 @@ public class PaymentService {}
 
 // 2. Prototype
 @Component
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope("prototype") // ឬ @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ShoppingCart {}
 ```
 
 ---
 
-## 3. The Prototype-in-Singleton Injection Dilemma
+## 3. បញ្ហាប្រឈម៖ Inject Prototype ចូលក្នុង Singleton Bean
 
-Injecting a prototype bean into a singleton service injects the prototype collaborator exactly once during singleton construction, inadvertently turning the prototype into a singleton reference!
-👉 **Remedy:** Utilize **`@Lookup` methods** or Spring's **`ObjectProvider<T>`** to request fresh instances on demand.
-
----
-
-## 4. Summary
-
-- Singleton is Spring's default scope, optimized for thread-safe, stateless service architectures.
-- Prototype is reserved for stateful beans requiring distinct lifecycle isolation.
-
-
+នៅពេលអ្នក Inject Prototype Bean ចូលទៅក្នុង Singleton Service នោះ Prototype នឹងត្រូវបាន Inject តែម្តងគត់នៅពេល Startup ដែលធ្វើឱ្យវាប្រែក្លាយជា Singleton ដោយមិនដឹងខ្លួន!
+👉 **ដំណោះស្រាយ:** ប្រើ **`@Lookup` Method** ឬ **`ObjectProvider<T>`** ដើម្បីទាញយក Instance ថ្មីរាល់ពេលហៅ!
 
 ---
-## 🧭 Lesson Navigation
 
-| Previous Lesson | Module Index | Next Lesson |
+## 4. សង្ខេប
+
+- Singleton គឺជា Default Scope ក្នុង Spring (សន្សំសំចៃ Memory និងលឿន)។
+- ប្រើ Prototype នៅពេល Object នីមួយៗត្រូវផ្ទុក State ផ្សេងៗគ្នា។
+
+
+
+---
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
+
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Spring Bean Lifecycle Deep Dive](../04-spring-bean-lifecycle/README.md) | [📚 Module Index](../README.md) | [ →](../06-custom-bean-scope/README.md) |
+| [← វដ្តជីវិតរបស់ Spring Bean (Spring Bean Lifecycle)](../04-spring-bean-lifecycle/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ →](../06-custom-bean-scope/README.md) |

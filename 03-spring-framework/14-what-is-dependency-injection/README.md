@@ -1,42 +1,39 @@
-# Part 14: What Is Dependency Injection?
+# Part 14: តើ Dependency Injection (DI) ជាអ្វី? (What Is Dependency Injection?)
+![តើ Dependency Injection ជាអ្វី?](./assets/what-do-you-mean-by-di.jpg "What do you mean by Dependency Injection")
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+## មាតិកា (Table of Contents)
 
-![What is Dependency Injection?](./assets/what-do-you-mean-by-di.jpg "What do you mean by Dependency Injection")
-
-## Table of Contents
-
-- [1. Definition of Dependency Injection (DI)](#1-definition-of-dependency-injection-di)
-- [2. The 3 Types of Dependency Injection in Spring](#2-the-3-types-of-dependency-injection-in-spring)
-- [3. Code Examples for Each Injection Strategy](#3-code-examples-for-each-injection-strategy)
-- [4. Core Benefits of Dependency Injection](#4-core-benefits-of-dependency-injection)
+- [1. និយមន័យនៃ Dependency Injection (DI)](#1-និយមន័យនៃ-dependency-injection-di)
+- [2. ប្រភេទទាំង ៣ នៃ Dependency Injection ក្នុង Spring](#2-ប្រភេទទាំង-៣-នៃ-dependency-injection-ក្នុង-spring)
+- [3. កូដគំរូនៃប្រភេទ Injection នីមួយៗ](#3-កូដគំរូនៃប្រភេទ-injection-នីមួយៗ)
+- [4. អត្ថប្រយោជន៍ចម្បងនៃ Dependency Injection](#4-អត្ថប្រយោជន៍ចម្បងនៃ-dependency-injection)
 
 ---
 
-## 1. Definition of Dependency Injection (DI)
+## 1. និយមន័យនៃ Dependency Injection (DI)
 
-**Dependency Injection (DI)** is a specialized design pattern implementing the broader principle of **Inversion of Control (IoC)**.
+**Dependency Injection (DI)** ឬ **ការបញ្ចូលភាពអាស្រ័យ** គឺជាទម្រង់ជាក់ស្តែងមួយនៃគោលការណ៍ **Inversion of Control (IoC)** នៅក្នុង Spring Framework។
 
-- **Dependency:** An object, service, or repository that another class requires to perform its domain operations (e.g., `OrderService` requires `PaymentService`).
-- **Injection:** The act of passing (supplying) the required collaborator instance to the dependent class, rather than forcing the dependent class to instantiate it via `new`.
+- **Dependency:** សំដៅលើ Object ឬ Service ណាដែល Class មួយទៀតត្រូវការជាចាំបាច់ដើម្បីបំពេញការងារ (ឧ. `OrderService` ត្រូវការ `PaymentService`)។
+- **Injection:** សំដៅលើសកម្មភាពនៃការបញ្ជូន (ប្រគល់) Instance នៃ Dependency នោះទៅឱ្យ Class ដែលត្រូវការវា ដោយមិនចាំបាច់ឱ្យ Class នោះបង្កើត (`new`) ដោយខ្លួនឯងឡើយ។
 
-> **Role of Spring DI:** The IoC container automatically resolves matching beans registered in the container and passes them into target components via annotations like `@Autowired` or configuration metadata.
-
----
-
-## 2. The 3 Types of Dependency Injection in Spring
-
-The Spring Framework provides 3 distinct injection patterns:
-
-1. **Constructor Injection:** Supplying dependencies through parameter arguments of the class constructor.
-2. **Setter Injection:** Supplying dependencies by invoking traditional setter methods (`set...()`).
-3. **Field Injection:** Injecting dependencies directly into private fields using reflection and `@Autowired`.
+> **តួនាទីរបស់ Spring DI:** ស្វែងរក Beans ដែលបានចុះឈ្មោះក្នុង [IoC Container](../06-what-is-ioc/README.md) រួច Inject ផ្គុំវាបញ្ចូលគ្នាដោយស្វ័យប្រវត្តិតាមរយៈ `@Autowired` ឬ Configuration។
 
 ---
 
-## 3. Code Examples for Each Injection Strategy
+## 2. ប្រភេទទាំង ៣ នៃ Dependency Injection ក្នុង Spring
 
-### 1. Constructor Injection (Recommended Best Practice)
+នៅក្នុង Spring Framework ការហៅ Inject នូវ Beans ត្រូវបានបែងចែកជា ៣ វិធីសាស្ត្រ៖
+
+1. **Constructor Injection:** បញ្ចូល Dependency តាមរយៈ Parameters នៃ Class Constructor។
+2. **Setter Injection:** បញ្ចូល Dependency តាមរយៈ Setter Methods របស់ Class (`set...()`)។
+3. **Field Injection:** បញ្ចូល Dependency ដោយផ្ទាល់ទៅលើ Member Field តាមរយៈ `@Autowired`។
+
+---
+
+## 3. កូដគំរូនៃប្រភេទ Injection នីមួយៗ
+
+### 1. Constructor Injection (វិធីសាស្ត្រដែលត្រូវបានណែនាំបំផុត)
 
 ```java
 @Service
@@ -44,14 +41,15 @@ public class OrderService {
 
     private final PaymentService paymentService;
 
-    // As of Spring 4.3+, @Autowired is optional on single-constructor classes
+    // Spring នឹង Inject paymentService តាម Constructor
+    @Autowired // (ក្នុង Spring 4.3+ មិនបាច់សរសេរ @Autowired ក៏បាន បើមានតែ Constructor ១)
     public OrderService(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 }
 ```
 
-### 2. Setter Injection (Ideal for Optional Dependencies)
+### 2. Setter Injection (សម្រាប់ Optional Dependencies)
 
 ```java
 @Service
@@ -59,6 +57,7 @@ public class OrderService {
 
     private NotificationService notificationService;
 
+    // Spring នឹងហៅ Setter method នេះដើម្បី Inject
     @Autowired
     public void setNotificationService(NotificationService notificationService) {
         this.notificationService = notificationService;
@@ -66,13 +65,13 @@ public class OrderService {
 }
 ```
 
-### 3. Field Injection (Not Recommended for Production)
+### 3. Field Injection (ការ Inject លើ Variable ដោយផ្ទាល់)
 
 ```java
 @Service
 public class OrderService {
 
-    // Direct reflection injection onto private fields
+    // Inject ដោយផ្ទាល់លើ Field (កម្រណែនាំឱ្យប្រើក្នុងកូដ Production)
     @Autowired
     private PaymentService paymentService;
 }
@@ -80,16 +79,16 @@ public class OrderService {
 
 ---
 
-## 4. Core Benefits of Dependency Injection
+## 4. អត្ថប្រយោជន៍ចម្បងនៃ Dependency Injection
 
-1. **Loose Coupling:** Components depend upon interface abstractions rather than hardcoded concrete classes.
-2. **Effortless Unit Testing:** Collaborators can easily be substituted with mocks (e.g., via Mockito) without spinning up heavyweight servers.
-3. **Clean Architecture:** Aligns directly with the **SOLID** principles, particularly the Dependency Inversion Principle (DIP).
+1. **Loose Coupling (កាត់បន្ថយការពឹងពាក់):** Class របស់អ្នកពឹងផ្អែកលើ Interfaces មិនមែនលើ Concrete Implementations ឡើយ។
+2. **Effortless Unit Testing:** អាចបង្កើត Mock Objects (ដូចជា `Mockito.mock(PaymentService.class)`) ហើយ Inject ចូលក្នុង Constructor ធ្វើតេស្តបានភ្លាមៗ។
+3. **Clean Code Architecture:** កូដមានរបៀបរៀបរយ ស្របតាមគោលការណ៍ **SOLID Principles** (ជាពិសេស Dependency Inversion Principle)។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 13: Singleton Scope Deep Dive](../13-singleton-scope/README.md) | [📚 Spring Framework Index](../README.md) | [Part 15: Constructor vs Setter Injection →](../15-constructor-vs-setter-injection/README.md) |
+| [← Part 13: ការយល់ដឹងស៊ីជម្រៅអំពី Singleton Scope](../13-singleton-scope/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 15: ការប្រៀបធៀប Constructor vs Setter Injection →](../15-constructor-vs-setter-injection/README.md) |

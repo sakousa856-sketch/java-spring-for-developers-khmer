@@ -1,49 +1,51 @@
-# Lesson 2: Inter-Service Microservices Communication (RestClient, WebClient, and FeignClient)
+# មេរៀនទី ២: ការប្រាស្រ័យទាក់ទងគ្នាក្នុង Microservices (RestClient, WebClient, និង FeignClient)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../01-microservices-step-by-step-guide/README.md) | [មេរៀនបន្ទាប់ →](../03-deploy-aws-elastic-beanstalk/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../01-microservices-step-by-step-guide/README.md) | [Next Lesson →](../03-deploy-aws-elastic-beanstalk/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [OpenFeign Client & Eureka Discovery](../../examples/05-microservices-ecommerce)  
-> 📄 **Source Code Files:** [`ProductClient.java`](../../examples/05-microservices-ecommerce/order-service/src/main/java/com/example/order/client/ProductClient.java) | [`OrderController.java`](../../examples/05-microservices-ecommerce/order-service/src/main/java/com/example/order/controller/OrderController.java) | [`ProductController.java`](../../examples/05-microservices-ecommerce/product-service/src/main/java/com/example/product/controller/ProductController.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [OpenFeign Client & Eureka Discovery](../../examples/05-microservices-ecommerce)  
+> 📄 **File កូដជាក់ស្តែង:** [`ProductClient.java`](../../examples/05-microservices-ecommerce/order-service/src/main/java/com/example/order/client/ProductClient.java) | [`OrderController.java`](../../examples/05-microservices-ecommerce/order-service/src/main/java/com/example/order/controller/OrderController.java) | [`ProductController.java`](../../examples/05-microservices-ecommerce/product-service/src/main/java/com/example/product/controller/ProductController.java)
 
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Challenges of Inter-Service Communication](#1-challenges-of-inter-service-communication)
-- [2. The Evolution of Spring HTTP Clients](#2-the-evolution-of-spring-http-clients)
-- [3. Modern Fluent Synchronous Calls with `RestClient` (Spring Boot 3)](#3-modern-fluent-synchronous-calls-with-restclient-spring-boot-3)
-- [4. Reactive Non-Blocking Calls with `WebClient`](#4-reactive-non-blocking-calls-with-webclient)
-- [5. Declarative HTTP Clients via Spring Cloud OpenFeign](#5-declarative-http-clients-via-spring-cloud-openfeign)
-- [6. Preventing Cascading Outages with Circuit Breakers (Resilience4j)](#6-preventing-cascading-outages-with-circuit-breakers-resilience4j)
-- [7. Summary](#7-summary)
+- [1. បញ្ហាប្រឈមនៃការហៅឆ្លង Service ក្នុង Microservices](#1-បញ្ហាប្រឈមនៃការហៅឆ្លង-service-ក្នុង-microservices)
+- [2. ការវិវត្តនៃ HTTP Clients ក្នុង Spring Boot](#2-ការវិវត្តនៃ-http-clients-ក្នុង-spring-boot)
+- [3. ប្រើប្រាស់ `RestClient` ថ្មីក្នុង Spring Boot 3 (Fluent API)](#3-ប្រើប្រាស់-restclient-ថ្មីក្នុង-spring-boot-3-fluent-api)
+- [4. ប្រើប្រាស់ `WebClient` សម្រាប់ Reactive Non-Blocking Calls](#4-ប្រើប្រាស់-webclient-សម្រាប់-reactive-non-blocking-calls)
+- [5. ប្រើប្រាស់ Declarative FeignClient ជាមួយ Spring Cloud](#5-ប្រើប្រាស់-declarative-feignclient-ជាមួយ-spring-cloud)
+- [6. ការពារប្រព័ន្ធកុំឱ្យដួលរលំជាមួយ Circuit Breaker (Resilience4j)](#6-ការពារប្រព័ន្ធកុំឱ្យដួលរលំជាមួយ-circuit-breaker-resilience4j)
+- [7. សង្ខេប](#7-សង្ខេប)
 
 ---
 
-## 1. Challenges of Inter-Service Communication
+## 1. បញ្ហាប្រឈមនៃការហៅឆ្លង Service ក្នុង Microservices
 
-In distributed microservice topologies, independent business modules (Orders, Customers, Inventory, Payments) reside in isolated network boundaries. Orchestrating an order placement workflow mandates traversing network boundaries via HTTP/REST:
+នៅក្នុងស្ថាបត្យកម្ម Microservices សេវាកម្មនីមួយៗ (Orders, Customers, Inventory, Payments) ដំណើរការលើ Server ដាច់ដោយឡែកពីគ្នា។ នៅពេល Order Service ត្រូវការព័ត៌មានអតិថិជនពី Customer Service វាតម្រូវឱ្យមានការហៅឆ្លងបណ្តាញ (Network HTTP Call)។
 
-Without architectural safeguards:
-- **Network Latency Degradation:** Slow downstream endpoints cause thread pileups on upstream callers.
-- **Cascading Failures:** An unhandled outage in one auxiliary service propagates upward, taking down the entire customer-facing platform.
+ប្រសិនបើគ្មានការរៀបចំឱ្យបានត្រឹមត្រូវ៖
+- **Latency Spikes:** បណ្តាញយឺតធ្វើឱ្យ Request ទាំងមូលគាំង។
+- **Cascading Failures:** Service មួយខូច ធ្វើឱ្យ Service ផ្សេងទៀតខូចតាមគ្នាទាំងអស់។
 
 ---
 
-## 2. The Evolution of Spring HTTP Clients
+## 2. ការវិវត្តនៃ HTTP Clients ក្នុង Spring Boot
 
 ```
-1. RestTemplate (Spring 3.0+) ──> [Blocking, Legacy, Maintenance Mode]
-2. WebClient (Spring 5.0+)    ──> [Non-Blocking, Reactive Streams, requires WebFlux]
-3. RestClient (Spring Boot 3.2+) ──> [Fluent API, Lightweight, Modern Synchronous Standard]
-4. OpenFeign (Spring Cloud)   ──> [Declarative Interface, Zero-Boilerplate Web Mapping]
+1. RestTemplate (Spring 3.0+) ──> [Blocking, ចាស់, Maintenance Mode]
+
+2. WebClient (Spring 5.0+)    ──> [Non-Blocking, Reactive, ខ្លាំងតែត្រូវការ WebFlux]
+
+3. RestClient (Spring Boot 3.2+) ──> [Fluent, សាមញ្ញ, ទំនើបបំផុតសម្រាប់ Sync API]
+
+4. OpenFeign (Spring Cloud)   ──> [Declarative Interface, មិនបាច់សរសេរ URL កូដ]
+
 ```
 
 ---
 
-## 3. Modern Fluent Synchronous Calls with `RestClient` (Spring Boot 3)
+## 3. ប្រើប្រាស់ `RestClient` ថ្មីក្នុង Spring Boot 3 (Fluent API)
 
-Introduced in **Spring Boot 3.2** (Spring Framework 6.1), **`RestClient`** is the modern replacement for legacy `RestTemplate`. It provides the fluent, intuitive API of `WebClient` while operating seamlessly over standard synchronous, blocking I/O:
+ចាប់តាំងពី **Spring Boot 3.2** (Spring 6.1) មក Spring បានណែនាំ **`RestClient`** ដើម្បីជំនួស `RestTemplate` ដ៏ចំណាស់។ វាផ្តល់នូវ Fluent API ដ៏ស្រស់ស្អាតដូច `WebClient` តែដំណើរការលើ Synchronous Blocking ធម្មតា ដោយមិនបាច់ត្រូវការ WebFlux ឡើយ៖
 
 ```java
 package com.example.demo.client;
@@ -66,16 +68,16 @@ public class CustomerServiceClient {
         return restClient.get()
                 .uri("/customers/{id}", customerId)
                 .retrieve()
-                .body(CustomerResponse.class); // Automatically maps JSON payload into Java Record
+                .body(CustomerResponse.class); // Deserialize JSON ទៅជា Java Record ដោយស្វ័យប្រវត្តិ
     }
 }
 ```
 
 ---
 
-## 4. Reactive Non-Blocking Calls with `WebClient`
+## 4. ប្រើប្រាស់ `WebClient` សម្រាប់ Reactive Non-Blocking Calls
 
-When building high-concurrency systems requiring parallel dispatch across multiple endpoints, **`WebClient`** (from `spring-boot-starter-webflux`) is the premier non-blocking client:
+ប្រសិនបើអ្នកត្រូវការហៅ APIs ខាងក្រៅច្រើនក្នុងពេលដំណាលគ្នា (Parallel Calls) ឬប្រើប្រាស់ Reactive Programming នោះ **`WebClient`** គឺជាជម្រើសលេខមួយ៖
 
 ```java
 WebClient webClient = WebClient.create("https://api.external.com");
@@ -88,9 +90,9 @@ Mono<ProductResponse> productMono = webClient.get()
 
 ---
 
-## 5. Declarative HTTP Clients via Spring Cloud OpenFeign
+## 5. ប្រើប្រាស់ Declarative FeignClient ជាមួយ Spring Cloud
 
-**OpenFeign** eliminates manual HTTP invocation code. Developers author an interface annotated with standard Spring MVC annotations, and Spring dynamically synthesizes the HTTP proxy client at runtime:
+**OpenFeign** ជួយឱ្យអ្នកមិនបាច់សរសេរកូដ HTTP Call សូម្បីមួយជួរ! អ្នកគ្រាន់តែបង្កើត Java Interface រួចដាក់ Spring MVC Annotations នោះ Spring នឹងបង្កើតកូដខាងក្នុងដោយស្វ័យប្រវត្តិ៖
 
 ```java
 package com.example.demo.client;
@@ -109,20 +111,21 @@ public interface CustomerFeignClient {
 
 ---
 
-## 6. Preventing Cascading Outages with Circuit Breakers (Resilience4j)
+## 6. ការពារប្រព័ន្ធកុំឱ្យដួលរលំជាមួយ Circuit Breaker (Resilience4j)
 
 ```mermaid
 stateDiagram-v2
     [*] --> Closed
-    Closed --> Open : Failure threshold exceeded (> 50% errors)
-    Open --> HalfOpen : Reset timeout elapses (Wait 10s)
-    HalfOpen --> Closed : Trial requests succeed (Healthy)
-    HalfOpen --> Open : Failures continue
+    Closed --> Open : បរាជ័យច្រើនដង (Failures > 50%)
+    Open --> HalfOpen : ផុតកំណត់ពេលរង់ចាំ (Wait 10s)
+    HalfOpen --> Closed : ហៅជោគជ័យឡើងវិញ (Healthy)
+    HalfOpen --> Open : នៅតែបរាជ័យ
+
 ```
 
-- **Closed State:** Normal operation; all requests flow through to target downstream services.
-- **Open State (Tripped):** Intercepts calls immediately, short-circuiting execution to a designated fallback method without wasting socket timeouts (Fast-Fail).
-- **Half-Open State:** Periodically permits canary requests to probe whether downstream services have recovered.
+- **Closed State (ស្ថានភាពបិទ):** ប្រព័ន្ធដំណើរការធម្មតា Requests ឆ្លងកាត់បានទាំងអស់។
+- **Open State (ស្ថានភាពបើក/កាត់សៀគ្វី):** បើ Service ខាងចុងគាំង នោះ Circuit Breaker នឹងកាត់ផ្តាច់ភ្លាមៗដោយមិនហៅទៅទៀតឡើយ ហើយឆ្លើយតប Fallback Method ភ្លាមៗ (Fast-Fail) ដើម្បីកុំឱ្យខាតបង់ CPU Thread។
+- **Half-Open State:** សាកល្បងបញ្ជូន Request មួយចំនួនទៅមើលថាតើ Service នោះជាសះស្បើយវិញហើយឬនៅ។
 
 ```java
 @CircuitBreaker(name = "customerService", fallbackMethod = "customerFallback")
@@ -130,7 +133,7 @@ public CustomerResponse getCustomerWithResilience(Long id) {
     return restClient.get().uri("/customers/{id}", id).retrieve().body(CustomerResponse.class);
 }
 
-// Fallback logic executed when downstream service is offline
+// Fallback Method ដំណើរការពេល Service ខាងចុងខូច
 public CustomerResponse customerFallback(Long id, Throwable t) {
     return new CustomerResponse(id, "Guest Customer (Fallback)", "N/A");
 }
@@ -138,17 +141,17 @@ public CustomerResponse customerFallback(Long id, Throwable t) {
 
 ---
 
-## 7. Summary
+## 7. សង្ខេប
 
-- Deprecate `RestTemplate` in greenfield architectures.
-- Default to **`RestClient`** in Spring Boot 3 for synchronous client integrations.
-- Utilize **`WebClient`** for high-throughput reactive event loops.
-- Adopt **OpenFeign** for clean, declarative Spring Cloud service registries.
-- Safeguard network boundaries with **Resilience4j Circuit Breakers** to mitigate cascading outages.
+- ឈប់ប្រើ `RestTemplate` ក្នុងគម្រោងថ្មីៗ។
+- ប្រើ **`RestClient`** ក្នុង Spring Boot 3 សម្រាប់ Synchronous API Calls ធម្មតា។
+- ប្រើ **`WebClient`** សម្រាប់ High-concurrency / Reactive Streams។
+- ប្រើ **OpenFeign** សម្រាប់ Microservices ដែលត្រូវការ Interface ស្អាត និង declarative។
+- បំពាក់ **Circuit Breaker (Resilience4j)** ជានិច្ច ដើម្បីទប់ស្កាត់ Cascading Failures។
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Microservices Architecture Step-by-Step Guide](../01-microservices-step-by-step-guide/README.md) | [📚 Module Index](../README.md) | [Deploying Spring Boot to AWS Elastic Beanstalk →](../03-deploy-aws-elastic-beanstalk/README.md) |
+| [← មគ្គុទ្ទេសក៍បង្កើត Microservices មួយជំហានម្តងៗ (Microservices Step-by-Step Guide)](../01-microservices-step-by-step-guide/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការ Deploy Spring Boot ទៅកាន់ AWS Elastic Beanstalk (Deploying to AWS) →](../03-deploy-aws-elastic-beanstalk/README.md) |

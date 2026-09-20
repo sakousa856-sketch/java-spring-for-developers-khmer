@@ -1,41 +1,39 @@
-# Lesson 2: Spring Framework vs Spring Boot Comparison
+# មេរៀនទី ២: ការប្រៀបធៀប Spring Framework vs Spring Boot
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../01-introduction-to-spring-boot/README.md) | [មេរៀនបន្ទាប់ →](../03-spring-mvc-vs-spring-boot/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../01-introduction-to-spring-boot/README.md) | [Next Lesson →](../03-spring-mvc-vs-spring-boot/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Introduction](#1-introduction)
-- [2. Feature Comparison Table](#2-feature-comparison-table)
-- [3. Configuration Overhead (XML vs Auto-Configuration)](#3-configuration-overhead-xml-vs-auto-configuration)
-- [4. Dependency Management and Version Collisions](#4-dependency-management-and-version-collisions)
+- [1. សេចក្តីផ្តើម](#1-សេចក្តីផ្តើម)
+- [2. តារាងប្រៀបធៀបលក្ខណៈពិសេស (Feature Comparison Table)](#2-តារាងប្រៀបធៀបលក្ខណៈពិសេស)
+- [3. ភាពខុសគ្នាលើការកំណត់ Configuration (XML vs Auto-Config)](#3-ភាពខុសគ្នាលើការកំណត់-configuration)
+- [4. បញ្ហានៃ Dependency Management](#4-បញ្ហានៃ-dependency-management)
 - [5. Embedded Server vs External Servlet Container](#5-embedded-server-vs-external-servlet-container)
-- [6. Summary](#6-summary)
+- [6. សង្ខេប](#6-សង្ខេប)
 
 ---
 
-## 1. Introduction
+## 1. សេចក្តីផ្តើម
 
-Spring Framework debuted in 2003 to mitigate the monolithic complexity of Java EE (Enterprise JavaBeans). Over time, Spring configuration itself grew cumbersome due to extensive XML definitions. In 2014, Pivotal introduced Spring Boot to radically simplify enterprise development through **Convention-over-Configuration**.
+Spring Framework ត្រូវបានបង្កើតឡើងក្នុងឆ្នាំ ២០០៣ ដើម្បីដោះស្រាយភាពស្មុគស្មាញនៃ Java EE (Enterprise JavaBeans)។ ប៉ុន្តែតាមពេលវេលាកន្លងផុតទៅ Spring Framework ខ្លួនឯងក៏បានក្លាយជាប្រព័ន្ធដ៏ធំ និងស្មុគស្មាញដោយសារតែការសរសេរ XML Configuration រាប់រយជួរ។ ក្នុងឆ្នាំ ២០១៤ Spring Boot ត្រូវបានបង្កើតឡើងដើម្បីកាត់បន្ថយបន្ទុកទាំងនេះ តាមរយៈគោលការណ៍ **Convention-over-Configuration**។
 
 ---
 
-## 2. Feature Comparison Table
+## 2. តារាងប្រៀបធៀបលក្ខណៈពិសេស
 
-| Criteria | Spring Framework | Spring Boot |
+| លក្ខណៈវិនិច្ឆ័យ (Criteria) | Spring Framework | Spring Boot |
 | :--- | :--- | :--- |
-| **Primary Mission** | Enterprise architecture backbone (IoC, DI) | Rapid application scaffolding & production readiness |
-| **Configuration** | Heavy manual XML or Java `@Configuration` | Opinionated Auto-Configuration |
-| **Embedded Servers** | None (requires WAR packaging deployed to external Tomcat) | Embedded natively (Tomcat, Jetty, Undertow inside JAR) |
-| **Dependency Management** | Manual version orchestration for every library | Opinionated Starters managed via curated BOM |
-| **Deployment Model** | Deploy WAR artifact to managed container | Execute standalone executable JAR: `java -jar app.jar` |
-| **Production Telemetry** | Requires custom metric implementations | Production-ready telemetry via Spring Boot Actuator |
+| **គោលបំណងចម្បង** | ផ្តល់នូវ IoC, DI និង Core Architecture | បង្កើនល្បឿនអភិវឌ្ឍន៍ និងបង្កើត Production-ready App |
+| **Configuration** | ទាមទារការសរសេរ XML ឬ Java Config ច្រើន | Auto-Configuration ស្ទើរតែ ១០០% |
+| **Embedded Server** | គ្មាន (ត្រូវ Build ជា `.war` យកទៅដាក់លើ Tomcat ខាងក្រៅ) | មានស្រាប់ (Tomcat, Jetty ឬ Undertow បង្កប់ក្នុង JAR) |
+| **Dependency Management** | ត្រូវកំណត់ Version នៃបណ្ណាល័យនីមួយៗដោយខ្លួនឯង | ប្រើប្រាស់ Starters និង Spring Boot BOM |
+| **ការ Deploy** | ស្មុគស្មាញ ទាមទារ External Web Server Setup | សាមញ្ញបំផុត ដំណើរការតាម `java -jar app.jar` |
+| **Production Telemetry** | ត្រូវសរសេរ Code បន្ថែមខ្លួនឯង | មានស្រាប់តាមរយៈ Spring Boot Actuator |
 
 ---
 
-## 3. Configuration Overhead (XML vs Auto-Configuration)
+## 3. ភាពខុសគ្នាលើការកំណត់ Configuration
 
-Traditional Spring Framework XML boilerplate for a DataSource:
+ក្នុង Spring Framework បុរាណ ដើម្បីបង្កើត DataSource ភ្ជាប់ Database យើងត្រូវសរសេរ XML វែងអន្លាយ៖
 ```xml
 <!-- Spring Framework XML Config -->
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
@@ -46,7 +44,7 @@ Traditional Spring Framework XML boilerplate for a DataSource:
 </bean>
 ```
 
-Spring Boot declarative YAML configuration:
+ក្នុង Spring Boot យើងគ្រាន់តែប្រកាស Properties ក្នុង `application.yml` ប៉ុណ្ណោះ៖
 ```yaml
 # Spring Boot YAML Config
 spring:
@@ -58,9 +56,10 @@ spring:
 
 ---
 
-## 4. Dependency Management and Version Collisions
+## 4. បញ្ហានៃ Dependency Management
 
-Spring Framework projects frequently encountered classpath runtime incompatibilities (`NoSuchMethodError`) when mixing divergent versions of Hibernate, Jackson, and Spring core libraries. Spring Boot resolves this via curated parent BOMs (Bill of Materials) and starter aggregators.
+Spring Framework ទាមទារឱ្យ Developer ស្វែងរក Version នៃ Hibernate, Jackson, និង Spring Context ដែលស៊ីចង្វាក់គ្នា។ បើខុស Version នឹងធ្លាក់ `NoSuchMethodError`។ 
+Spring Boot ដោះស្រាយរឿងនេះទាំងស្រុងតាមរយៈ **Starter Dependencies** (ឧ. `spring-boot-starter-web`) និង **BOM (Bill of Materials)**។
 
 ---
 
@@ -78,17 +77,17 @@ flowchart LR
 
 ---
 
-## 6. Summary
+## 6. សង្ខេប
 
-- Spring Framework provides the architectural foundation (IoC, DI).
-- Spring Boot is the opinionated accelerator executing atop Spring Framework.
-- Spring Boot does not replace Spring Framework; it operationalizes it for cloud-native delivery.
+- Spring Framework គឺជាគ្រឹះស្ថាបត្យកម្មស្នូល (IoC, DI)។
+- Spring Boot គឺជារថយន្តល្បឿនលឿនដែលបើកបរលើផ្លូវដែករបស់ Spring Framework។
+- មិនមែន Spring Boot មកជំនួស Spring Framework ទេ តែវាជាស្រទាប់ជំនួយដ៏ឆ្លាតវៃពីលើ។
 
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Introduction to Spring Boot](../01-introduction-to-spring-boot/README.md) | [📚 Module Index](../README.md) | [Spring MVC vs Spring Boot Comparison →](../03-spring-mvc-vs-spring-boot/README.md) |
+| [← សេចក្តីផ្តើមអំពី Spring Boot (What Is Spring Boot?)](../01-introduction-to-spring-boot/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រៀបធៀប Spring MVC vs Spring Boot →](../03-spring-mvc-vs-spring-boot/README.md) |

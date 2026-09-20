@@ -1,39 +1,38 @@
-# Lesson 7: Handling Request Body with @RequestBody
+# មេរៀនទី ៧: ការប្រើប្រាស់ @RequestBody (Handling Request Body in Spring Boot)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../06-pathvariable-and-requestparam/README.md) | [មេរៀនបន្ទាប់ →](../08-build-rest-api-example/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../06-pathvariable-and-requestparam/README.md) | [Next Lesson →](../08-build-rest-api-example/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Bookstore REST API (@RequestBody)](../../examples/01-rest-api-crud)  
-> 📄 **Source Code Files:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`CreateBookRequest.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/dto/CreateBookRequest.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Bookstore REST API (@RequestBody)](../../examples/01-rest-api-crud)  
+> 📄 **File កូដជាក់ស្តែង:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`CreateBookRequest.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/dto/CreateBookRequest.java)
 
 
 ---
 
-## Table of Contents
-1. [What is @RequestBody?](#what-is-requestbody)
-2. [Jackson Deserialization Mechanism (HttpMessageConverter)](#jackson-deserialization-mechanism-httpmessageconverter)
-3. [Combining with Bean Validation (@Valid)](#combining-with-bean-validation-valid)
-4. [Using Java 17+ Records as DTOs](#using-java-17-records-as-dtos)
-5. [Handling HttpMessageNotReadableException](#handling-httpmessagenotreadableexception)
+## មាតិកា (Table of Contents)
+1. [តើអ្វីទៅជា @RequestBody?](#តើអ្វីទៅជា-requestbody)
+2. [ដំណើរការ Deserialization របស់ Jackson (HttpMessageConverter)](#ដំណើរការ-deserialization-របស់-jackson-httpmessageconverter)
+3. [ការរួមបញ្ចូល Validation ជាមួយ @Valid](#ការរួមបញ្ចូល-validation-ជាមួយ-valid)
+4. [ការប្រើប្រាស់ Records ជា DTOs ក្នុង Java 17+](#ការប្រើប្រាស់-records-ជា-dtos-ក្នុង-java-17)
+5. [កំហុសទូទៅ (HttpMessageNotReadableException) និងដំណោះស្រាយ](#កំហុសទូទៅ-httpmessagenotreadableexception-និងដំណោះស្រាយ)
 
 ---
 
-## What is @RequestBody?
-`@RequestBody` binds the incoming HTTP request body payload (typically JSON or XML) directly to a domain or Data Transfer Object (DTO) parameter in a Spring Controller method. The conversion is performed by Spring's `MappingJackson2HttpMessageConverter`.
+## តើអ្វីទៅជា @RequestBody?
+`@RequestBody` ត្រូវបានប្រើប្រាស់នៅលើ method parameter នៃ Controller ដើម្បីប្រាប់អោយ Spring Boot ទាញយក HTTP Request Body (ជាទូទៅជា JSON ឬ XML) ហើយ Deserializes វាទៅជា Java Object ឬ Java Record តាមរយៈ `HttpMessageConverter` (Jackson)។
 
 ```mermaid
 sequenceDiagram
     Client->>Spring Boot Controller: HTTP POST /users with JSON Body
     Note over Spring Boot Controller: Jackson MappingJackson2HttpMessageConverter
     Spring Boot Controller->>Controller Method: Injects UserRequestDTO Object
+
 ```
 
 ---
 
-## Combining with Bean Validation (@Valid)
+## ការរួមបញ្ចូល Validation ជាមួយ @Valid
 
-Always pair `@RequestBody` with `@Valid` to enforce declarative data validation constraints prior to entering business logic:
+យើងគួរតែដាក់ `@Valid` នៅជាប់ `@RequestBody` ជានិច្ច ដើម្បីឱ្យ Hibernate Validator ធ្វើការផ្ទៀងផ្ទាត់ទិន្នន័យមុនពេលបញ្ជូនទៅ Service Layer៖
 
 ```java
 @PostMapping
@@ -43,7 +42,7 @@ public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserReq
 }
 ```
 
-### Modern DTO Record Definition:
+### DTO Record Definition:
 ```java
 public record CreateUserRequest(
     @NotBlank(message = "Username cannot be blank")
@@ -62,13 +61,13 @@ public record CreateUserRequest(
 
 ---
 
-## Handling HttpMessageNotReadableException
-When client payloads violate JSON syntax standards or attempt incompatible type deserialization (e.g. passing a string into an integer field), Spring Boot raises `HttpMessageNotReadableException` returning an HTTP 400 Bad Request.
+## កំហុសទូទៅ (HttpMessageNotReadableException)
+ប្រសិនបើ Client ផ្ញើ JSON ដែលមាន Syntax Error (ដូចជាភ្លេចសញ្ញា comma `,` ឬ quotes `"`) ឬមិនត្រូវ Type (ឧទាហរណ៍ ផ្ញើអក្សរទៅកាន់ Integer field), Spring Boot នឹងបោះ exception `HttpMessageNotReadableException` (HTTP 400 Bad Request)។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Handling Input with @PathVariable and @RequestParam](../06-pathvariable-and-requestparam/README.md) | [📚 Module Index](../README.md) | [Building a Complete RESTful API Example →](../08-build-rest-api-example/README.md) |
+| [← ការគ្រប់គ្រងទិន្នន័យ Input ជាមួយ @PathVariable និង @RequestParam](../06-pathvariable-and-requestparam/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [បង្កើត Complete REST API Example មួយពេញលេញ (Building a Complete RESTful API) →](../08-build-rest-api-example/README.md) |

@@ -1,15 +1,13 @@
-# Lesson 5: Publishing String Messages with Kafka
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../04-consume-json-messages/README.md) | [Next Lesson →](../06-consume-string-messages/README.md)
+# មេរៀនទី ៥: ការផ្ញើ String Messages ទៅកាន់ Kafka (Publishing String Messages)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../04-consume-json-messages/README.md) | [មេរៀនបន្ទាប់ →](../06-consume-string-messages/README.md)
 
 ---
 
-## Table of Contents
-1. [Use Cases for Plain Text and Raw String Payloads](#use-cases)
+## មាតិកា (Table of Contents)
+1. [ករណីប្រើប្រាស់ String Messages](#ករណីប្រើប្រាស់-string-messages)
 2. [StringSerializer Configuration](#stringserializer-configuration)
-3. [Implementing the String Producer](#string-producer)
-4. [Synchronous vs Asynchronous Dispatch](#sync-vs-async)
+3. [ការបង្កើត String Producer](#ការបង្កើត-string-producer)
+4. [Synchronous vs Asynchronous Sending](#sync-vs-async)
 
 ---
 
@@ -26,7 +24,7 @@ spring:
 
 ---
 
-## Implementing the String Producer
+## ការបង្កើត String Producer
 
 ```java
 package com.example.producer;
@@ -51,8 +49,8 @@ public class StringKafkaProducer {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Consuming JSON Messages with Spring Kafka](../04-consume-json-messages/README.md) | [📚 Module Index](../README.md) | [Consuming String Messages from Kafka →](../06-consume-string-messages/README.md) |
+| [← ការទទួល និង Parse JSON Messages ពី Kafka (Consuming JSON Messages)](../04-consume-json-messages/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការទទួល String Messages ពី Kafka (Consuming String Messages) →](../06-consume-string-messages/README.md) |

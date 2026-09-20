@@ -1,68 +1,69 @@
-# Lesson 1: Introduction to Spring Boot
+# មេរៀនទី ១: សេចក្តីផ្តើមអំពី Spring Boot (What Is Spring Boot?)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../README.md) | [មេរៀនបន្ទាប់ →](../02-spring-vs-spring-boot/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../README.md) | [Next Lesson →](../02-spring-vs-spring-boot/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Definition of Spring Boot](#1-definition-of-spring-boot)
-- [2. Why Spring Boot Was Created](#2-why-spring-boot-was-created)
-- [3. The 4 Pillars of Spring Boot](#3-the-4-pillars-of-spring-boot)
-- [4. Comparison Table: Spring Framework vs. Spring Boot](#4-comparison-table-spring-framework-vs-spring-boot)
-- [5. Minimal Spring Boot Example](#5-minimal-spring-boot-example)
+- [1. និយមន័យនៃ Spring Boot](#1-និយមន័យនៃ-spring-boot)
+- [2. ហេតុអ្វីបានជាមានវត្តមាន Spring Boot?](#2-ហេតុអ្វីបានជាមានវត្តមាន-spring-boot)
+- [3. សសរទ្រូងសំខាន់ៗទាំង ៤ របស់ Spring Boot](#3-សសរទ្រូងសំខាន់ៗទាំង-៤-របស់-spring-boot)
+- [4. ការប្រៀបធៀប៖ Spring Framework vs Spring Boot](#4-ការប្រៀបធៀប-spring-framework-vs-spring-boot)
+- [5. កូដគំរូដំបូងបង្អស់ជាមួយ Spring Boot](#5-កូដគំរូដំបូងបង្អស់ជាមួយ-spring-boot)
 
 ---
 
-## 1. Definition of Spring Boot
+## 1. និយមន័យនៃ Spring Boot
 
-**Spring Boot** is an opinionated, production-ready framework built directly on top of the **Spring Framework**, designed to streamline and accelerate the development of standalone microservices and web applications with minimal configuration.
+**Spring Boot** គឺជាបច្ចេកវិទ្យា Open-Source ដែលត្រូវបានកសាងឡើងបន្ថែមនៅលើ **Spring Framework** ដើម្បីជួយឱ្យការបង្កើតកម្មវិធី **Production-Ready Spring Applications** និង **Microservices** មានភាពរហ័ស ងាយស្រួល និងកាត់បន្ថយការកំណត់ Configuration ស្ទើរតែទាំងស្រុង។
 
-Its core operating philosophy is:
-> **"Convention over Configuration"**
-> (Spring Boot provides sensible, battle-tested defaults for libraries and configurations, freeing developers to focus purely on business logic).
-
----
-
-## 2. Why Spring Boot Was Created
-
-In the era of traditional **Spring Framework**, creating a new project was notoriously laborious:
-- Writing verbose XML configurations or verbose Java config files
-- Manually resolving JAR dependency version conflicts
-- Installing and configuring external servlet containers (e.g., standalone Apache Tomcat) to deploy `.war` files
-- Repetitive boilerplate setup for datasources, view resolvers, and dispatchers
-
-**Spring Boot** eliminates these pain points entirely, allowing developers to scaffold and launch a production-grade application in **seconds**.
+ទស្សនវិជ្ជាចម្បងរបស់ Spring Boot គឺ៖
+> **"Opinionated View" & "Convention over Configuration"**
+> (Spring Boot មានទស្សនៈច្បាស់លាស់ពីការរៀបចំកូដ និងកំណត់តម្លៃលំនាំដើមដ៏សមស្របបំផុតរួចជាស្រេចសម្រាប់អ្នក ដោយអ្នកគ្រាន់តែសរសេរ Business Logic បន្ថែមប៉ុណ្ណោះ)។
 
 ---
 
-## 3. The 4 Pillars of Spring Boot
+## 2. ហេតុអ្វីបានជាមានវត្តមាន Spring Boot?
 
-1. **Auto-Configuration:**
-   - Spring Boot scans your classpath and automatically configures beans based on detected libraries (e.g., detecting MySQL drivers automatically instantiates a `DataSource`).
-2. **Starter Dependencies:**
-   - Aggregated dependency descriptors (e.g., `spring-boot-starter-web`) bring in all compatible dependencies without manual version management.
-3. **Embedded Web Servers:**
-   - Ships with embedded **Tomcat**, **Jetty**, or **Undertow** inside a self-contained executable JAR. Run simply via `java -jar app.jar`.
-4. **Spring Boot Actuator:**
-   - Provides turnkey endpoints for production health checks (`/actuator/health`), application metrics, and thread dumps out of the box.
+កាលពីជំនាន់ប្រើប្រាស់ **Spring Framework សុទ្ធ** អ្នកអភិវឌ្ឍន៍ត្រូវចំណាយពេលច្រើនម៉ោង ឬច្រើនថ្ងៃដើម្បី Setup គម្រោងថ្មីមួយ៖
+- ត្រូវកំណត់ XML Configuration ឬ Java Config វែងអន្លាយ
+- ត្រូវគ្រប់គ្រង Dependency Versions និងជួបបញ្ហា Jar Version Conflict
+- ត្រូវដំឡើង Apache Tomcat Server ខាងក្រៅ រួច Build ជា `.war` file ដើម្បីយកទៅ Deploy
+- ត្រូវសរសេរកូដ Boilerplate ជាច្រើនសម្រាប់ភ្ជាប់ Database ឬ Web Dispatcher
+
+**Spring Boot** ត្រូវបានបង្កើតឡើងដើម្បីលុបបំបាត់រាល់ឧបសគ្គទាំងនេះ ដោយធ្វើឱ្យអ្នកអាចចាប់ផ្តើមសរសេរ និងដំណើរការ Project បានក្នុងរយៈពេលត្រឹមតែ **ប៉ុន្មានវិនាទី** ប៉ុណ្ណោះ!
 
 ---
 
-## 4. Comparison Table: Spring Framework vs. Spring Boot
+## 3. សសរទ្រូងសំខាន់ៗទាំង ៤ របស់ Spring Boot
 
-| Feature Area | Spring Framework | Spring Boot |
+1. **Auto-Configuration (ការកំណត់ស្វ័យប្រវត្តិតាមបរិបទ):**
+   - តាមរយៈ `@EnableAutoConfiguration` Spring Boot ពិនិត្យមើល Classpath — ប្រសិនបើឃើញ `h2.jar` ឬ `mysql-connector.jar` វានឹងរៀបចំ DataSource និង Connection Pool ឱ្យដោយស្វ័យប្រវត្តិ។
+
+2. **Starter Dependencies (កញ្ចប់បណ្ណាល័យសម្រេច):**
+   - ជំនួសឱ្យការ Add Dependencies ដាច់ដោយឡែករាប់សិប អ្នកគ្រាន់តែហៅ Starter មួយគត់ (ឧ. `spring-boot-starter-web`) នោះវានឹងទាញយក Tomcat, Jackson JSON, Spring Web, Spring MVC មកដោយស្វ័យប្រវត្តិ ធានាថាកំណែទាំងអស់ត្រូវគ្នាបេះបិទ។
+
+3. **Embedded Web Servers (Web Server បង្កប់ស្រាប់ក្នុង App):**
+   - Spring Boot បង្កប់ **Tomcat**, **Jetty**, ឬ **Undertow** មកជាមួយស្រាប់ក្នុង `.jar` ឯករាជ្យ។ អ្នកគ្រាន់តែ Run `java -jar app.jar` នោះ Server នឹងបើកដំណើរការភ្លាមៗ ដោយមិនបាច់ដំឡើង Server ខាងក្រៅឡើយ។
+
+4. **Spring Boot Actuator (ប្រព័ន្ធតាមដានសុខភាពកម្រិត Production):**
+   - ផ្តល់នូវ Endpoints ស្រាប់ៗសម្រាប់ Monitor សុខភាពប្រព័ន្ធ (`/actuator/health`), CPU/RAM Metrics (`/actuator/metrics`), និង Environment Configurations។
+
+---
+
+## 4. ការប្រៀបធៀប៖ Spring Framework vs Spring Boot
+
+| ចំណុចប្រៀបធៀប | Spring Framework | Spring Boot |
 | :--- | :--- | :--- |
-| **Primary Goal** | Enterprise IoC, DI, and modular architecture | Radically fast application bootstrapping |
-| **Configuration** | Manual XML or `@Configuration` classes | **Automatic convention-based configuration** |
-| **Server Deployment** | External WAR deployment to standalone server | **Embedded server inside self-executing JAR** |
-| **Dependency Management** | Manual version pairing across dependencies | Curated **Starters and Bill of Materials (BOM)** |
-| **Operational Telemetry** | Manual custom health probes | **Built-in Spring Boot Actuator** |
+| **គោលបំណង** | ផ្តល់នូវ IoC, DI, និង Enterprise Architecture | ធ្វើឱ្យការបង្កើត Spring Apps មានល្បឿនលឿន |
+| **ការកំណត់ Configuration** | សរសេរ XML ឬ `@Configuration` ច្រើន | **Auto-Configuration ស្ទើរតែ ១០០%** |
+| **Server Deployment** | ត្រូវការ External Server (Tomcat WAR) | **Embedded Tomcat/Jetty រួចជាស្រេច (Standalone JAR)** |
+| **ការគ្រប់គ្រង Dependency** | ត្រូវជ្រើសរើស Version ដោយដៃ | ប្រើប្រាស់ **Starters & BOM** គ្មាន Version Conflict |
+| **Production Monitoring** | ត្រូវសរសេរកូដ Monitor ខ្លួនឯង | មាន **Spring Boot Actuator** ស្រាប់ |
 
 ---
 
-## 5. Minimal Spring Boot Example
+## 5. កូដគំរូដំបូងបង្អស់ជាមួយ Spring Boot
 
-A single class creates a fully operational HTTP REST service:
+អ្នកគ្រាន់តែសរសេរ Java Class មួយប៉ុណ្ណោះ គឺអាចបើក REST API បានភ្លាមៗ៖
 
 ```java
 @SpringBootApplication
@@ -71,7 +72,7 @@ public class Application {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello from Spring Boot!";
+        return "សួស្តីពី Spring Boot!";
     }
 
     public static void main(String[] args) {
@@ -82,8 +83,8 @@ public class Application {
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Module Index](../README.md) | [📚 Module Index](../README.md) | [Spring Framework vs Spring Boot Comparison →](../02-spring-vs-spring-boot/README.md) |
+| [← មាតិកា Module](../README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រៀបធៀប Spring Framework vs Spring Boot →](../02-spring-vs-spring-boot/README.md) |

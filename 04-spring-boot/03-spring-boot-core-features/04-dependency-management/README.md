@@ -1,108 +1,108 @@
-# Lesson 4: Starter Dependencies and Dependency Management
+# មេរៀនទី ៤: ការគ្រប់គ្រង Starter Dependencies (Dependency Management)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../03-auto-configuration/README.md) | [មេរៀនបន្ទាប់ →](../05-application-properties/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../03-auto-configuration/README.md) | [Next Lesson →](../05-application-properties/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Creating a Project with Spring Initializr](#1-creating-a-project-with-spring-initializr)
-- [2. Standard Spring Boot Directory Structure](#2-standard-spring-boot-directory-structure)
-- [3. What Are Starter Dependencies?](#3-what-are-starter-dependencies)
-- [4. The Bill of Materials (BOM) Mechanism](#4-the-bill-of-materials-bom-mechanism)
-- [5. Most Essential Spring Boot Starters](#5-most-essential-spring-boot-starters)
+- [1. របៀបបង្កើត Project ជាមួយ Spring Initializr](#1-របៀបបង្កើត-project-ជាមួយ-spring-initializr)
+- [2. រចនាសម្ព័ន្ធ Folder ស្តង់ដាររបស់ Spring Boot](#2-រចនាសម្ព័ន្ធ-folder-ស្តង់ដាររបស់-spring-boot)
+- [3. តើអ្វីទៅជា Starter Dependencies?](#3-តើអ្វីទៅជា-starter-dependencies)
+- [4. យន្តការគ្រប់គ្រងកំណែតាម Bill of Materials (BOM)](#4-យន្តការគ្រប់គ្រងកំណែតាម-bill-of-materials-bom)
+- [5. តារាង Starters ពេញនិយមបំផុត](#5-តារាង-starters-ពេញនិយមបំផុត)
 
 ---
 
-## 1. Creating a Project with Spring Initializr
+## 1. របៀបបង្កើត Project ជាមួយ Spring Initializr
 
-The official and fastest bootstrapping mechanism is **[start.spring.io](https://start.spring.io/)** (Spring Initializr):
+វិធីសាស្ត្រផ្លូវការ និងលឿនបំផុតក្នុងការបង្កើត Spring Boot Project គឺតាមរយៈគេហទំព័រ **[start.spring.io](https://start.spring.io/)** (Spring Initializr)៖
 
-1. **Project:** Choose **Maven** or **Gradle** (Maven is widely favored in enterprise environments).
-2. **Language:** **Java**.
-3. **Spring Boot Version:** Choose the latest stable release (e.g., `3.2.x` or `3.3.x`).
+1. **Project:** ជ្រើសរើស **Maven** ឬ **Gradle** (Maven ត្រូវបានប្រើប្រាស់ច្រើនក្នុង Enterprise)
+2. **Language:** **Java**
+3. **Spring Boot Version:** ជ្រើសរើសជំនាន់ LTS ចុងក្រោយ (ឧ. `3.2.x` ឬ `3.3.x`)
 4. **Project Metadata:**
-   - `Group`: Organization package prefix (e.g., `com.example`).
-   - `Artifact`: Application identifier (e.g., `order-service`).
-   - `Packaging`: **Jar** (self-contained executable).
-   - `Java Version`: **17** or **21** (minimum required for Spring Boot 3+).
-5. **Dependencies:** Add `Spring Web`, `Spring Data JPA`, `Lombok`, `PostgreSQL Driver`.
-6. Click **GENERATE** to download the pre-configured zip archive and open it in **IntelliJ IDEA**, **VS Code**, or **STS**.
+   - `Group`: ឈ្មោះ Domain របស់ស្ថាប័ន (ឧ. `com.example` ឬ `kh.poscommerce`)
+   - `Artifact`: ឈ្មោះ App (ឧ. `order-service`)
+   - `Packaging`: **Jar** (Stand-alone executable)
+   - `Java Version`: **17** ឬ **21** (កម្រិតអប្បបរមាសម្រាប់ Spring Boot 3+)
+5. **Dependencies:** ជ្រើសរើស `Spring Web`, `Spring Data JPA`, `Lombok`, `PostgreSQL Driver`
+6. ចុច **GENERATE** ដើម្បីទាញយក `.zip` file រួចបើកក្នុង **IntelliJ IDEA**, **VS Code**, ឬ **STS**។
 
 ---
 
-## 2. Standard Spring Boot Directory Structure
+## 2. រចនាសម្ព័ន្ធ Folder ស្តង់ដាររបស់ Spring Boot
 
 ```
 my-spring-boot-app/
-├── pom.xml                         # Dependency descriptor (Maven)
+├── pom.xml                         # ឯកសារគ្រប់គ្រង Dependencies (Maven)
 ├── src/
 │   ├── main/
-│   │   ├── java/                   # Application Java source files
+│   │   ├── java/                   # កូដ Java ទាំងអស់
 │   │   │   └── com/example/demo/
-│   │   │       └── DemoApplication.java  # Main entrypoint (@SpringBootApplication)
-│   │   └── resources/              # Configuration files & static assets
-│   │       ├── application.properties    # or application.yml
-│   │       ├── static/                   # Static web assets (CSS/JS)
-│   │       └── templates/                # Server-rendered templates (Thymeleaf)
+│   │   │       └── DemoApplication.java  # Main Class (មាន @SpringBootApplication)
+│   │   └── resources/              # ឯកសារ Configuration & Static Assets
+│   │       ├── application.properties    # ឬ application.yml
+│   │       ├── static/                   # ផ្ទុក CSS, JS, Images សម្រាប់ Web
+│   │       └── templates/                # ផ្ទុក Thymeleaf / HTML templates
 │   └── test/
-│       └── java/                   # Unit and integration test suites
+│       └── java/                   # កូដសម្រាប់សរសេរ Unit & Integration Tests
 ```
 
 ---
 
-## 3. What Are Starter Dependencies?
+## 3. តើអ្វីទៅជា Starter Dependencies?
 
-**Spring Boot Starters** are aggregated dependency descriptors that bundle transitive libraries required for a specific capability:
+**Spring Boot Starters** គឺជាកញ្ចប់ Aggregated Dependencies សម្រេចស្រាប់។ ជំនួសឱ្យការ Copy/Paste បណ្ណាល័យ Jar ដាច់ដោយឡែករាប់សិបចូលក្នុង `pom.xml` អ្នកគ្រាន់តែហៅ Starter មួយគត់៖
 
 ```xml
-<!-- Example: Importing a complete web stack with a single dependency -->
+<!-- ឧទាហរណ៍៖ ហៅតែមួយ Starter ទទួលបាន Web Stack ទាំងមូល -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-web</artifactId>
+
 </dependency>
 ```
 
-Declaring `spring-boot-starter-web` automatically pulls in:
-- `spring-web` and `spring-webmvc`
-- `tomcat-embed-core` (Embedded Apache Tomcat server)
-- `jackson-databind` (JSON serializer/deserializer)
-- `spring-boot-starter-validation`
+នៅពេលអ្នកដាក់ `spring-boot-starter-web` វានឹងទាញយកដោយស្វ័យប្រវត្តិនូវ៖
+- `spring-web` និង `spring-webmvc`
+- `tomcat-embed-core` (Embedded Apache Tomcat Server)
+- `jackson-databind` (សម្រាប់បំប្លែង JSON)
+- `spring-boot-starter-validation` (សម្រាប់ Validate Form/JSON)
 
 ---
 
-## 4. The Bill of Materials (BOM) Mechanism
+## 4. យន្តការគ្រប់គ្រងកំណែតាម Bill of Materials (BOM)
 
-Notice why individual Spring Boot dependencies omit the `<version>` tag:
+តើអ្នកធ្លាប់កត់សម្គាល់ទេថា ហេតុអ្វីបានជា Dependencies របស់ Spring Boot មិនមានដាក់លេខ Tag `<version>`?
 
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-jpa</artifactId>
-    <!-- No explicit version specified! -->
+    <!-- គ្មាន <version>3.2.0</version> ឡើយ! -->
+
 </dependency>
 ```
 
-Spring Boot achieves this via **`spring-boot-starter-parent`** or the **Bill of Materials (BOM)**:
-- Curates compatible, tested version matrix across dozens of third-party libraries (Hibernate, Jackson, HikariCP, PostgreSQL).
-- Completely prevents **JAR version mismatch (JAR Hell)**.
+នេះគឺដោយសារ Spring Boot ប្រើប្រាស់ **`spring-boot-starter-parent`** ឬ **BOM (Bill of Materials)** នៅក្នុង `pom.xml`៖
+- Parent POM បានកំណត់កំណែដែលត្រូវគ្នា ១០០% រវាង Hibernate, Tomcat, Jackson, PostgreSQL Driver រួចជាស្រេច។
+- ជួយការពារបញ្ហា **"Jar Version Conflict"** (Jar Hell) ដែលធ្លាប់ធ្វើឱ្យ Developer ឈឺក្បាលកាលពីអតីតកាល។
 
 ---
 
-## 5. Most Essential Spring Boot Starters
+## 5. តារាង Starters ពេញនិយមបំផុត
 
-| Starter | Primary Capability |
+| Starter Name | មុខងារចម្បង |
 | :--- | :--- |
-| **`spring-boot-starter-web`** | REST APIs, Spring MVC, embedded Tomcat web server |
-| **`spring-boot-starter-data-jpa`** | Hibernate, Spring Data repositories, HikariCP connection pool |
-| **`spring-boot-starter-security`** | Spring Security authentication & authorization (JWT, OAuth2) |
-| **`spring-boot-starter-validation`** | Jakarta Bean Validation engine |
-| **`spring-boot-starter-actuator`** | Production readiness, health checks, performance metrics |
-| **`spring-boot-starter-test`** | Testing suite: JUnit 5, Mockito, AssertJ, MockMvc |
+| **`spring-boot-starter-web`** | បង្កើត RESTful APIs, Spring MVC, Embedded Tomcat |
+| **`spring-boot-starter-data-jpa`** | ភ្ជាប់ Database តាម Hibernate, JPA, និង HikariCP Pool |
+| **`spring-boot-starter-security`** | ការពារ Authentication & Authorization (JWT, OAuth2) |
+| **`spring-boot-starter-validation`** | ផ្ទៀងផ្ទាត់ Input Data តាម Jakarta Bean Validation |
+| **`spring-boot-starter-actuator`** | Production monitoring, Metrics, Health check endpoints |
+| **`spring-boot-starter-test`** | សំណុំ Tool ធ្វើតេស្ត៖ JUnit 5, Mockito, AssertJ, MockMvc |
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Auto-Configuration Deep Dive](../03-auto-configuration/README.md) | [📚 Module Index](../README.md) | [Managing Configuration with Application Properties →](../05-application-properties/README.md) |
+| [← យន្តការកំណត់រចនាសម្ព័ន្ធស្វ័យប្រវត្តិ (Auto-Configuration Deep Dive)](../03-auto-configuration/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការកំណត់រចនាសម្ព័ន្ធជាមួយ Application Properties →](../05-application-properties/README.md) |

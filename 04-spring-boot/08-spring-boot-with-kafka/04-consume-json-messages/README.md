@@ -1,26 +1,24 @@
-# Lesson 4: Consuming JSON Messages with Spring Kafka
+# មេរៀនទី ៤: ការទទួល និង Parse JSON Messages ពី Kafka (Consuming JSON Messages)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../03-publish-json-messages/README.md) | [មេរៀនបន្ទាប់ →](../05-publish-string-messages/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../03-publish-json-messages/README.md) | [Next Lesson →](../05-publish-string-messages/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Consume JSON Events via @KafkaListener](../../examples/04-kafka-messaging)  
-> 📄 **Source Code Files:** [`OrderEventConsumer.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/consumer/OrderEventConsumer.java) | [`OrderCreatedEvent.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/event/OrderCreatedEvent.java) | [`application.yml`](../../examples/04-kafka-messaging/src/main/resources/application.yml)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Consume JSON Events via @KafkaListener](../../examples/04-kafka-messaging)  
+> 📄 **File កូដជាក់ស្តែង:** [`OrderEventConsumer.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/consumer/OrderEventConsumer.java) | [`OrderCreatedEvent.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/event/OrderCreatedEvent.java) | [`application.yml`](../../examples/04-kafka-messaging/src/main/resources/application.yml)
 
 
 ---
 
-## Table of Contents
-1. [Spring Kafka JSON Deserialization Architecture](#deserialization-architecture)
-2. [Configuring JsonDeserializer and Trusted Packages](#configuring-trusted-packages)
-3. [Type-Safe @KafkaListener Consumer Implementation](#typesafe-listener)
-4. [Handling Type Header Mismatches](#type-header-mismatches)
+## មាតិកា (Table of Contents)
+1. [ដំណើរការ JSON Deserialization របស់ Spring Kafka](#ដំណើរការ-json-deserialization)
+2. [Consumer Configuration (JsonDeserializer & Trusted Packages)](#consumer-configuration)
+3. [ការបង្កើត Type-safe @KafkaListener Method](#ការបង្កើត-kafkalistener)
+4. [ការដោះស្រាយបញ្ហា Serialization Mismatch](#ការដោះស្រាយបញ្ហា)
 
 ---
 
-## Configuring JsonDeserializer with Trusted Packages
+## Consumer Configuration ជាមួយ Trusted Packages
 
-In `application.yml`:
+នៅក្នុង `application.yml`៖
 ```yaml
 spring:
   kafka:
@@ -37,7 +35,7 @@ spring:
 
 ---
 
-## Type-Safe @KafkaListener Consumer Implementation
+## ការបង្កើត Type-safe @KafkaListener
 
 ```java
 package com.example.consumer;
@@ -57,14 +55,16 @@ public class OrderEventConsumer {
     public void handleOrderCreated(OrderCreatedEvent event) {
         log.info("Successfully received order event for orderId: {}", event.orderId());
         log.info("Customer Email: {}, Amount: ${}", event.customerEmail(), event.totalAmount());
+        
+        // កាត់បន្ថយស្តុកទំនិញ...
     }
 }
 ```
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Publishing JSON Messages with Kafka](../03-publish-json-messages/README.md) | [📚 Module Index](../README.md) | [Publishing String Messages with Kafka →](../05-publish-string-messages/README.md) |
+| [← ការផ្ញើ JSON Messages តាមរយៈ Kafka (Publishing JSON Messages)](../03-publish-json-messages/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការផ្ញើ String Messages ទៅកាន់ Kafka (Publishing String Messages) →](../05-publish-string-messages/README.md) |

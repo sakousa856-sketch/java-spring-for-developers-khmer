@@ -1,20 +1,18 @@
-# Lesson 2: Overview of AOP Advices
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../01-aop-introduction/README.md) | [Next Lesson →](../03-before-advice/README.md)
+# មេរៀនទី ២: ទិដ្ឋភាពទូទៅនៃប្រភេទ AOP Advices ទាំង ៥ (Overview of AOP Advices)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../01-aop-introduction/README.md) | [មេរៀនបន្ទាប់ →](../03-before-advice/README.md)
 
 ---
 
-## Table of Contents
-1. [What is an AOP Advice?](#what-is-advice)
-2. [The 5 Core Spring AOP Advices](#the-5-advices)
-3. [Advice Execution Lifecycle Diagram](#lifecycle-diagram)
-4. [Selecting the Right Advice for Use Cases](#selecting-the-right-advice)
+## មាតិកា (Table of Contents)
+1. [តើអ្វីទៅជា Advice នៅក្នុង AOP?](#តើអ្វីទៅជា-advice)
+2. [ប្រភេទ Advices ទាំង ៥ នៅក្នុង Spring AOP](#ប្រភេទ-advices-ទាំង-៥)
+3. [លំដាប់លំហូរដំណើរការនៃ Advices (Execution Flow Diagram)](#លំហូរដំណើរការ)
+4. [ការជ្រើសរើស Advice ឱ្យត្រូវតាមតម្រូវការ](#ការជ្រើសរើស)
 
 ---
 
-## What is an Advice?
-In Aspect-Oriented Programming, an **Advice** represents the actual code or cross-cutting action executed at a designated join point matching an execution pointcut.
+## តើអ្វីទៅជា Advice?
+**Advice** គឺជាសកម្មភាព (action/logic) ជាក់ស្តែងដែល Aspect ត្រូវអនុវត្តនៅ Join Point ណាមួយ (ឧទាហរណ៍ មុនពេល ក្រោយពេល ឬពេលមាន Error កើតឡើងក្នុង method)។
 
 ```mermaid
 graph TD
@@ -27,24 +25,25 @@ graph TD
     
     Ar["@Around Advice (Wraps around everything)"] -.-> Bef
     Ar -.-> Aft
+
 ```
 
 ---
 
-## The 5 Core Spring AOP Advices
+## ប្រភេទ Advices ទាំង ៥
 
-| Advice Type | Annotation | Invocation Point |
+| Advice | Annotation | ពេលវេលាដំណើរការ |
 | :--- | :--- | :--- |
-| **Before** | `@Before` | Executes *before* join point execution |
-| **After Returning** | `@AfterReturning` | Executes *after* normal method completion |
-| **After Throwing** | `@AfterThrowing` | Executes *if* target throws an exception |
-| **After (Finally)** | `@After` | Executes regardless of outcome (like `finally`) |
-| **Around** | `@Around` | Wraps join point, with authority to suppress or modify execution |
+| **Before** | `@Before` | ដំណើរការ *មុនពេល* Target Method ចាប់ផ្តើម |
+| **After Returning** | `@AfterReturning` | ដំណើរការ *ក្រោយពេល* Target Method បញ្ចប់ដោយជោគជ័យ |
+| **After Throwing** | `@AfterThrowing` | ដំណើរការ *នៅពេលដែល* Target Method បោះ Exception |
+| **After (Finally)** | `@After` | ដំណើរការជានិច្ច ក្រោយ method បញ្ចប់ (ទោះជោគជ័យ ឬបោះ exception) |
+| **Around** | `@Around` | ព័ទ្ធជុំវិញ Target Method ទាំងមូល (អាចកែប្រែ return value ឬបញ្ឈប់ការ execute) |
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Managing Cross-Cutting Concerns with Aspect-Oriented Programming (AOP)](../01-aop-introduction/README.md) | [📚 Module Index](../README.md) | [Using @Before Advice in Spring Boot →](../03-before-advice/README.md) |
+| [← ការគ្រប់គ្រង Cross-Cutting Concerns ជាមួយ Aspect-Oriented Programming (AOP)](../01-aop-introduction/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រើប្រាស់ @Before Advice (Before Advice in Spring Boot) →](../03-before-advice/README.md) |

@@ -1,21 +1,19 @@
-# Lesson 3: File Handling & Multipart Upload in Spring Boot
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../02-sending-email-smtp/README.md) | [Next Lesson →](../04-caching/README.md)
+# មេរៀនទី ៣: ការគ្រប់គ្រង និង Upload File ក្នុង Spring Boot (File Handling & Multipart Upload)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../02-sending-email-smtp/README.md) | [មេរៀនបន្ទាប់ →](../04-caching/README.md)
 
 ---
 
-## Table of Contents
-1. [Understanding MultipartFile](#understanding-multipartfile)
-2. [Configuring Upload Limits in application.yml](#configuring-upload-limits)
-3. [Building a Robust File Storage Service](#building-a-robust-file-storage-service)
-4. [File Upload & Download REST Controller](#file-upload--download-rest-controller)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើមអំពី MultipartFile](#សេចក្តីផ្តើមអំពី-multipartfile)
+2. [ការកំណត់ទំហំ File Limit ក្នុង application.yml](#ការកំណត់ទំហំ-file-limit)
+3. [ការបង្កើត File Storage Service](#ការបង្កើត-file-storage-service)
+4. [ការបង្កើត Upload & Download Controller](#ការបង្កើត-upload--download-controller)
 5. [Security Best Practices (Validation & Sanitization)](#security-best-practices)
 
 ---
 
-## Understanding MultipartFile
-Spring Boot represents uploaded files via the `MultipartFile` abstraction. It exposes straightforward APIs to inspect original filename, content length, MIME types, and transfer input streams directly to file storage destinations.
+## សេចក្តីផ្តើមអំពី MultipartFile
+Spring Boot ប្រើប្រាស់ interface `MultipartFile` ដើម្បីតំណាងឱ្យ file ដែលត្រូវបាន upload តាមរយៈ HTTP `multipart/form-data` request។ វាផ្តល់នូវ methods ងាយៗដើម្បីពិនិត្យឈ្មោះ (`getOriginalFilename()`), ប្រភេទ (`getContentType()`), ទំហំ (`getSize()`), និងទាញយក bytes (`getBytes()`) ឬ save ផ្ទាល់ (`transferTo()`)។
 
 ```mermaid
 sequenceDiagram
@@ -25,13 +23,14 @@ sequenceDiagram
     StorageService->>Disk/S3: Save to File Storage
     StorageService-->>Controller: Return Stored Filename / URL
     Controller-->>Client: 200 OK + Metadata
+
 ```
 
 ---
 
-## Configuring Upload Limits
+## ការកំណត់ទំហំ File Limit
 
-In `application.yml`:
+នៅក្នុង `application.yml`៖
 
 ```yaml
 spring:
@@ -44,7 +43,7 @@ spring:
 
 ---
 
-## Building a Robust File Storage Service
+## ការបង្កើត File Storage Service
 
 ```java
 package com.example.service;
@@ -72,10 +71,12 @@ public class FileStorageService {
     public String storeFile(MultipartFile file) {
         String originalName = StringUtils.cleanPath(file.getOriginalFilename());
 
+        // ការពារ Path Traversal Attack
         if (originalName.contains("..")) {
-            throw new IllegalArgumentException("Invalid path sequence: " + originalName);
+            throw new IllegalArgumentException("Invalid file path sequence: " + originalName);
         }
 
+        // បង្កើត Unique Filename
         String extension = "";
         int i = originalName.lastIndexOf('.');
         if (i > 0) extension = originalName.substring(i);
@@ -98,7 +99,7 @@ public class FileStorageService {
 
 ---
 
-## File Upload & Download REST Controller
+## ការបង្កើត Upload & Download Controller
 
 ```java
 package com.example.controller;
@@ -157,14 +158,14 @@ public class FileController {
 ---
 
 ## Security Best Practices
-- **Prevent Path Traversal**: Sanitize incoming file paths to guarantee no directory traversal characters (`..`) are processed.
-- **Inspect Magic Bytes**: Never trust client-provided file extensions alone; validate MIME headers against binary signatures.
-- **Prefer Cloud Object Storage**: In enterprise cloud architectures, stream files directly to Amazon S3, Google Cloud Storage, or Azure Blob Storage.
+- **ការពារ Path Traversal**: ត្រូវ sanitize file path ដោយប្រាកដថាមិនមាន `..` នៅក្នុង filename។
+- **ផ្ទៀងផ្ទាត់ MIME Type និង Magic Bytes**: កុំជឿជាក់តែលើ file extension ចុងក្រោយ ត្រូវពិនិត្យ header bytes នៃ file។
+- **ប្រើ Object Storage លើ Cloud**: លើ Production គួរតែ upload ទៅ **AWS S3, Google Cloud Storage, ឬ Azure Blob** ជំនួសការទុកលើ Local Server Disk។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Sending Email with Spring Boot JavaMailSender](../02-sending-email-smtp/README.md) | [📚 Module Index](../README.md) | [Performance Optimization with Spring Boot Caching →](../04-caching/README.md) |
+| [← ការផ្ញើ Email ជាមួយ Spring Boot JavaMailSender (Sending Email with SMTP)](../02-sending-email-smtp/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការបង្កើនល្បឿនប្រព័ន្ធជាមួយ Spring Boot Caching (Caching Abstraction) →](../04-caching/README.md) |

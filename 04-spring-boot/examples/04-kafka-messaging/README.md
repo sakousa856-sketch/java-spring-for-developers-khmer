@@ -1,12 +1,20 @@
-# Example Project: Apache Kafka Event-Driven Messaging
+# គម្រោងគំរូ: Event-Driven Architecture ជាមួយ Apache Kafka (Spring Boot 3)
 
-[Khmer Version](./README.kh.md)
+[English Version](./README.md)
 
-Demonstrates publishing and consuming strongly-typed JSON domain events using Spring Kafka.
+គម្រោងនេះបង្ហាញពីការផ្ញើ និងទទួល JSON Messages តាមរយៈ KafkaTemplate និង `@KafkaListener`។
 
-## How to Run
+## របៀបដំណើរការ
 
 ```bash
+# 1. បើក Zookeeper & Kafka តាម Docker
 docker compose up -d
+
+# 2. Run Spring Boot
 mvn spring-boot:run
+```
+
+## តេស្តផ្ញើ Message:
+```bash
+curl -X POST "http://localhost:8080/api/v1/orders/create?email=dara@example.com&amount=150.00"
 ```

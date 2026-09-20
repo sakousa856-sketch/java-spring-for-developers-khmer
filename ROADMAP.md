@@ -13,7 +13,7 @@
 ## 🎯 ១. តើអ្វីជា Java Full Stack Developer? (Why Java Full Stack?)
 
 **Java Full Stack Developer** គឺជាវិស្វករសូហ្វវែរដែលអាចបង្កើតប្រព័ន្ធកម្មវិធីបានទាំងសងខាង៖
-* 🖥️ **Client-Side (Frontend):** ចំណុចប្រទាក់អ្នកប្រើ (User Interface) ដែលស្អាត និងមានប្រតិកម្មលឿន (HTML5, CSS3, JavaScript, React/Next.js)។
+* 🖥️ **Client-Side (Frontend):** User Interface (UI) ដែលស្អាត និងមានប្រតិកម្មលឿន (HTML5, CSS3, JavaScript, React/Next.js)។
 * ⚙️ **Server-Side (Backend):** ប្រព័ន្ធកណ្តាលដ៏រឹងមាំសម្រាប់ដំណើរការ Business Logic, Security និង APIs (Java, Spring Boot, Microservices)។
 * 🗄️ **Database & Cloud (Data Layer & DevOps):** ការរក្សាទុកទិន្នន័យ (PostgreSQL, MySQL, Redis) និងការដាក់ឱ្យដំណើរការលើ Server (Docker, AWS, CI/CD)។
 
@@ -74,6 +74,7 @@ flowchart TD
     Phase3 --> Phase4
     Phase4 --> Phase5
     Phase5 --> Phase6
+
 ```
 
 ---
@@ -111,8 +112,8 @@ flowchart TD
    * Java 8+ Modern Features: Lambda Expressions, Functional Interfaces, Stream API (`filter`, `map`, `collect`, `reduce`)
 
 🔗 **ឃ្លាំងមេរៀន និងកូដអនុវត្តក្នុង Workspace:**
-* 📖 [01-basic-java (18 Lessons)](file:///Users/macbook/Workspace/teaching/01-books-and-handbooks/05-java-and-spring/01-basic-java/README.md)
-* 📖 [02-advance-java (OOP Lessons)](file:///Users/macbook/Workspace/teaching/01-books-and-handbooks/05-java-and-spring/02-advance-java/README.md)
+* 📖 [01-basic-java (18 Lessons)](./01-basic-java/README.md)
+* 📖 [02-advance-java (OOP Lessons)](./02-advance-java/README.md)
 
 ---
 
@@ -169,8 +170,8 @@ flowchart TD
    * Role-Based Access Control (RBAC): `@PreAuthorize("hasRole('ADMIN')")`
 
 🔗 **ឃ្លាំងមេរៀន និងកូដអនុវត្តក្នុង Workspace:**
-* 📖 [03-spring-framework (Core Architecture)](file:///Users/macbook/Workspace/teaching/01-books-and-handbooks/05-java-and-spring/03-spring-framework/README.md)
-* 📖 [04-spring-boot (Enterprise & Microservices)](file:///Users/macbook/Workspace/teaching/01-books-and-handbooks/05-java-and-spring/04-spring-boot/README.md)
+* 📖 [03-spring-framework (Core Architecture)](./03-spring-framework/README.md)
+* 📖 [04-spring-boot (Enterprise & Microservices)](./04-spring-boot/README.md)
 
 ---
 
@@ -239,7 +240,7 @@ flowchart TD
    * STAR Method សម្រាប់ការសម្ភាសន៍សំណួរអាកប្បកិរិយា (Behavioral Questions)
 
 🔗 **ឃ្លាំងឯកសារសម្ភាសន៍ក្នុង Workspace:**
-* 📖 [05-interview-handbook (12 Master Pillars)](file:///Users/macbook/Workspace/teaching/01-books-and-handbooks/05-java-and-spring/05-interview-handbook/README.kh.md)
+* 📖 [05-interview-handbook (12 Master Pillars)](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)
 
 ---
 
@@ -273,6 +274,6 @@ flowchart TD
 > ដំណើរនៃការក្លាយជា **Java Full Stack Developer** ទាមទារការអនុវត្តផ្ទាល់ (Practice, Practice, Practice)។ កុំគ្រាន់តែមើលវីដេអូ ឬអានឯកសារ ត្រូវបើក IDE ហើយវាយកូដតាម និងដោះស្រាយ Error ដោយខ្លួនឯង!
 >
 > 🚀 **ចាប់ផ្តើមដំបូងគេបង្អស់៖**
-> 1. បើកមើលវីដេអូ និងមេរៀន [មេរៀនទី ១៖ ប្រវត្តិនៃ Java](file:///Users/macbook/Workspace/teaching/01-books-and-handbooks/05-java-and-spring/01-basic-java/01-history-of-java/README.md)
+> 1. បើកមើលវីដេអូ និងមេរៀន [មេរៀនទី ១៖ ប្រវត្តិនៃ Java](./01-basic-java/01-history-of-java/README.md)
 > 2. ដំឡើង JDK 21 និង IntelliJ IDEA នៅលើកុំព្យូទ័ររបស់អ្នក
-> 3. បង្កើតកម្មវិធីដំបូង `Hello World` ក្នុង [មេរៀនទី ៤](file:///Users/macbook/Workspace/teaching/01-books-and-handbooks/05-java-and-spring/01-basic-java/04-first-program/README.md)
+> 3. បង្កើតកម្មវិធីដំបូង `Hello World` ក្នុង [មេរៀនទី ៤](./01-basic-java/04-first-program/README.md)

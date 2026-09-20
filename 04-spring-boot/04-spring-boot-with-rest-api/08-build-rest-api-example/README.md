@@ -1,27 +1,25 @@
-# Lesson 8: Building a Complete RESTful API Example
+# មេរៀនទី ៨: បង្កើត Complete REST API Example មួយពេញលេញ (Building a Complete RESTful API)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../07-requestbody/README.md) | [មេរៀនបន្ទាប់ →](../09-json-serialization-jackson/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../07-requestbody/README.md) | [Next Lesson →](../09-json-serialization-jackson/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Bookstore Complete CRUD REST API](../../examples/01-rest-api-crud)  
-> 📄 **Source Code Files:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`BookService.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/service/BookService.java) | [`BookRepository.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/repository/BookRepository.java) | [`CreateBookRequest.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/dto/CreateBookRequest.java) | [`BookResponse.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/dto/BookResponse.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Bookstore Complete CRUD REST API](../../examples/01-rest-api-crud)  
+> 📄 **File កូដជាក់ស្តែង:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`BookService.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/service/BookService.java) | [`BookRepository.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/repository/BookRepository.java) | [`CreateBookRequest.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/dto/CreateBookRequest.java) | [`BookResponse.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/dto/BookResponse.java)
 
 
 ---
 
-## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Folder & Package Architecture](#folder--package-architecture)
-3. [Creating Models and DTOs](#creating-models-and-dtos)
-4. [Service Layer Implementation](#service-layer-implementation)
-5. [Complete REST Controller Implementation](#complete-rest-controller-implementation)
-6. [Testing with cURL](#testing-with-curl)
+## មាតិកា (Table of Contents)
+1. [ទិដ្ឋភាពទូទៅនៃគម្រោង (Project Overview)](#ទិដ្ឋភាពទូទៅនៃគម្រោង)
+2. [រចនាសម្ព័ន្ធ Folder Architecture](#រចនាសម្ព័ន្ធ-folder-architecture)
+3. [ការបង្កើត Model / Entity & Repository](#ការបង្កើត-model--entity--repository)
+4. [ការបង្កើត Service Layer](#ការបង្កើត-service-layer)
+5. [ការបង្កើត REST Controller ពេញលេញ](#ការបង្កើត-rest-controller-ពេញលេញ)
+6. [ការធ្វើតេស្តជាមួយ cURL](#ការធ្វើតេស្តជាមួយ-curl)
 
 ---
 
-## Project Overview
-In this lesson, we build a complete production-grade **Book Management REST API** supporting all CRUD operations adhering to clean layered architecture.
+## ទិដ្ឋភាពទូទៅនៃគម្រោង
+នៅក្នុងមេរៀននេះ យើងនឹងបង្កើត **Book Management REST API** មួយពេញលេញដែលគាំទ្រ CRUD operations គ្រប់ជ្រុងជ្រោយ ដោយអនុវត្តតាម Clean Architecture Standard។
 
 ```mermaid
 graph TD
@@ -29,11 +27,12 @@ graph TD
     B --> C["BookService (Business Logic)"]
     C --> D["BookRepository (Data Layer)"]
     D --> E[(Database / In-Memory)]
+
 ```
 
 ---
 
-## Folder & Package Architecture
+## រចនាសម្ព័ន្ធ Folder Architecture
 ```
 src/main/java/com/example/bookstore/
 ├── controller/
@@ -52,7 +51,7 @@ src/main/java/com/example/bookstore/
 
 ---
 
-## Creating Models and DTOs
+## ការបង្កើត Model & DTOs
 
 ```java
 package com.example.bookstore.dto;
@@ -78,7 +77,7 @@ public record BookResponse(
 
 ---
 
-## Complete REST Controller Implementation
+## ការបង្កើត REST Controller ពេញលេញ
 
 ```java
 package com.example.bookstore.controller;
@@ -135,7 +134,7 @@ public class BookController {
 
 ---
 
-## Testing with cURL
+## ការធ្វើតេស្តជាមួយ cURL
 
 ```bash
 # 1. Create a book
@@ -152,8 +151,8 @@ curl -X DELETE http://localhost:8080/api/v1/books/1
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Handling Request Body with @RequestBody](../07-requestbody/README.md) | [📚 Module Index](../README.md) | [JSON Serialization & Jackson with DTOs and Java Records →](../09-json-serialization-jackson/README.md) |
+| [← ការប្រើប្រាស់ @RequestBody (Handling Request Body in Spring Boot)](../07-requestbody/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការបម្លែង JSON និង Jackson ជាមួយ DTOs & Java Records →](../09-json-serialization-jackson/README.md) |

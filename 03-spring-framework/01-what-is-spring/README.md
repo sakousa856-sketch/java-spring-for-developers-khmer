@@ -1,58 +1,55 @@
-# Part 1: What Is Spring Framework?
+# Part 1: តើ Spring Framework ជាអ្វី? (What Is Spring Framework?)
+![តើ Spring Framework ជាអ្វី?](./assets/what-is-spring.jpg "What is Spring?")
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+## មាតិកា (Table of Contents)
 
-![What is Spring?](./assets/what-is-spring.jpg "What is Spring?")
-
-## Table of Contents
-
-- [1. Definition of Spring Framework](#1-definition-of-spring-framework)
-- [2. History & Origins](#2-history--origins)
-- [3. Why Spring Dominates Java Backend Development](#3-why-spring-dominates-java-backend-development)
-- [4. Core Philosophy](#4-core-philosophy)
+- [1. និយមន័យនៃ Spring Framework](#1-និយមន័យនៃ-spring-framework)
+- [2. ប្រវត្តិ និងប្រភពដើម (History & Origins)](#2-ប្រវត្តិ-និងប្រភពដើម-history--origins)
+- [3. ហេតុអ្វីបានជា Spring ក្លាយជាជម្រើសលេខ ១ សម្រាប់ Java Backend?](#3-ហេតុអ្វីបានជា-spring-ក្លាយជាជម្រើសលេខ-១-សម្រាប់-java-backend)
+- [4. ទស្សនវិជ្ជានៃ Spring Framework (Core Philosophy)](#4-ទស្សនវិជ្ជានៃ-spring-framework-core-philosophy)
 
 ---
 
-## 1. Definition of Spring Framework
+## 1. និយមន័យនៃ Spring Framework
 
-The **Spring Framework** is an enterprise-grade, open-source application framework for Java that introduces automated lifecycle and instance management of application classes (known as **Spring Beans**).
+**Spring Framework** គឺជាកម្មវិធី Framework កម្រិត Enterprise ដ៏ពេញនិយមបំផុតសម្រាប់ភាសា Java ដែលរួមបញ្ចូលនូវគំនិតនៃការបង្កើត និងគ្រប់គ្រងនូវ Instances ទាំងអស់របស់ Class នីមួយៗ (ហៅថា **Spring Beans**) នៅក្នុងប្រព័ន្ធកម្មវិធី។
 
-- Its core capabilities can be used to build any standalone Java application, from desktop utilities to high-throughput backend services.
-- In modern software engineering, Spring is primarily used to build scalable **Enterprise Web Applications** and **RESTful Microservices**.
-- Distributed under the Apache 2.0 open-source license, Spring provides comprehensive infrastructure support, enabling developers to build robust Java systems faster, cleaner, and with maintainable architecture.
-
----
-
-## 2. History & Origins
-
-- The Spring Framework was originally created by **Rod Johnson** (an Australian software architect and musician).
-- In 2002, Rod Johnson published his influential book, *"Expert One-on-One J2EE Design and Development"*, offering an alternative to the cumbersome, over-engineered Java 2 Enterprise Edition (J2EE) specifications—particularly Enterprise JavaBeans (EJB).
-- The practical code designs and concepts introduced in the book resonated strongly with developers, prompting collaboration to turn it into an open-source framework named **Spring** (symbolizing a fresh start after the "winter" of traditional J2EE).
-- Spring was officially released as version 1.0 in **June 2003**.
+- មុខងារស្នូល (Core functionality) របស់ Spring អាចយកទៅប្រើប្រាស់ក្នុងការបង្កើតកម្មវិធី Java គ្រប់ប្រភេទ ចាប់ពី Desktop Applications រហូតដល់ Microservices និង Web APIs។
+- សព្វថ្ងៃនេះ Spring ត្រូវបានគេនិយមប្រើប្រាស់ខ្លាំងបំផុតក្នុងការបង្កើត **Enterprise Web Applications** និង **RESTful Web Services**។
+- Spring គឺជា **Open-Source Framework** ក្រោមអាជ្ញាបណ្ណ Apache 2.0 ដែលផ្តល់នូវហេដ្ឋារចនាសម្ព័ន្ធដ៏ទូលំទូលាយ ជួយឱ្យការអភិវឌ្ឍកម្មវិធី Java មានភាពរហ័ស ងាយស្រួល និងរៀបចំកូដបានស្អាតល្អ (Clean Code & Architecture)។
 
 ---
 
-## 3. Why Spring Dominates Java Backend Development
+## 2. ប្រវត្តិ និងប្រភពដើម (History & Origins)
 
-| Comparison Area | Traditional Java / J2EE Approach | Spring Framework Solution |
+- Spring ត្រូវបានសរសេរ និងបង្កើតដំបូងឡើងដោយលោក **Rod Johnson** (អ្នកជំនាញខាងវិស្វកម្មសូហ្វវែរ និងតន្ត្រីករជនជាតិអូស្ត្រាលី)។
+- នៅឆ្នាំ ២០០២ លោក Rod Johnson បានបោះពុម្ពសៀវភៅដ៏ល្បីល្បាញមួយក្បាលមានចំណងជើងថា *"Expert One-on-One J2EE Design and Development"* ដោយបានបង្ហាញនូវកូដគំរូ និងគំនិតបដិវត្តន៍ប្រឆាំងនឹងភាពស្មុគស្មាញហួសហេតុរបស់ Java 2 Enterprise Edition (J2EE) នៅសម័យនោះ (ជាពិសេសគឺ Enterprise JavaBeans ឬ EJB)។
+- ដោយសារតែគំនិត និងកូដនោះមានភាពសាមញ្ញ និងមានប្រសិទ្ធភាពខ្ពស់ ក្រុមអ្នកអភិវឌ្ឍន៍ក៏បានសហការគ្នាអភិវឌ្ឍវាឱ្យក្លាយជា Open-Source Framework ពេញលេញមួយឈ្មោះថា **Spring** (តំណាងឱ្យការចាប់ផ្តើមថ្មីដ៏ស្រស់បំព្រងដូចរដូវផ្ការីក បន្ទាប់ពីរដូវរងារដ៏លំបាកនៃ J2EE)។
+- Spring ត្រូវបានចេញផ្សាយជាផ្លូវការដំបូងនៅ **ខែមិថុនា ឆ្នាំ ២០០៣**។
+
+---
+
+## 3. ហេតុអ្វីបានជា Spring ក្លាយជាជម្រើសលេខ ១ សម្រាប់ Java Backend?
+
+| ចំណុចប្រៀបធៀប | វិធីបុរាណ (Traditional Java / J2EE) | ដំណោះស្រាយរបស់ Spring Framework |
 | :--- | :--- | :--- |
-| **Object Instantiation** | Manual `new Class()` across the codebase | Managed centrally by the **IoC Container** |
-| **Component Coupling** | Tight coupling (hard to modify or swap) | **Loose coupling** via Dependency Injection |
-| **Unit Testing** | Painful to mock dependencies | Easy mocking and isolated unit testing |
-| **Boilerplate Code** | Repetitive database and transaction code | Declarative templates (`JdbcTemplate`, `@Transactional`) |
+| **ការគ្រប់គ្រង Object** | សរសេរ `new Class()` ដោយដៃពេញកូដ | គ្រប់គ្រងតាមរយៈ **IoC Container** |
+| **ការភ្ជាប់ទំនាក់ទំនង** | Tight Coupling (ជាប់ជំពាក់គ្នាស្អិត) | **Loose Coupling** តាមរយៈ Dependency Injection |
+| **ការធ្វើ Unit Test** | លំបាកខ្លាំងក្នុងការ Mock Objects | ងាយស្រួលធ្វើ Mock និង Test គ្រប់ Component |
+| **កូដ Boilerplate** | សរសេរបញ្ជា Database ស្ទួនៗ និងវែងអន្លាយ | ប្រើ Templates (ឧ. `JdbcTemplate`) និង Declarative Transactions |
 
 ---
 
-## 4. Core Philosophy
+## 4. ទស្សនវិជ្ជានៃ Spring Framework (Core Philosophy)
 
-Spring's overarching design philosophy is **Non-Invasive Architecture**:
-1. **POJO-Based:** Your business components do not need to implement vendor-specific Spring interfaces or inherit framework classes—they remain Plain Old Java Objects (POJOs).
-2. **Separation of Concerns:** Spring handles cross-cutting infrastructure (database connectivity, transactions, security, and logging), allowing developers to focus purely on domain logic.
+ទស្សនវិជ្ជាចម្បងរបស់ Spring គឺ **"Non-Invasive Development"** មានន័យថា៖
+1. **POJO-Based:** កូដ Business Logic របស់អ្នកមិនចាំបាច់ Implement Interfaces ឬ Inherit Classes របស់ Spring ឡើយ — វាគឺជា Plain Old Java Objects (POJO) ធម្មតា។
+2. **Focus on Business Logic:** Spring ទទួលខុសត្រូវលើហេដ្ឋារចនាសម្ព័ន្ធ (Connection, Security, Transactions) ទុកឱ្យ Developer ផ្តោតតែលើតម្រូវការអាជីវកម្ម (Business Requirements) សុទ្ធសាធ។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Previous Course: Advance Java](../../02-advance-java/18-interfaces/README.md) | [📚 Spring Framework Index](../README.md) | [Part 2: Advantages of Spring →](../02-advantages-of-spring/README.md) |
+| [← វគ្គមុន: Advance Java](../../02-advance-java/18-interfaces/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 2: គុណសម្បត្តិរបស់ Spring Framework →](../02-advantages-of-spring/README.md) |

@@ -1,123 +1,136 @@
-# Part 20: Spring Expression Language (SpEL Fundamentals)
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+# Part 20: ភាសាកន្សោម Spring Expression Language (SpEL Fundamentals)
 > 
-> 📖 **Official Spring Documentation:** [Spring Expression Language (SpEL)](https://docs.spring.io/spring-framework/reference/core/expressions.html)
+> 📖 **ឯកសារយោងផ្លូវការ Spring Docs:** [Spring Expression Language (SpEL)](https://docs.spring.io/spring-framework/reference/core/expressions.html)
 
 ![Spring Expression Language](./assets/spring-expression-language-spel.svg "Spring Expression Language: Syntax & Operations")
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. SpEL Overview: #{...} vs ${...}](#1-spel-overview--vs-)
-- [2. Arithmetic, Relational & Logical Evaluation](#2-arithmetic-relational--logical-evaluation)
-- [3. Method Invocation & Safe Navigation Operator (?.)](#3-method-invocation--safe-navigation-operator-)
-- [4. The Elvis Operator (?:) for Fallback Values](#4-the-elvis-operator--for-fallback-values)
-- [5. Collection Selection (.?[...]) & Projection (.![...])](#5-collection-selection--and-projection-)
-- [6. Practical Code Challenge](#6-practical-code-challenge)
-- [🔗 Official Spring Documentation](#-official-spring-documentation)
+- [1. តើ SpEL ជាអ្វី? ភាពខុសគ្នារវាង #{...} និង ${...}](#1-តើ-spel-ជាអ្វី-ភាពខុសគ្នារវាង--និង-)
+- [2. ប្រមាណវិធីមូលដ្ឋានក្នុង SpEL (Arithmetic & Logical)](#2-ប្រមាណវិធីមូលដ្ឋានក្នុង-spel-arithmetic--logical)
+- [3. ការហៅ Method និងការប្រើប្រាស់ Safe Navigation Operator (?.)](#3-ការហៅ-method-និងការប្រើប្រាស់-safe-navigation-operator-)
+- [4. Elvis Operator (?:) សម្រាប់ Default Values](#4-elvis-operator--សម្រាប់-default-values)
+- [5. Collection Selection (.?[...]) និង Projection (.![...])](#5-collection-selection--និង-projection-)
+- [6. លំហាត់អនុវត្តកូដ (Code Challenge)](#6-លំហាត់អនុវត្តកូដ-code-challenge)
+- [🔗 ឯកសារយោងផ្លូវការ Spring Docs](#-ឯកសារយោងផ្លូវការ-spring-docs)
 
 ---
 
-## 1. SpEL Overview: #{...} vs ${...}
+## 1. តើ SpEL ជាអ្វី? ភាពខុសគ្នារវាង #{...} និង ${...}
 
-The **Spring Expression Language (SpEL)** provides dynamic runtime query and object-graph manipulation within the Spring ecosystem.
+**Spring Expression Language (SpEL)** គឺជាភាសាកន្សោមដ៏មានអនុភាពដែលអនុវត្តក្នុង Runtime ដើម្បីទាញយក ឬគណនាតម្លៃ Object Graph ក្នុង Spring Framework។
 
-| Syntax | Mechanism | Purpose | Example |
+| សញ្ញា | ឈ្មោះ | មុខងារ | ឧទាហរណ៍ |
 | :--- | :--- | :--- | :--- |
-| **`${...}`** | **Property Placeholder** | Evaluates static key-values from property sources | `@Value("${app.port}")` |
-| **`#{...}`** | **SpEL Expression** | Evaluates runtime dynamic logic, methods & computations | `@Value("#{2 * T(java.lang.Math).PI}")` |
+| **`${...}`** | **Property Placeholder** | គ្រាន់តែទាញយកតម្លៃអត្ថបទពី `.properties` | `@Value("${app.port}")` |
+| **`#{...}`** | **SpEL Expression** | គណនា Logic, ហៅ Method, និងដំណើរការ Dynamic Code | `@Value("#{2 * T(java.lang.Math).PI}")` |
+
+> 💡 អ្នកថែមទាំងអាចសរសេររួមបញ្ចូលគ្នាបានទៀតផង៖ `@Value("#{${app.factor} * 10}")`!
 
 ---
 
-## 2. Arithmetic, Relational & Logical Evaluation
+## 2. ប្រមាណវិធីមូលដ្ឋានក្នុង SpEL (Arithmetic & Logical)
+
+SpEL គាំទ្រគ្រប់ប្រមាណវិធីគណិតវិទ្យា និងតក្កវិទ្យាទាំងអស់៖
 
 ```java
 @Component
-public class ArithmeticDemo {
+public class SpELDemo {
 
-    @Value("#{10 + 20 * 2}")
-    private int computedResult; // 50
+    // ១. គណិតវិទ្យា
+    @Value("#{10 + 25}")
+    private int sum; // 35
 
-    @Value("#{T(java.lang.Math).sqrt(256)}")
-    private double squareRoot; // 16.0
+    // ២. ប្រៀបធៀបតម្លៃ (Relational)
+    @Value("#{100 > 50}")
+    private boolean isGreater; // true
 
-    @Value("#{systemProperties['user.timezone'] != null}")
-    private boolean hasTimezone;
+    // ៣. តក្កវិទ្យា (Logical and, or, not)
+    @Value("#{true and false}")
+    private boolean logicalTest; // false
+
+    // ៤. ហៅ Static Method តាមរយៈ T(...) operator
+    @Value("#{T(java.lang.Math).random() * 100}")
+    private double randomNumber;
 }
 ```
 
 ---
 
-## 3. Method Invocation & Safe Navigation Operator (?.)
+## 3. ការហៅ Method និងការប្រើប្រាស់ Safe Navigation Operator (?.)
 
-Calling standard Java methods dynamically and protecting against `NullPointerException`:
+SpEL អនុញ្ញាតឱ្យអ្នកហៅ Method របស់ String ឬ Bean ផ្សេងទៀតបានយ៉ាងងាយស្រួល៖
 
 ```java
 @Component
-public class CustomerFormatter {
+public class StringSpEL {
 
-    @Value("#{'enterprise backend'.toUpperCase()}")
-    private String uppercaseTitle;
+    // ហៅ method របស់ String
+    @Value("#{'hello cambodia'.toUpperCase()}")
+    private String upperText; // "HELLO CAMBODIA"
 
-    // Safe navigation avoids NPE if customer.getAddress() evaluates to null
-    @Value("#{customer.address?.postalCode}")
-    private String zip;
+    // Safe Navigation (?.) ការពារ NullPointerException
+    // ប្រសិនបើ user.getAddress() ស្មើ null វានឹង return null ភ្លាម មិនគាំងប្រព័ន្ធឡើយ
+    @Value("#{user.address?.city}")
+    private String city;
 }
 ```
 
 ---
 
-## 4. The Elvis Operator (?:) for Fallback Values
+## 4. Elvis Operator (?:) សម្រាប់ Default Values
 
-Derived from Groovy and Kotlin, the Elvis operator safely provides a fallback for null properties:
+Elvis Operator ត្រូវបានខ្ចីពីភាសា Groovy/Kotlin ដើម្បីផ្ដល់តម្លៃជំនួសបើទិន្នន័យដើមជា `null`៖
 
 ```java
 @Component
-public class UserGreeting {
+public class UserProfile {
 
-    @Value("#{user.nickname ?: 'Valued Customer'}")
-    private String greetingTarget;
+    // បើ user.nickname ជា null វានឹងយកតម្លៃ "Anonymous"
+    @Value("#{user.nickname ?: 'Anonymous'}")
+    private String displayName;
 }
 ```
 
 ---
 
-## 5. Collection Selection (.?[...]) & Projection (.![...])
+## 5. Collection Selection (.?[...]) និង Projection (.![...])
 
-SpEL offers built-in filtering (Selection) and transformation (Projection) on iterable structures:
+នេះគឺជាមុខងារដ៏អស្ចារ្យបំផុតរបស់ SpEL ក្នុងការ Filter និង Map ទិន្នន័យ Collections៖
 
 ```java
 @Component
-public class StoreAnalytics {
+public class OrderAnalytics {
 
-    // Filter collection for products whose price exceeds 100
-    @Value("#{inventory.products.?[price > 100]}")
-    private List<Product> premiumItems;
+    // ១. Selection (.?[condition]): ចម្រាញ់យកតែ Order ណាដែលមានតម្លៃ > 1000
+    @Value("#{orderRepository.orders.?[price > 1000]}")
+    private List<Order> expensiveOrders;
 
-    // Transform collection of products into a list of SKU codes
-    @Value("#{inventory.products.![skuCode]}")
-    private List<String> catalogSkus;
+    // ២. Projection (.![property]): បម្លែងពី List<Order> មកជា List<String> យកតែ Customer Names
+    @Value("#{orderRepository.orders.![customerName]}")
+    private List<String> customerNames;
+
 }
 ```
 
 ---
 
-## 6. Practical Code Challenge
+## 6. លំហាត់អនុវត្តកូដ (Code Challenge)
 
-**Challenge:** Write a SpEL expression in `@Value` to calculate a discounted price: if `order.total` is greater than 200, apply a 15% discount (`order.total * 0.85`), otherwise apply full price.
+**លំហាត់:** ចូរសរសេរ SpEL Expression មួយក្នុង `@Value` ដើម្បីគណនាពន្ធលើប្រាក់ចំណូល៖ ប្រសិនបើ property `salary` ធំជាង 1000 ត្រូវយកពន្ធ 10% (salary * 0.1) បើមិនដូច្នេះទេ យកពន្ធ 0។
 
 <details>
-<summary>🔍 Click to view solution</summary>
+<summary>🔍 ចុចទីនេះដើម្បីមើលដំណោះស្រាយគំរូ</summary>
 
 ```java
 @Component
-public class PricingCalculator {
+public class TaxCalculator {
 
-    @Value("#{order.total > 200 ? order.total * 0.85 : order.total}")
-    private double finalPrice;
+    @Value("#{${employee.salary} > 1000 ? ${employee.salary} * 0.1 : 0}")
+    private double calculatedTax;
 
-    public double getFinalPrice() {
-        return finalPrice;
+    public double getTax() {
+        return calculatedTax;
     }
 }
 ```
@@ -125,7 +138,7 @@ public class PricingCalculator {
 
 ---
 
-## 🔗 Official Spring Documentation
+## 🔗 ឯកសារយោងផ្លូវការ Spring Docs
 
 - [Spring Expression Language (SpEL) Reference](https://docs.spring.io/spring-framework/reference/core/expressions.html)
 - [SpEL Evaluation in Bean Definitions](https://docs.spring.io/spring-framework/reference/core/expressions/beandef.html)
@@ -133,8 +146,8 @@ public class PricingCalculator {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 19: Core Annotations & Environment Properties](../19-core-annotations-and-properties/README.md) | [📚 Spring Framework Index](../README.md) | [Part 21: Spring Application Events →](../21-spring-application-events/README.md) |
+| [← Part 19: Core Annotations & Environment Properties](../19-core-annotations-and-properties/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 21: Spring Application Events →](../21-spring-application-events/README.md) |

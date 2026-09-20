@@ -1,21 +1,19 @@
-# Lesson 5: Mastering @Around Advice
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../04-after-advice/README.md) | [Next Lesson →](../06-after-throwing-advice/README.md)
+# មេរៀនទី ៥: ការប្រើប្រាស់ @Around Advice ដ៏មានឥទ្ធិពលបំផុត (Around Advice in Spring Boot)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../04-after-advice/README.md) | [មេរៀនបន្ទាប់ →](../06-after-throwing-advice/README.md)
 
 ---
 
-## Table of Contents
-1. [Why @Around is the Most Powerful Advice](#why-around)
-2. [ProceedingJoinPoint and the proceed() Method](#proceedingjoinpoint)
-3. [Building a Method Execution Profiler with Custom Annotations](#profiler)
-4. [Intercepting and Altering Return Values](#return-alteration)
+## មាតិកា (Table of Contents)
+1. [ហេតុអ្វីបានជា @Around ជា Advice ខ្លាំងជាងគេ?](#ហេតុអ្វី)
+2. [ProceedingJoinPoint និង method proceed()](#proceedingjoinpoint)
+3. [ការបង្កើត Custom Annotation សម្រាប់ Measure Execution Time](#measure-time)
+4. [ការ Catch និង Modify Return Values](#modify-return)
 
 ---
 
-## Building a Method Execution Time Profiler
+## ឧទាហរណ៍វាស់ស្ទង់ពេលវេលាដំណើរការ (Execution Time Profiler)
 
-### 1. Define Custom Annotation:
+### 1. បង្កើត Custom Annotation:
 ```java
 package com.example.annotation;
 
@@ -26,7 +24,7 @@ import java.lang.annotation.*;
 public @interface TrackTime {}
 ```
 
-### 2. Implement @Around Aspect:
+### 2. អនុវត្ត @Around Aspect:
 ```java
 package com.example.aspect;
 
@@ -47,6 +45,7 @@ public class ExecutionTimeAspect {
     public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
 
+        // ដំណើរការ Target Method ជាក់ស្តែង
         Object result = joinPoint.proceed();
 
         long elapsed = System.currentTimeMillis() - start;
@@ -59,8 +58,8 @@ public class ExecutionTimeAspect {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Working with @After (Finally) Advice](../04-after-advice/README.md) | [📚 Module Index](../README.md) | [Using @AfterThrowing Advice →](../06-after-throwing-advice/README.md) |
+| [← ការប្រើប្រាស់ @After (Finally) Advice (After Advice in Spring Boot)](../04-after-advice/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រើប្រាស់ @AfterThrowing Advice (After Throwing Advice in Spring Boot) →](../06-after-throwing-advice/README.md) |

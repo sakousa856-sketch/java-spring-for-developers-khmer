@@ -1,28 +1,27 @@
-# Lesson 3: Integration with MongoDB (NoSQL)
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../02-integration-with-postgresql/README.md) | [Next Lesson →](../04-spring-data-jpa-basics/README.md)
+# មេរៀនទី ៣: ការភ្ជាប់ Spring Boot ជាមួយ MongoDB (Integration with MongoDB NoSQL)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../02-integration-with-postgresql/README.md) | [មេរៀនបន្ទាប់ →](../04-spring-data-jpa-basics/README.md)
 
 ---
 
-## Table of Contents
-1. [Introduction to MongoDB NoSQL](#introduction-to-mongodb-nosql)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើមអំពី MongoDB NoSQL](#សេចក្តីផ្តើមអំពី-mongodb-nosql)
 2. [Maven Dependency Setup](#maven-dependency-setup)
-3. [Configuring MongoDB Connection](#configuring-mongodb-connection)
+3. [ការកំណត់រចនាសម្ព័ន្ធ MongoDB Connection](#ការកំណត់រចនាសម្ព័ន្ធ-mongodb-connection)
 4. [Document Annotations (@Document, @Id, @Field, @Indexed)](#document-annotations)
 5. [MongoRepository CRUD Operations](#mongorepository-crud-operations)
-6. [MongoTemplate for Advanced Queries](#mongotemplate-for-advanced-queries)
+6. [MongoTemplate សម្រាប់ Advanced Queries](#mongotemplate-សម្រាប់-advanced-queries)
 
 ---
 
-## Introduction to MongoDB NoSQL
-**MongoDB** is an open-source, high-performance document-oriented NoSQL database storing data as JSON-like documents with dynamic schemas (BSON). Spring Boot offers comprehensive integration via `spring-boot-starter-data-mongodb`, supporting both declarative `MongoRepository` abstractions and dynamic `MongoTemplate` queries.
+## សេចក្តីផ្តើមអំពី MongoDB NoSQL
+**MongoDB** គឺជា NoSQL Document Database ដ៏ពេញនិយមបំផុតដែលផ្ទុកទិន្នន័យជាទម្រង់ BSON (Binary JSON) documents។ Spring Boot ផ្តល់នូវ `spring-boot-starter-data-mongodb` ដើម្បីធ្វើការជាមួយ MongoDB បានយ៉ាងងាយស្រួល ទាំងតាមរយៈ High-level Repository (`MongoRepository`) និង Low-level Template (`MongoTemplate`)។
 
 ```mermaid
 graph LR
     A["Spring Boot App"] --> B["MongoRepository / MongoTemplate"]
     B --> C["Mongo Java Driver"]
     C --> D[("MongoDB:27017 (Collections)")]
+
 ```
 
 ---
@@ -33,14 +32,15 @@ graph LR
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-mongodb</artifactId>
+
 </dependency>
 ```
 
 ---
 
-## Configuring MongoDB Connection
+## ការកំណត់រចនាសម្ព័ន្ធ MongoDB Connection
 
-In `application.yml`:
+នៅក្នុង `application.yml`៖
 
 ```yaml
 spring:
@@ -54,7 +54,7 @@ spring:
 
 ## Document Annotations
 
-In place of JPA entities, annotate models with MongoDB document annotations:
+ជំនួស JPA `@Entity` ដោយ MongoDB `@Document`៖
 
 ```java
 package com.example.document;
@@ -81,6 +81,7 @@ public class ProductDocument {
     private BigDecimal price;
     private List<String> tags;
 
+    // Constructors, Getters & Setters
     public ProductDocument() {}
     public ProductDocument(String sku, String name, BigDecimal price, List<String> tags) {
         this.sku = sku;
@@ -93,6 +94,7 @@ public class ProductDocument {
     public String getName() { return name; }
     public BigDecimal getPrice() { return price; }
     public List<String> getTags() { return tags; }
+
 }
 ```
 
@@ -115,12 +117,13 @@ public interface ProductMongoRepository extends MongoRepository<ProductDocument,
 
     @Query("{ 'price': { $lte: ?0 } }")
     List<ProductDocument> findCheaperThan(double maxPrice);
+
 }
 ```
 
 ---
 
-## MongoTemplate for Advanced Queries
+## MongoTemplate សម្រាប់ Advanced Queries
 
 ```java
 @Service
@@ -143,8 +146,8 @@ public class CatalogService {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Integration with PostgreSQL](../02-integration-with-postgresql/README.md) | [📚 Module Index](../README.md) | [Spring Data JPA Fundamentals and Entity Mapping →](../04-spring-data-jpa-basics/README.md) |
+| [← ការភ្ជាប់ Spring Boot ជាមួយ PostgreSQL (Integration with PostgreSQL)](../02-integration-with-postgresql/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [មូលដ្ឋានគ្រឹះនៃ Spring Data JPA និង Entity Mapping →](../04-spring-data-jpa-basics/README.md) |

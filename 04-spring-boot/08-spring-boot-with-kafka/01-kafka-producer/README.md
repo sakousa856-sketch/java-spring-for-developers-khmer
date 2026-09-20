@@ -1,34 +1,32 @@
-# Lesson 1: Event-Driven Messaging Architecture and Kafka Producer with KafkaTemplate
+# មេរៀនទី ១: ស្ថាបត្យកម្ម Event-Driven Messaging និង Kafka Producer ជាមួយ KafkaTemplate
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../../07-microservices-with-spring-boot/04-microservices-sample-project/README.md) | [មេរៀនបន្ទាប់ →](../02-kafka-consumer/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../../07-microservices-with-spring-boot/04-microservices-sample-project/README.md) | [Next Lesson →](../02-kafka-consumer/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Kafka Producer & Event Publication](../../examples/04-kafka-messaging)  
-> 📄 **Source Code Files:** [`OrderEventProducer.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/producer/OrderEventProducer.java) | [`OrderCreatedEvent.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/event/OrderCreatedEvent.java) | [`OrderEventController.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/controller/OrderEventController.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Kafka Producer & Event Publication](../../examples/04-kafka-messaging)  
+> 📄 **File កូដជាក់ស្តែង:** [`OrderEventProducer.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/producer/OrderEventProducer.java) | [`OrderCreatedEvent.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/event/OrderCreatedEvent.java) | [`OrderEventController.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/controller/OrderEventController.java)
 
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Event-Driven Architecture (EDA) vs Synchronous REST](#1-event-driven-architecture-eda-vs-synchronous-rest)
-- [2. Core Apache Kafka Concepts](#2-core-apache-kafka-concepts)
-- [3. Adding the `spring-kafka` Starter](#3-adding-the-spring-kafka-starter)
-- [4. Declaring Configuration in `application.yml`](#4-declaring-configuration-in-applicationyml)
-- [5. Producing Events with `KafkaTemplate`](#5-producing-events-with-kafkatemplate)
-- [6. Consuming Events with `@KafkaListener`](#6-consuming-events-with-kafkalistener)
-- [7. Summary](#7-summary)
+- [1. ស្ថាបត្យកម្ម Event-Driven Architecture (EDA) vs Synchronous REST](#1-ស្ថាបត្យកម្ម-event-driven-architecture-eda-vs-synchronous-rest)
+- [2. គោលគំនិតគ្រឹះនៃ Apache Kafka](#2-គោលគំនិតគ្រឹះនៃ-apache-kafka)
+- [3. ការដំឡើង Dependency `spring-kafka`](#3-ការដំឡើង-dependency-spring-kafka)
+- [4. ការកំណត់ Configuration ក្នុង `application.yml`](#4-ការកំណត់-configuration-ក្នុង-applicationyml)
+- [5. ការបង្កើត Kafka Producer ដោយប្រើ `KafkaTemplate`](#5-ការបង្កើត-kafka-producer-ដោយប្រើ-kafkatemplate)
+- [6. ការបង្កើត Kafka Consumer ដោយប្រើ `@KafkaListener`](#6-ការបង្កើត-kafka-consumer-ដោយប្រើ-kafkalistener)
+- [7. សង្ខេប](#7-សង្ខេប)
 
 ---
 
-## 1. Event-Driven Architecture (EDA) vs Synchronous REST
+## 1. ស្ថាបត្យកម្ម Event-Driven Architecture (EDA) vs Synchronous REST
 
-In distributed microservices, relying solely on synchronous HTTP REST invocations introduces tight coupling:
-- A downstream service outage triggers cascading failures across upstream components.
-- The client connection blocks until the slowest participating downstream service responds.
+នៅក្នុងប្រព័ន្ធ Microservices ប្រសិនបើយើងប្រើតែ HTTP REST ដើម្បីហៅពី Service មួយទៅ Service មួយទៀត (Synchronous):
+- បើសិន Service ខាងចុងគាំង (Down) នោះ Service ខាងដើមនឹងគាំងតាម (Cascading Failure)។
+- Client ត្រូវអង្គុយរង់ចាំយូររហូតដល់គ្រប់ Service ឆ្លើយតបចប់។
 
-**Event-Driven Architecture (EDA)** employs a distributed message broker (such as **Apache Kafka**) as a resilient communication buffer:
-- **Decoupled:** The Order Service publishes an `"order-placed"` event to Kafka and returns an immediate response to the client.
-- **Resilient & Elastic:** Downstream services (Notification, Shipping, Inventory) consume events asynchronously at their own processing cadence. Even during temporary service downtime, messages persist safely in Kafka logs without data loss.
+**Event-Driven Architecture (EDA)** ប្រើប្រាស់ Message Broker (ដូចជា **Apache Kafka**) ជាអន្តរការីកណ្តាល៖
+- **Decoupled (មិនរណបគ្នា):** Order Service គ្រាន់តែបោះ Event ថា `"បានបង្កើត Order #123"` ចូល Kafka រួចត្រឡប់ទៅប្រាប់ User វិញភ្លាមៗ។
+- **Resilient (ភាពធន់ខ្ពស់):** Notification Service ឬ Shipping Service អាចចូលមកទាញយក Event ទៅដំណើរការតាមសម្រួល ទោះបីជាពេលនោះ Server រវល់ខ្លាំង ឬដាច់ភ្លើងមួយភ្លែតក៏ដោយ ក៏ទិន្នន័យមិនបាត់បង់ឡើយ។
 
 ```mermaid
 flowchart LR
@@ -50,33 +48,35 @@ flowchart LR
     Topic -->|Subscribe| NS
     Topic -->|Subscribe| SS
     Topic -->|Subscribe| IS
+
 ```
 
 ---
 
-## 2. Core Apache Kafka Concepts
+## 2. គោលគំនិតគ្រឹះនៃ Apache Kafka
 
-- **Topic:** An append-only, distributed commit log partitioned across brokers (e.g., `order-events`).
-- **Producer:** An application publishing record streams to target Kafka topics.
-- **Consumer:** An application subscribing to topics to process incoming message feeds.
-- **Consumer Group:** A coordinated group of consumer instances sharing topic partition workloads for horizontal scaling.
+- **Topic (ប្រធានបទ):** គឺជាបណ្តាញ ឬថតផ្ទុក Stream នៃសារ (Messages/Events) ជាក់លាក់មួយ (ឧ. `order-placed-topic`)។
+- **Producer (អ្នកផលិត):** Application ដែលបញ្ជូន Messages ចូលទៅក្នុង Topic។
+- **Consumer (អ្នកប្រើប្រាស់):** Application ដែលចាំស្តាប់ និងទាញយក Messages ពី Topic មកដំណើរការ។
+- **Consumer Group:** ក្រុមនៃ Consumer Instances ដែលរួមគ្នាទាញ Data ពី Topic ដើម្បីចែករំលែកបន្ទុកការងារ (Load Balancing)។
 
 ---
 
-## 3. Adding the `spring-kafka` Starter
+## 3. ការដំឡើង Dependency `spring-kafka`
 
 ```xml
 <dependency>
     <groupId>org.springframework.kafka</groupId>
     <artifactId>spring-kafka</artifactId>
+
 </dependency>
 ```
 
 ---
 
-## 4. Declaring Configuration in `application.yml`
+## 4. ការកំណត់ Configuration ក្នុង `application.yml`
 
-Configure connection parameters along with JSON message serializers and deserializers:
+កំណត់ការតភ្ជាប់ទៅកាន់ Kafka Broker ព្រមទាំងកំណត់ Serializer/Deserializer សម្រាប់ JSON Payload៖
 
 ```yaml
 spring:
@@ -96,9 +96,9 @@ spring:
 
 ---
 
-## 5. Producing Events with `KafkaTemplate`
+## 5. ការបង្កើត Kafka Producer ដោយប្រើ `KafkaTemplate`
 
-### 1. Event Payload DTO:
+### 1. Event Model (DTO):
 ```java
 package com.example.demo.dto;
 
@@ -126,8 +126,8 @@ public class OrderEventProducer {
     }
 
     public void publishOrderPlaced(OrderPlacedEvent event) {
-        System.out.println("🚀 Publishing order event to Kafka topic: " + event.orderId());
-        // Emit payload partitioned by orderId key
+        System.out.println("🚀 កំពុងបញ្ជូន Event ទៅកាន់ Kafka Topic: " + event.orderId());
+        // បញ្ជូន Message ដោយយក orderId ធ្វើជា Key
         kafkaTemplate.send(TOPIC, event.orderId(), event);
     }
 }
@@ -135,7 +135,7 @@ public class OrderEventProducer {
 
 ---
 
-## 6. Consuming Events with `@KafkaListener`
+## 6. ការបង្កើត Kafka Consumer ដោយប្រើ `@KafkaListener`
 
 ```java
 package com.example.demo.kafka;
@@ -149,27 +149,27 @@ public class OrderEventConsumer {
 
     @KafkaListener(topics = "order-events", groupId = "ecommerce-group")
     public void consumeOrderEvent(OrderPlacedEvent event) {
-        System.out.println("📥 Successfully received event from Kafka:");
+        System.out.println("📥 ទទួលបាន Event ពី Kafka ដោយជោគជ័យ:");
         System.out.println("   - Order ID: " + event.orderId());
-        System.out.println("   - Customer: " + event.customerEmail());
-        System.out.println("   - Amount: $" + event.totalAmount());
+        System.out.println("   - អតិថិជន: " + event.customerEmail());
+        System.out.println("   - ចំនួនទឹកប្រាក់: $" + event.totalAmount());
 
-        // Execute downstream workflows (e.g., dispatch SMS notification or queue fulfillment)
+        // បន្តដំណើរការ Logic បន្ទាប់ ដូចជាផ្ញើ SMS ឬរៀបចំទំនិញដឹកជញ្ជូន...
     }
 }
 ```
 
 ---
 
-## 7. Summary
+## 7. សង្ខេប
 
-- **EDA** unlocks decoupled, fault-tolerant inter-service communication across microservices.
-- **Kafka** acts as a distributed, high-throughput streaming broker.
-- Spring Boot provides `KafkaTemplate` for declarative event emission and `@KafkaListener` for seamless asynchronous subscription handling.
+- **EDA** បំបែក Microservices ឱ្យឯករាជ្យដាច់ពីគ្នា (Decoupled & Asynchronous)។
+- **Kafka** ដើរតួជា Distributed Log Streaming Broker ដែលមានល្បឿនលឿន និងអាចផ្ទុកទិន្នន័យរាប់លាន Messages ក្នុងមួយវិនាទី។
+- Spring Boot ផ្តល់ `KafkaTemplate` សម្រាប់បាញ់ Event ចេញ និង `@KafkaListener` សម្រាប់ចាំស្តាប់ Event ដោយស្វ័យប្រវត្តិ។
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Full Microservices Sample Project](../../07-microservices-with-spring-boot/04-microservices-sample-project/README.md) | [📚 Module Index](../README.md) | [Kafka Consumer with @KafkaListener →](../02-kafka-consumer/README.md) |
+| [← គម្រោងគំរូ Microservices ពេញលេញ (Full Microservices Sample Project)](../../07-microservices-with-spring-boot/04-microservices-sample-project/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការបង្កើត Kafka Consumer ជាមួយ @KafkaListener (Kafka Consumer in Spring Boot) →](../02-kafka-consumer/README.md) |

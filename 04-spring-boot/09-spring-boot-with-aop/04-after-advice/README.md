@@ -1,18 +1,16 @@
-# Lesson 4: Working with @After (Finally) Advice
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../03-before-advice/README.md) | [Next Lesson →](../05-around-advice/README.md)
+# មេរៀនទី ៤: ការប្រើប្រាស់ @After (Finally) Advice (After Advice in Spring Boot)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../03-before-advice/README.md) | [មេរៀនបន្ទាប់ →](../05-around-advice/README.md)
 
 ---
 
-## Table of Contents
-1. [Introduction to @After Advice](#introduction)
-2. [Difference Between @After and @AfterReturning](#differences)
-3. [Implementing Resource Cleanups](#cleanup-implementation)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើមអំពី @After (Finally) Advice](#សេចក្តីផ្តើម)
+2. [ភាពខុសគ្នារវាង @After និង @AfterReturning](#ភាពខុសគ្នា)
+3. [ការអនុវត្តជាក់ស្តែងសម្រាប់ Clean Up Resources](#ការអនុវត្ត)
 
 ---
 
-## Practical @After Resource Cleanup
+## ឧទាហរណ៍ជាក់ស្តែង @After Clean Up
 
 ```java
 package com.example.aspect;
@@ -34,14 +32,15 @@ public class ResourceCleanUpAspect {
     public void cleanupTempFiles(JoinPoint joinPoint) {
         log.info("Method [{}] has completed (success or error). Executing resource cleanup.",
                 joinPoint.getSignature().getName());
+        // Clean up thread-local or temporary file buffers
     }
 }
 ```
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Using @Before Advice in Spring Boot](../03-before-advice/README.md) | [📚 Module Index](../README.md) | [Mastering @Around Advice →](../05-around-advice/README.md) |
+| [← ការប្រើប្រាស់ @Before Advice (Before Advice in Spring Boot)](../03-before-advice/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រើប្រាស់ @Around Advice ដ៏មានឥទ្ធិពលបំផុត (Around Advice in Spring Boot) →](../05-around-advice/README.md) |

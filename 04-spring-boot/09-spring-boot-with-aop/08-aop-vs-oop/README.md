@@ -1,32 +1,30 @@
-# Lesson 8: AOP vs OOP (Aspect-Oriented vs Object-Oriented Programming)
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../07-after-returning-advice/README.md) | [Next Lesson →](../09-aop-vs-aspectj/README.md)
+# មេរៀនទី ៨: ការប្រៀបធៀប AOP និង OOP (Aspect-Oriented vs Object-Oriented Programming)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../07-after-returning-advice/README.md) | [មេរៀនបន្ទាប់ →](../09-aop-vs-aspectj/README.md)
 
 ---
 
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Core Conceptual Divergence](#core-concepts)
-3. [Detailed Comparison Matrix](#comparison-matrix)
-4. [How AOP Complements OOP](#complementary)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើម](#សេចក្តីផ្តើម)
+2. [ភាពខុសគ្នារវាង OOP និង AOP](#ភាពខុសគ្នា)
+3. [តារាងប្រៀបធៀបលម្អិត](#តារាងប្រៀបធៀប)
+4. [របៀបដែល AOP បំពេញបន្ថែម OOP (Complementary Nature)](#បំពេញបន្ថែម)
 
 ---
 
-## Detailed Comparison Matrix
+## តារាងប្រៀបធៀប AOP vs OOP
 
-| Feature | OOP (Object-Oriented) | AOP (Aspect-Oriented) |
+| លក្ខណៈ | OOP (Object-Oriented Programming) | AOP (Aspect-Oriented Programming) |
 | :--- | :--- | :--- |
-| **Fundamental Unit** | Class | Aspect |
-| **Concern Orientation** | Vertical Domain Hierarchy | Horizontal Cross-Cutting Concerns |
-| **Separation Strategy** | Encapsulation, Inheritance | Pointcuts, Advices, Weaving |
-| **Pitfall Solved** | N/A | Eliminates Code Scattering & Tangling |
-| **Relationship** | Core Foundation | Seamless Complement to OOP |
+| **ឯកតាមូលដ្ឋាន (Unit)** | Class | Aspect |
+| **ទិសដៅដោះស្រាយ** | Core Business Logic (Vertical Concerns) | Cross-Cutting Concerns (Horizontal Concerns) |
+| **ការបំបែកភារកិច្ច** | Encapsulation, Inheritance, Polymorphism | Pointcuts, JoinPoints, Advices |
+| **បញ្ហាប្រឈម** | Code Tangling & Code Scattering | ពិបាក debug បើប្រើលើសកម្រិត |
+| **ទំនាក់ទំនង** | មិនជំនួសគ្នាឡើយ ប៉ុន្តែបំពេញបន្ថែមគ្នាឱ្យកាន់តែប្រសើរ |
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Using @AfterReturning Advice](../07-after-returning-advice/README.md) | [📚 Module Index](../README.md) | [Spring AOP vs AspectJ →](../09-aop-vs-aspectj/README.md) |
+| [← ការប្រើប្រាស់ @AfterReturning Advice (After Returning Advice)](../07-after-returning-advice/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រៀបធៀប Spring AOP និង AspectJ (Spring AOP vs AspectJ) →](../09-aop-vs-aspectj/README.md) |

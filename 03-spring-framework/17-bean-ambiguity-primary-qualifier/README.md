@@ -1,34 +1,32 @@
-# Part 17: Resolving Bean Ambiguity (@Primary & @Qualifier)
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+# Part 17: ការដោះស្រាយភាពស្រពិចស្រពិលនៃ Bean (Bean Ambiguity Resolution: @Primary & @Qualifier)
 > 
-> 📖 **Official Spring Documentation:** [Fine-tuning Annotation-based Autowiring with Qualifiers](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-qualifiers.html) | [Primary Beans](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-primary.html)
+> 📖 **ឯកសារយោងផ្លូវការ Spring Docs:** [Fine-tuning Annotation-based Autowiring with Qualifiers](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-qualifiers.html) | [Primary Beans](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-primary.html)
 
-![Bean Ambiguity Resolution](./assets/bean-ambiguity-resolution.svg "Bean Ambiguity Resolution: @Primary vs @Qualifier")
+![ការដោះស្រាយភាពស្រពិចស្រពិលនៃ Bean](./assets/bean-ambiguity-resolution.svg "Bean Ambiguity Resolution: @Primary vs @Qualifier")
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Bean Ambiguity & NoUniqueBeanDefinitionException](#1-bean-ambiguity--nouniquebeandefinitionexception)
-- [2. Solution 1: Using @Primary for Default Fallback](#2-solution-1-using-primary-for-default-fallback)
-- [3. Solution 2: Using @Qualifier for Explicit Targeting](#3-solution-2-using-qualifier-for-explicit-targeting)
-- [4. Custom Qualifier Meta-Annotations](#4-custom-qualifier-meta-annotations)
-- [5. Injecting All Candidate Beans as a Collection](#5-injecting-all-candidate-beans-as-a-collection)
-- [6. Practical Code Challenge](#6-practical-code-challenge)
-- [🔗 Official Spring Documentation](#-official-spring-documentation)
+- [1. បញ្ហា Bean Ambiguity និង NoUniqueBeanDefinitionException](#1-បញ្ហា-bean-ambiguity-និង-nouniquebeandefinitionexception)
+- [2. ដំណោះស្រាយទី ១៖ ការប្រើប្រាស់ @Primary (Default Candidate)](#2-ដំណោះស្រាយទី-១-ការប្រើប្រាស់-primary-default-candidate)
+- [3. ដំណោះស្រាយទី ២៖ ការប្រើប្រាស់ @Qualifier (Explicit Target)](#3-ដំណោះស្រាយទី-២-ការប្រើប្រាស់-qualifier-explicit-target)
+- [4. ការបង្កើត Custom Qualifier Annotations](#4-ការបង្កើត-custom-qualifier-annotations)
+- [5. ការ Inject Beans ទាំងអស់ជា Collection (List & Map Injection)](#5-ការ-inject-beans-ទាំងអស់ជា-collection-list--map-injection)
+- [6. លំហាត់អនុវត្តកូដ (Code Challenge)](#6-លំហាត់អនុវត្តកូដ-code-challenge)
+- [🔗 ឯកសារយោងផ្លូវការ Spring Docs](#-ឯកសារយោងផ្លូវការ-spring-docs)
 
 ---
 
-## 1. Bean Ambiguity & NoUniqueBeanDefinitionException
+## 1. បញ្ហា Bean Ambiguity និង NoUniqueBeanDefinitionException
 
-When adhering to the **Dependency Inversion Principle** and programming to interfaces, an interface often has multiple implementations registered inside the Spring container.
+នៅពេលដែលយើងអនុវត្តគោលការណ៍ **Polymorphism** និង **Interface-Driven Design** យើងតែងតែបង្កើត Interface មួយដែលមាន Classes ច្រើនជាអ្នក Implement។
 
-For example, consider the `PaymentService` interface:
+ឧបមាថាយើងមាន Interface `PaymentService`៖
 ```java
 public interface PaymentService {
     void processPayment(double amount);
 }
 ```
-Implemented by two separate managed components:
+ហើយយើងមាន Implementations ចំនួន ២ ត្រូវបានចុះឈ្មោះក្នុង IoC Container៖
 ```java
 @Service
 public class PaypalPaymentService implements PaymentService {
@@ -45,7 +43,7 @@ public class StripePaymentService implements PaymentService {
 }
 ```
 
-When an `OrderService` attempts to inject `PaymentService`:
+នៅពេលដែល `OrderService` ចង់ហៅប្រើ `PaymentService` តាមរយៈ Constructor Injection៖
 ```java
 @Service
 public class OrderService {
@@ -57,36 +55,36 @@ public class OrderService {
 }
 ```
 
-### 💥 What Happens at Runtime?
-Spring fails fast during context startup with a `NoUniqueBeanDefinitionException`:
+### 💥 អ្វីនឹងកើតឡើងពេល Run កម្មវិធី?
+Spring IoC Container នឹងគាំង ហើយបោះកំហុស៖
 ```
-No qualifying bean of type 'com.example.PaymentService' available:
+NoUniqueBeanDefinitionException: No qualifying bean of type 'com.example.PaymentService' available:
 expected single matching bean but found 2: paypalPaymentService, stripePaymentService
 ```
-Spring refuses to guess which bean implementation your business logic requires.
+Spring មិនអាចទាយដឹងដោយខ្លួនឯងបានទេថា តើ Developer ចង់ប្រើ `PaypalPaymentService` ឬ `StripePaymentService` នោះឡើយ!
 
 ---
 
-## 2. Solution 1: Using @Primary for Default Fallback
+## 2. ដំណោះស្រាយទី ១៖ ការប្រើប្រាស់ @Primary (Default Candidate)
 
-If one implementation serves as the primary or standard choice throughout the application, annotate it with `@Primary`:
+ប្រសិនបើនៅក្នុងប្រព័ន្ធមាន Implementation មួយដែលជា **ជម្រើសលំនាំដើម (Default)** សម្រាប់ករណីទូទៅ យើងប្រើប្រាស់ `@Primary`៖
 
 ```java
 @Service
 @Primary
 public class StripePaymentService implements PaymentService {
     public void processPayment(double amount) {
-        System.out.println("Processing Stripe payment by default: $" + amount);
+        System.out.println("Processing default Stripe payment: $" + amount);
     }
 }
 ```
-Now, whenever `PaymentService` is requested without explicit qualification, `StripePaymentService` is injected automatically.
+ឥឡូវនេះ នៅពេលណាដែល Spring ជួបការ Inject `PaymentService` ដោយគ្មានការបញ្ជាក់ឈ្មោះច្បាស់លាស់ វានឹងជ្រើសយក `StripePaymentService` មកប្រើដោយស្វ័យប្រវត្តិ។
 
 ---
 
-## 3. Solution 2: Using @Qualifier for Explicit Targeting
+## 3. ដំណោះស្រាយទី ២៖ ការប្រើប្រាស់ @Qualifier (Explicit Target)
 
-When a specific dependent class requires a non-default implementation, use `@Qualifier` at the injection point:
+ប្រសិនបើអ្នកចង់ជ្រើសរើស Implementation ជាក់លាក់មួយដោយចំៗ មិនថាមាន `@Primary` ឬអត់នោះទេ អ្នកត្រូវប្រើ `@Qualifier("beanName")`៖
 
 ```java
 @Service
@@ -94,38 +92,39 @@ public class CheckoutService {
 
     private final PaymentService paymentService;
 
+    // ចង្អុលចំឈ្មោះ Bean: paypalPaymentService
     public CheckoutService(@Qualifier("paypalPaymentService") PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 }
 ```
 
-> **💡 Precedence Rule:**
-> `@Qualifier` always takes precedence over `@Primary`. If a candidate has `@Primary` but an injection site specifies `@Qualifier("otherBean")`, Spring fulfills the qualification strictly.
+> **💡 ច្បាប់អាទិភាព (Precedence Rule):**
+> `@Qualifier` ឈ្នះ `@Primary` ជានិច្ច! ប្រសិនបើ Bean មួយមាន `@Primary` តែនៅកន្លែង Injection គេដាក់ `@Qualifier("anotherBean")` នោះ Spring នឹងជ្រើសយក Bean តាម `@Qualifier`។
 
 ---
 
-## 4. Custom Qualifier Meta-Annotations
+## 4. ការបង្កើត Custom Qualifier Annotations
 
-Hardcoding string literals like `@Qualifier("paypalPaymentService")` introduces typo vulnerabilities during refactoring. Spring allows you to create custom qualifier annotations:
+ការសរសេរឈ្មោះ Bean ជា String ដូចជា `@Qualifier("paypalPaymentService")` អាចប្រឈមនឹងបញ្ហា Typo (សរសេរខុសអក្សរ) ពេល Refactor កូដ។ ដំណោះស្រាយល្អបំផុតក្នុង Enterprise គឺការបង្កើត **Custom Qualifier Annotation**៖
 
 ```java
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
-public @interface PaypalGateway {
+public @interface PaypalMode {
 }
 ```
 
-Apply it seamlessly across your bean declaration and injection target:
+បន្ទាប់មកអនុវត្តវាលើ Service និងកន្លែង Inject៖
 ```java
 @Service
-@PaypalGateway
+@PaypalMode
 public class PaypalPaymentService implements PaymentService { ... }
 
 @Service
 public class OrderService {
-    public OrderService(@PaypalGateway PaymentService paymentService) {
+    public OrderService(@PaypalMode PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 }
@@ -133,25 +132,26 @@ public class OrderService {
 
 ---
 
-## 5. Injecting All Candidate Beans as a Collection
+## 5. ការ Inject Beans ទាំងអស់ជា Collection (List & Map Injection)
 
-If your design leverages the **Strategy Pattern**, you can inject all candidate beans simultaneously into a `List` or a `Map`:
+ក្នុងករណីដែលអ្នកចង់គាំទ្រគ្រប់វិធីសាស្ត្រទូទាត់ប្រាក់ទាំងអស់ក្នុងពេលតែមួយ (Strategy Pattern) Spring អនុញ្ញាតឱ្យអ្នក Inject Candidate Beans ទាំងអស់ចូលទៅក្នុង `List` ឬ `Map`៖
 
 ```java
 @Service
 public class PaymentGatewayManager {
 
-    // Map: Key = Bean Name, Value = Bean Instance
+    // Inject គ្រប់ Implementation ទាំងអស់នៃ PaymentService មកជា Map
+    // Key = ឈ្មោះ Bean, Value = Instance
     private final Map<String, PaymentService> paymentServices;
 
     public PaymentGatewayManager(Map<String, PaymentService> paymentServices) {
         this.paymentServices = paymentServices;
     }
 
-    public void process(String gatewayName, double amount) {
-        PaymentService service = paymentServices.get(gatewayName + "PaymentService");
+    public void pay(String gatewayType, double amount) {
+        PaymentService service = paymentServices.get(gatewayType + "PaymentService");
         if (service == null) {
-            throw new IllegalArgumentException("Unknown gateway: " + gatewayName);
+            throw new IllegalArgumentException("Unknown gateway: " + gatewayType);
         }
         service.processPayment(amount);
     }
@@ -160,45 +160,45 @@ public class PaymentGatewayManager {
 
 ---
 
-## 6. Practical Code Challenge
+## 6. លំហាត់អនុវត្តកូដ (Code Challenge)
 
-**Challenge:** Create a `NotificationService` interface with `void notify(String text)`. Provide two implementations: `EmailService` (marked with `@Primary`) and `SmsService` (marked with custom qualifier `@SmsProvider`). Build an `AlertManager` that explicitly requires `@SmsProvider`.
+**លំហាត់:** ចូរបង្កើត Interface `NotificationService` ដែលមាន method `send(String msg)`។ បង្កើត Class ចំនួន ២៖ `EmailNotificationService` (ជា `@Primary`) និង `SmsNotificationService` (ប្រើ Custom Qualifier `@SmsGateway`)។ បន្ទាប់មកបង្កើត `AlertService` ដែល Inject SMS Service ដោយប្រើ Custom Qualifier នោះ។
 
 <details>
-<summary>🔍 Click to view solution</summary>
+<summary>🔍 ចុចទីនេះដើម្បីមើលដំណោះស្រាយគំរូ</summary>
 
 ```java
 public interface NotificationService {
-    void notify(String text);
+    void send(String msg);
 }
 
 @Service
 @Primary
-public class EmailService implements NotificationService {
-    public void notify(String text) { System.out.println("Email: " + text); }
+public class EmailNotificationService implements NotificationService {
+    public void send(String msg) { System.out.println("Email: " + msg); }
 }
 
 @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
-public @interface SmsProvider {}
+public @interface SmsGateway {}
 
 @Service
-@SmsProvider
-public class SmsService implements NotificationService {
-    public void notify(String text) { System.out.println("SMS: " + text); }
+@SmsGateway
+public class SmsNotificationService implements NotificationService {
+    public void send(String msg) { System.out.println("SMS: " + msg); }
 }
 
 @Service
-public class AlertManager {
-    private final NotificationService service;
+public class AlertService {
+    private final NotificationService notificationService;
 
-    public AlertManager(@SmsProvider NotificationService service) {
-        this.service = service;
+    public AlertService(@SmsGateway NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 
-    public void trigger(String alert) {
-        service.notify(alert);
+    public void notifyAdmin(String msg) {
+        notificationService.send(msg);
     }
 }
 ```
@@ -206,7 +206,7 @@ public class AlertManager {
 
 ---
 
-## 🔗 Official Spring Documentation
+## 🔗 ឯកសារយោងផ្លូវការ Spring Docs
 
 - [Fine-tuning Annotation-based Autowiring with Qualifiers](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-qualifiers.html)
 - [Primary Beans in Spring](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-primary.html)
@@ -214,8 +214,8 @@ public class AlertManager {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 16: Best Way of Injecting Beans](../16-best-way-of-injecting-beans/README.md) | [📚 Spring Framework Index](../README.md) | [Part 18: Bean Lifecycle & BeanPostProcessor →](../18-bean-lifecycle-and-postprocessor/README.md) |
+| [← Part 16: វិធីសាស្រ្តល្អបំផុតក្នុងការ Inject Beans](../16-best-way-of-injecting-beans/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 18: Bean Lifecycle & BeanPostProcessor →](../18-bean-lifecycle-and-postprocessor/README.md) |

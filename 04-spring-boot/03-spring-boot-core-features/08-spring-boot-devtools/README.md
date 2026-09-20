@@ -1,74 +1,70 @@
-# Lesson 8: Accelerating Development with Spring Boot DevTools
+# មេរៀនទី ៨: បង្កើនល្បឿនអភិវឌ្ឍន៍ជាមួយ Spring Boot DevTools (Developer Tools)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../07-spring-boot-actuator/README.md) | [មេរៀនបន្ទាប់ →](../../04-spring-boot-with-rest-api/01-intro-to-restful-web-services/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../07-spring-boot-actuator/README.md) | [Next Lesson →](../../04-spring-boot-with-rest-api/01-intro-to-restful-web-services/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. What is Spring Boot DevTools?](#1-what-is-spring-boot-devtools)
-- [2. 4 Key Features of DevTools](#2-4-key-features-of-devtools)
-- [3. Sub-Second Restart Mechanism (Two-ClassLoader Architecture)](#3-sub-second-restart-mechanism-two-classloader-architecture)
-- [4. Production Safety Guarantee](#4-production-safety-guarantee)
-- [5. Adding DevTools to `pom.xml`](#5-adding-devtools-to-pomxml)
+- [1. តើ Spring Boot DevTools ជាអ្វី?](#1-តើ-spring-boot-devtools-ជាអ្វី)
+- [2. មុខងារសំខាន់ៗទាំង ៤ របស់ DevTools](#2-មុខងារសំខាន់ៗទាំង-៤-របស់-devtools)
+- [3. យន្តការ Restart ក្នុងរង្វង់វិនាទី (Two-ClassLoader Mechanism)](#3-យន្តការ-restart-ក្នុងរង្វង់វិនាទី-two-classloader-mechanism)
+- [4. សុវត្ថិភាពពេលឡើង Production (Production Safety)](#4-សុវត្ថិភាពពេលឡើង-production-production-safety)
+- [5. របៀបបញ្ចូល DevTools ក្នុង `pom.xml`](#5-របៀបបញ្ចូល-devtools-ក្នុង-pomxml)
 
 ---
 
-## 1. What is Spring Boot DevTools?
+## 1. តើ Spring Boot DevTools ជាអ្វី?
 
-During daily application development, modifying a single line of code and waiting 10–20 seconds for the application server to stop and restart disrupts developer focus and wastes substantial time.
+នៅក្នុងការអភិវឌ្ឍប្រចាំថ្ងៃ រាល់ពេលដែលអ្នកកែ Code មួយជួរ ហើយត្រូវចំណាយពេល ១០–២០ វិនាទីដើម្បី Stop Server រួច Start ឡើងវិញ វានឹងធ្វើឱ្យខាតបង់ពេលវេលា និងរំខានដល់អារម្មណ៍សរសេរកូដ (Development Flow) យ៉ាងខ្លាំង។
 
-**`spring-boot-devtools`** is a specialized module engineered to maximize developer productivity by enabling **sub-second automatic restarts** the moment changes are saved or recompiled.
+**`spring-boot-devtools`** គឺជា Module ពិសេសមួយដែលត្រូវបានរចនាឡើងដើម្បីជួយឱ្យ Developer អាចអភិវឌ្ឍកម្មវិធីបានលឿនដូចផ្លេកបន្ទោរ តាមរយៈការ **Restart ស្វ័យប្រវត្តិក្នងរង្វង់ត្រឹមតែ ១ វិនាទី** នៅពេលកូដត្រូវបាន Save!
 
 ---
 
-## 2. 4 Key Features of DevTools
+## 2. មុខងារសំខាន់ៗទាំង ៤ របស់ DevTools
 
-1. **Automatic Restart:**
-   - Whenever code changes are saved or compiled, DevTools automatically restarts the application context within milliseconds.
+1. **Automatic Restart (ដំណើរការឡើងវិញស្វ័យប្រវត្តិ):**
+   - នៅពេលណាអ្នកកែប្រែកូដ Java ហើយ Save ឬ Compile នោះ DevTools នឹងធ្វើការ Restart Application ឡើងវិញភ្លាមៗដោយស្វ័យប្រវត្តិ។
 
-2. **LiveReload Integration:**
-   - DevTools bundles an embedded LiveReload server. Modifying template files (Thymeleaf), static resources, CSS, or client JavaScript triggers instantaneous browser refreshes without manual reloading (F5).
+2. **LiveReload (Refresh Browser ស្វ័យប្រវត្តិ):**
+   - បង្កប់ LiveReload Server មកជាមួយស្រាប់។ ប្រសិនបើអ្នកកែប្រែ HTML (Thymeleaf), CSS, ឬ JS នោះ Browser របស់អ្នកនឹង Refresh ខ្លួនឯងភ្លាមៗដោយមិនបាច់ចុច F5 ឡើយ។
 
-3. **Development Property Defaults (Cache Disabling):**
-   - In production environments, caching web templates and data structures improves performance. During development, immediate feedback is essential. DevTools automatically overrides default caching configurations (such as setting `spring.thymeleaf.cache=false`).
+3. **Development Property Defaults (បិទ Cache ពេល Dev):**
+   - ក្នុងពេល Production យើងត្រូវការ Cache ទំព័រ HTML ឬ Data ដើម្បីល្បឿនលឿន។ ប៉ុន្តែក្នុងពេល Development យើងត្រូវការឃើញការផ្លាស់ប្តូរភ្លាមៗ។ DevTools នឹងបិទ Cache (ដូចជា `spring.thymeleaf.cache=false`) ដោយស្វ័យប្រវត្តិ។
 
 4. **Global Configurations:**
-   - Developers can define personal system-wide preferences in `~/.spring-boot-devtools.properties` without polluting the team repository's shared configuration.
+   - អាចកំណត់ Configuration សម្រាប់ម៉ាស៊ីនផ្ទាល់ខ្លួនក្នុង `~/.spring-boot-devtools.properties` ដែលមិនប៉ះពាល់ដល់ Git Repo របស់ក្រុមការងារ។
 
 ---
 
-## 3. Sub-Second Restart Mechanism (Two-ClassLoader Architecture)
+## 3. យន្តការ Restart ក្នុងរង្វង់វិនាទី (Two-ClassLoader Mechanism)
 
-Why is a DevTools restart significantly faster than a standard cold restart?
-Spring Boot achieves this by segregating classes into two distinct ClassLoaders:
+ហេតុអ្វីបានជា DevTools Restart លឿនជាងការចុច Run ធម្មតា?
+Spring Boot ប្រើប្រាស់ ClassLoaders ចំនួន ២ ផ្សេងគ្នា៖
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│ 1. Base ClassLoader (Immutable / Cached)              │
-│    - Loads third-party dependencies (Spring, Hibernate) │
-│    - Loaded once, never reloaded during development    │
+│ 1. Base ClassLoader (មិនផ្លាស់ប្តូរ)                    │
+│    - ផ្ទុក Third-party JARs (Spring, Hibernate, Tomcat) │
+│    - ផ្ទុកម្តងគត់ មិនដែល Reload ឡើយ                   │
 └────────────────────────────────────────────────────────┘
                            ▲
-                           │ Parent hierarchy
+                           │ ភ្ជាប់ជាមួយ
 ┌──────────────────────────┴─────────────────────────────┐
-│ 2. Restart ClassLoader (Ephemeral / Re-instantiated)   │
-│    - Loads only the application classes you write       │
-│    - Discarded and rebuilt in < 1 second upon save      │
+│ 2. Restart ClassLoader (បោះចោល និងបង្កើតថ្មីភ្លាមៗ)    │
+│    - ផ្ទុកតែកូដដែលអ្នកកំពុងសរសេរក្នុង Project           │
+│    - ពេលកែ Code វានឹងបោះចោលចាស់ បង្កើតថ្មីក្នុង < 1s   │
 └────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 4. Production Safety Guarantee
+## 4. សុវត្ថិភាពពេលឡើង Production (Production Safety)
 
-> 🛡️ **DevTools Production Guardrail:**
-> When packaging the project as an executable JAR or WAR for production deployments (`java -jar application.jar`), **DevTools automatically disables itself**. This prevents development aids and live-reload hooks from compromising production stability and performance.
+> 🛡️ **ចំណុចពិសេសបំផុតនៃ DevTools:**
+> នៅពេលអ្នក Build Project ជា `.jar` ឬ `.war` ដើម្បីយកទៅ Deploy លើ Production Server (តាមរយៈ `java -jar app.jar`) នោះ **DevTools នឹងបិទដំណើរការខ្លួនឯងដោយស្វ័យប្រវត្តិ (Disabled)** ដើម្បីធានាថាកម្មវិធីដំណើរការដោយស្ថេរភាព និងល្បឿនលឿនបំផុត។
 
 ---
 
-## 5. Adding DevTools to `pom.xml`
-
-Add the following dependency to Maven's `pom.xml`:
+## 5. របៀបបញ្ចូល DevTools ក្នុង `pom.xml`
 
 ```xml
 <dependency>
@@ -76,15 +72,16 @@ Add the following dependency to Maven's `pom.xml`:
     <artifactId>spring-boot-devtools</artifactId>
     <scope>runtime</scope>
     <optional>true</optional>
+
 </dependency>
 ```
 
-*(Setting `<optional>true</optional>` prevents DevTools from transitively leaking into downstream projects depending on this module)*.
+*(កំណត់ `<optional>true</optional>` ដើម្បីកុំឱ្យ DevTools ឆ្លងទៅកាន់ Projects ផ្សេងទៀតដែលទាញយក Project នេះជា Dependency)*។
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Production Readiness & Observability with Spring Boot Actuator](../07-spring-boot-actuator/README.md) | [📚 Module Index](../README.md) | [Introduction to RESTful Web Services →](../../04-spring-boot-with-rest-api/01-intro-to-restful-web-services/README.md) |
+| [← ការត្រួតពិនិត្យសុខភាពប្រព័ន្ធ និង Monitoring ជាមួយ Spring Boot Actuator](../07-spring-boot-actuator/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [សេចក្តីផ្តើមអំពី RESTful Web Services (Introduction to RESTful Web Services) →](../../04-spring-boot-with-rest-api/01-intro-to-restful-web-services/README.md) |

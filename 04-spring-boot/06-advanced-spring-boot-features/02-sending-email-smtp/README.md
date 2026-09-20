@@ -1,22 +1,20 @@
-# Lesson 2: Sending Email with Spring Boot JavaMailSender
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../01-task-scheduling/README.md) | [Next Lesson →](../03-file-handling-upload/README.md)
+# មេរៀនទី ២: ការផ្ញើ Email ជាមួយ Spring Boot JavaMailSender (Sending Email with SMTP)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../01-task-scheduling/README.md) | [មេរៀនបន្ទាប់ →](../03-file-handling-upload/README.md)
 
 ---
 
-## Table of Contents
-1. [Introduction to JavaMailSender](#introduction-to-javamailsender)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើមអំពី JavaMailSender ក្នុង Spring Boot](#សេចក្តីផ្តើមអំពី-javamailsender)
 2. [Maven Dependency Setup](#maven-dependency-setup)
-3. [SMTP Configuration in application.yml](#smtp-configuration)
-4. [Sending Simple Text Emails](#sending-simple-text-emails)
-5. [Sending HTML Emails with Attachments (MimeMessage)](#sending-html-emails-with-attachments)
-6. [Production Delivery Best Practices](#production-delivery-best-practices)
+3. [ការកំណត់ SMTP Configuration ក្នុង application.yml](#ការកំណត់-smtp-configuration)
+4. [ការផ្ញើ Simple Text Email](#ការផ្ញើ-simple-text-email)
+5. [ការផ្ញើ HTML Email ជាមួយ Attachment (MimeMessage)](#ការផ្ញើ-html-email-ជាមួយ-attachment)
+6. [Best Practices សម្រាប់ Production Email Delivery](#best-practices)
 
 ---
 
-## Introduction to JavaMailSender
-Spring Boot simplifies email distribution through `spring-boot-starter-mail`. The core abstraction, `JavaMailSender`, transparently manages connection lifecycles, authentication handshakes, and multipart attachment packaging.
+## សេចក្តីផ្តើមអំពី JavaMailSender
+Spring Boot ផ្តល់នូវ `spring-boot-starter-mail` ដែល encapsulate JavaMail API យ៉ាងស្អាត។ តាមរយៈ interface `JavaMailSender`, យើងអាចផ្ញើ Simple Text Email, HTML Template Email (Thymeleaf/Freemarker), និង Attachments (PDFs, Images, Excel) បានយ៉ាងងាយស្រួល។
 
 ```mermaid
 graph LR
@@ -24,6 +22,7 @@ graph LR
     B --> C["SMTP Protocol (Port 587/465)"]
     C --> D["Mail Server (Gmail, SendGrid, Amazon SES)"]
     D --> E["Recipient Inbox"]
+
 ```
 
 ---
@@ -34,12 +33,13 @@ graph LR
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-mail</artifactId>
+
 </dependency>
 ```
 
 ---
 
-## SMTP Configuration
+## ការកំណត់ SMTP Configuration
 
 ```yaml
 spring:
@@ -47,7 +47,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: your-email@gmail.com
-    password: your-app-password
+    password: your-app-password # App Password (Not your real password!)
     properties:
       mail:
         smtp:
@@ -58,7 +58,7 @@ spring:
 
 ---
 
-## Sending Simple Text Emails
+## ការផ្ញើ Simple Text Email
 
 ```java
 package com.example.service;
@@ -90,7 +90,7 @@ public class EmailService {
 
 ---
 
-## Sending HTML Emails with Attachments
+## ការផ្ញើ HTML Email ជាមួយ Attachment
 
 ```java
 package com.example.service;
@@ -120,7 +120,7 @@ public class AdvancedEmailService {
         helper.setFrom("your-email@gmail.com");
         helper.setTo(to);
         helper.setSubject(subject);
-        helper.setText(htmlBody, true);
+        helper.setText(htmlBody, true); // true = HTML content
 
         if (attachment != null && attachment.exists()) {
             FileSystemResource fileResource = new FileSystemResource(attachment);
@@ -134,15 +134,15 @@ public class AdvancedEmailService {
 
 ---
 
-## Production Delivery Best Practices
-- **Do not send emails synchronously on the web request thread**: Delegate email dispatching to background workers using `@Async` or message brokers (Kafka/RabbitMQ).
-- **Never commit credentials**: Use environment variables or cloud secrets management (AWS Secrets Manager, HashiCorp Vault).
-- Leverage dedicated transactional relay providers (SendGrid, Postmark, AWS SES) for production deliverability.
+## Best Practices
+- **កុំផ្ញើ Email Synchronously ក្នុង Request Thread**: ប្រើប្រាស់ `@Async` ឬ Message Queue (Kafka/RabbitMQ) ដើម្បីកុំឱ្យ Client រង់ចាំយូរ។
+- **កុំសរសេរ Hardcode Credentials**: ប្រើប្រាស់ Environment Variables ឬ Vault សម្រាប់ mail username និង password។
+- ប្រើប្រាស់ **Transactional Email Services** ដូចជា SendGrid, Mailgun, ឬ AWS SES សម្រាប់ Production។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Task Scheduling with @Scheduled and Asynchronous Execution with @Async](../01-task-scheduling/README.md) | [📚 Module Index](../README.md) | [File Handling & Multipart Upload in Spring Boot →](../03-file-handling-upload/README.md) |
+| [← ការដំណើរការការងារស្វ័យប្រវត្តិតាមកាលកំណត់ (@Scheduled) និងអសមកាលកម្ម (@Async)](../01-task-scheduling/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការគ្រប់គ្រង និង Upload File ក្នុង Spring Boot (File Handling & Multipart Upload) →](../03-file-handling-upload/README.md) |

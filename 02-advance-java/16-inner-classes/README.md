@@ -1,102 +1,121 @@
-# មេរៀនទី ១៦៖ Java Inner Class (ថ្នាក់ខាងក្នុង)
+# មេរៀនទី ១៦៖ Java Inner Classes (ថ្នាក់បង្កប់ក្នុង Java)
 
-### 🖥️ ស្លាយទី 81 ｜ Slide 81
+> **ស្វែងយល់អំពី Java Nested & Inner Classes៖ និយមន័យ របៀបបង្កើត Non-static Inner Class, Static Nested Class, Private Inner Class និងការទាញយកទិន្នន័យពី Outer Class**
 
-> ## 📌 និយមន័យនៃ Inner Class
-> 
-> ---
->
-> ### ➤ Inner Class
-> - នៅក្នុងភាសា Java គឺអាចមាន **nested classes** ដែលមានន័យថាយើងអាចបង្កើត class ថ្មីនៅខាងក្នុង class ដែលមានស្រាប់។
-> - គោលបំណងដែលយើងប្រើវាគឺដើម្បីជួយឱ្យកូដរបស់យើងងាយស្រួលក្នុងការមើល និងងាយស្រួលគ្រប់គ្រង។
-> - ដើម្បីអាចចូលទៅប្រើ inner class បាន គឺយើងត្រូវបង្កើត object ឱ្យ outer class សិន ហើយបន្ទាប់មកទើបយើងអាចបង្កើត object ឱ្យ inner class បាន។
+[![Lesson](https://img.shields.io/badge/Lesson-16-orange?style=for-the-badge&logo=java&logoColor=white)](#)
+[![Topic](https://img.shields.io/badge/Topic-Inner%20Classes-blue?style=for-the-badge)](#)
+[![Language](https://img.shields.io/badge/Language-Khmer-red?style=for-the-badge)](#)
 
 ---
 
-### 🖥️ ស្លាយទី 82 ｜ Slide 82
+## 🏛️ ១. អ្វីជា Inner Class? (What is an Inner Class?)
 
-> ## 📌 គំរូកូដ Inner Class ធម្មតា
-> 
-> ---
->
-> ### Example: Regular Inner Class
-> ```java
-> class OuterClass {
->     int x = 10;
->
->     class InnerClass {
->         int y = 5;
->     }
-> }
->
-> public class Main {
->     public static void main(String[] args) {
->         OuterClass myOuter = new OuterClass();
->         OuterClass.InnerClass myInner = myOuter.new InnerClass();
->         System.out.println(myInner.y + myOuter.x); // Outputs 15 (5 + 10)
->     }
-> }
-> ```
+នៅក្នុងភាសា Java, **Inner Class (ឬ Nested Class)** គឺជា Class មួយដែលត្រូវបានប្រកាសបង្កើតឡើងនៅ **ខាងក្នុង Class មួយផ្សេងទៀត** (Inside another Outer Class)។
+
+### 🌟 ហេតុអ្វីត្រូវប្រើប្រាស់ Inner Classes?
+1. 📦 **ការដាក់ជាក្រុមប្រកបដោយតក្កវិទ្យា (Logical Grouping):** ប្រសិនបើ Class មួយត្រូវបានប្រើប្រាស់ដោយ Class តែមួយគត់ វាជាការប្រសើរក្នុងការដាក់វាបញ្ចូលគ្នា។
+2. 🔒 **បង្កើន Encapsulation:** Inner Class អាចចូលប្រើប្រាស់សូម្បីតែ `private` members របស់ Outer Class បាន ហើយខ្លួនវាក៏អាចកំណត់ជា `private` បានដែរ (ដែល Class ខាងក្រៅធម្មតាមិនអាចធ្វើបានឡើយ)។
+3. 📖 **កូដងាយស្រួលអាន និងថែទាំ (Maintainability):** កូដដែលពាក់ព័ន្ធជិតស្និទ្ធស្ថិតនៅជិតគ្នា។
 
 ---
 
-### 🖥️ ស្លាយទី 84 ｜ Slide 84
+## 💻 ២. ការបង្កើត Inner Class ធម្មតា (Non-static Inner Class)
 
-> ## 📌 Static Inner Class
-> 
-> ---
->
-> ### Static Inner Class
-> Inner class ក៏អាចជា `static` ផងដែរ ដែលមានន័យថាយើងអាច access វាបានដោយមិនបាច់បង្កើត object របស់ outer class នោះឡើយ:
->
-> ```java
-> class OuterClass {
->     int x = 10;
->
->     static class InnerClass {
->         int y = 5;
->     }
-> }
->
-> public class Main {
->     public static void main(String[] args) {
->         OuterClass.InnerClass myInner = new OuterClass.InnerClass();
->         System.out.println(myInner.y); // Outputs 5
->     }
-> }
-> ```
+ដើម្បីបង្កើត Object នៃ Non-static Inner Class យើងត្រូវតែបង្កើត Object នៃ Outer Class ជាមុនសិន៖
 
----
+```java
+// Outer Class
+class OuterClass {
+    int x = 10;
 
-### 🖥️ ស្លាយទី 85 ｜ Slide 85
+    // Inner Class
+    class InnerClass {
+        int y = 5;
+    }
+}
 
-> ## 📌 ការ Access Outer Class ពី Inner Class
-> 
-> ---
->
-> ### Access Outer Class From Inner Class
-> អត្ថប្រយោជន៍មួយទៀតនៃ inner classes គឺវាអាច access ទៅកាន់ attributes និង methods របស់ outer class បានដោយផ្ទាល់:
->
-> ```java
-> class OuterClass {
->     int x = 10;
->
->     class InnerClass {
->         public int myInnerMethod() {
->             return x; // Access attribute x from OuterClass
->         }
->     }
-> }
->
-> public class Main {
->     public static void main(String[] args) {
->         OuterClass myOuter = new OuterClass();
->         OuterClass.InnerClass myInner = myOuter.new InnerClass();
->         System.out.println(myInner.myInnerMethod()); // Outputs 10
->     }
-> }
-> ```
+public class Main {
+    public static void main(String[] args) {
+        // ១. បង្កើត Object នៃ OuterClass ជាមុន
+        OuterClass myOuter = new OuterClass();
+
+        // ២. បង្កើត Object នៃ InnerClass តាមរយៈ Outer Object
+        OuterClass.InnerClass myInner = myOuter.new InnerClass();
+
+        // ៣. បង្ហាញលទ្ធផល
+        System.out.println("x + y = " + (myOuter.x + myInner.y));
+    }
+}
+```
+
+**Output:**
+```text
+x + y = 15
+```
 
 ---
 
-← [មេរៀនមុន](../15-polymorphism/README.md) | [មាតិការួម](../README.md) | [មេរៀនបន្ទាប់](../17-abstraction/README.md) →
+## 🔒 ៣. Private Inner Class (ការការពារមិនឱ្យក្រៅ Class ចូលប្រើ)
+
+ផ្ទុយពី Class ធម្មតា Inner Class អាចត្រូវបានប្រកាសជា **`private`** ឬ **`protected`** បាន៖
+
+```java
+class OuterClass {
+    int x = 10;
+
+    // Private Inner Class: មិនអាច instantiate ចេញពី Main class បានទេ
+    private class InnerClass {
+        int y = 5;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        OuterClass myOuter = new OuterClass();
+        // បន្ទាត់ខាងក្រោមនឹងបណ្តាលឱ្យមាន Compile Error:
+        // OuterClass.InnerClass myInner = myOuter.new InnerClass(); // ❌ Error: InnerClass has private access
+    }
+}
+```
+
+---
+
+## ⚡ ៤. Static Nested Class (មិនបាច់មាន Outer Object)
+
+ប្រសិនបើ Inner Class ត្រូវបានប្រកាសជា **`static`** នោះយើងអាចបង្កើត Object របស់វាបានភ្លាមៗ ដោយមិនចាំបាច់បង្កើត Object នៃ Outer Class ឡើយ៖
+
+```java
+class OuterClass {
+    int x = 10;
+
+    // Static Nested Class
+    static class InnerClass {
+        int y = 5;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // បង្កើត Inner Object បានភ្លាមៗដោយមិនបាច់មាន myOuter:
+        OuterClass.InnerClass myInner = new OuterClass.InnerClass();
+        System.out.println("y = " + myInner.y);
+    }
+}
+```
+
+> [!NOTE]
+> Static Nested Class មិនអាចចូលប្រើប្រាស់ Non-static members (Instance variables) របស់ Outer Class ដោយផ្ទាល់បានឡើយ គឺអាចប្រើបានតែ Static members ប៉ុណ្ណោះ។
+
+---
+
+## 💡 សេចក្តីសង្ខេបសំខាន់ (Key Takeaways)
+
+> [!TIP]
+> 1. **Inner Class** គឺជា Class ដែលស្ថិតក្នុង Class មួយទៀត ដើម្បីបង្កើន Encapsulation និង Logical Grouping។
+> 2. **Non-static Inner Class** ទាមទារ Outer Class Object (`myOuter.new InnerClass()`)។
+> 3. **Static Nested Class** អាចបង្កើតបានភ្លាមៗ (`new OuterClass.InnerClass()`)។
+> 4. Inner Class អាចទាញយក Attributes ទាំងអស់ (រួមទាំង `private`) របស់ Outer Class បាន។
+
+---
+
+← [មេរៀនមុន (១៥៖ Java Polymorphism)](../15-polymorphism/README.md) ｜ [មាតិការួម](../README.md) ｜ [មេរៀនបន្ទាប់ (១៧៖ Java Abstraction)](../17-abstraction/README.md) →

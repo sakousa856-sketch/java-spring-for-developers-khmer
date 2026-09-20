@@ -1,48 +1,46 @@
-# Lesson 2: Deep Dive into Dependency Injection (DI)
+# មេរៀនទី ២: ការយល់ដឹងស៊ីជម្រៅអំពី Dependency Injection (DI)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../01-inversion-of-control/README.md) | [មេរៀនបន្ទាប់ →](../03-beanfactory-vs-applicationcontext/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../01-inversion-of-control/README.md) | [Next Lesson →](../03-beanfactory-vs-applicationcontext/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Bookstore REST API (Constructor Injection)](../../examples/01-rest-api-crud)  
-> 📄 **Source Code Files:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`BookService.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/service/BookService.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Bookstore REST API (Constructor Injection)](../../examples/01-rest-api-crud)  
+> 📄 **File កូដជាក់ស្តែង:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`BookService.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/service/BookService.java)
 
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. What is Dependency Injection (DI)?](#1-what-is-dependency-injection-di)
-- [2. The 3 Flavors of Dependency Injection](#2-the-3-flavors-of-dependency-injection)
-- [3. Why Constructor Injection is the Industry Benchmark](#3-why-constructor-injection-is-the-industry-benchmark)
-- [4. Production Code Implementation](#4-production-code-implementation)
-- [5. Summary](#5-summary)
+- [1. តើ Dependency Injection (DI) ជាអ្វី?](#1-តើ-dependency-injection-di-ជាអ្វី)
+- [2. ប្រភេទទាំង ៣ នៃ Dependency Injection](#2-ប្រភេទទាំង-៣-នៃ-dependency-injection)
+- [3. ហេតុអ្វីបានជា Constructor Injection ជា Best Practice?](#3-ហេតុអ្វីបានជា-constructor-injection-ជា-best-practice)
+- [4. កូដគំរូជាក់ស្តែង Spring Boot](#4-កូដគំរូជាក់ស្តែង-spring-boot)
+- [5. សង្ខេប](#5-សង្ខេប)
 
 ---
 
-## 1. What is Dependency Injection (DI)?
+## 1. តើ Dependency Injection (DI) ជាអ្វី?
 
-**Dependency Injection (DI)** is the concrete design pattern realizing Inversion of Control. A "dependency" is an object collaborator required by a client class. "Injection" is the passing of that dependency into the client by a separate entity (the injector).
+**Dependency Injection (DI)** គឺជាទម្រង់អនុវត្តជាក់ស្តែង (Pattern) នៃគោលការណ៍ IoC។ "Dependency" សំដៅលើ Object មួយដែល Class របស់យើងត្រូវការប្រើ ចំណែក "Injection" គឺការបញ្ជូន Object នោះមកឱ្យពីខាងក្រៅ។
 
 ---
 
-## 2. The 3 Flavors of Dependency Injection
+## 2. ប្រភេទទាំង ៣ នៃ Dependency Injection
 
-| Injection Pattern | Syntax Form | Evaluation |
+| ប្រភេទ (Type) | វិធីអនុវត្ត | ការវាយតម្លៃ |
 | :--- | :--- | :--- |
-| **1. Constructor Injection** | Injected via class constructor arguments | ⭐⭐⭐⭐⭐ **(Recommended Standard)** |
-| **2. Setter Injection** | Injected via public setter methods | ⭐⭐⭐ (Optional dependencies only) |
-| **3. Field Injection** | Annotating private fields with `@Autowired` | ⚠️ **(Anti-pattern to avoid)** |
+| **1. Constructor Injection** | ចាក់បញ្ចូលតាមរយៈ Constructor Parameters | ⭐⭐⭐⭐⭐ **(Best Practice ស្តង់ដារ)** |
+| **2. Setter Injection** | ចាក់បញ្ចូលតាមរយៈ Setter Method (`setRepository(...)`) | ⭐⭐⭐ (សម្រាប់តែ Optional Dependencies) |
+| **3. Field Injection** | ចាក់បញ្ចូលផ្ទាល់លើ Field តាមរយៈ `@Autowired` | ⚠️ **(ចៀសវាង - Bad Practice)** |
 
 ---
 
-## 3. Why Constructor Injection is the Industry Benchmark
+## 3. ហេតុអ្វីបានជា Constructor Injection ជា Best Practice?
 
-1. **Immutability:** Facilitates assigning fields to `final`, ensuring thread-safe immutability after construction.
-2. **Frictionless Unit Testing:** Allows straightforward instantiation in tests (`new OrderService(mockRepo)`) without reflection utilities or running Spring contexts.
-3. **Fail-Fast Safety:** Compilers enforce dependency provisioning at compile time, eliminating latent runtime `NullPointerException`s.
+1. **Immutability:** យើងអាចដាក់ពាក្យគន្លឹះ `final` នៅលើ Field បាន ដែលធានាថា Object មិនអាចផ្លាស់ប្តូរបានក្រោយពេលកើត (Thread-safe)។
+2. **Easy Unit Testing:** ពេលសរសេរ Unit Test យើងអាចបង្កើត Object ធម្មតា `new OrderService(mockRepo)` ដោយមិនបាច់ពឹងលើ Spring Container ឬ Reflection ឡើយ។
+3. **Compile-time Safety:** បើសិនភ្លេច Inject នោះ Compiler នឹងបោះ Error ភ្លាម មិនបណ្តោយឱ្យធ្លាក់ `NullPointerException` ពេល Runtime ឡើយ។
 
 ---
 
-## 4. Production Code Implementation
+## 4. កូដគំរូជាក់ស្តែង Spring Boot
 
 ```java
 package com.example.demo.service;
@@ -53,10 +51,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    // 1. Immutable final dependency
+    // 1. ប្រកាសជា final ដើម្បីភាព Immutability
     private final UserRepository userRepository;
 
-    // 2. Explicit constructor injection (implicit @Autowired in Spring 4.3+)
+    // 2. Constructor Injection (ចាប់ពី Spring 4.3+ មិនបាច់ដាក់ @Autowired ក៏បាន)
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -69,14 +67,14 @@ public class UserService {
 
 ---
 
-## 5. Summary
+## 5. សង្ខេប
 
-- DI externalizes component dependency resolution.
-- Enforce **Constructor Injection** paired with `private final` fields across all enterprise services.
+- DI គឺជាបច្ចេកទេសបញ្ជូន Dependencies ពីខាងក្រៅចូលមកក្នុង Class។
+- ប្រើប្រាស់ **Constructor Injection** ជានិច្ច ជាមួយ `private final` fields។
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Understanding Inversion of Control (IoC)](../01-inversion-of-control/README.md) | [📚 Module Index](../README.md) | [BeanFactory vs ApplicationContext Comparison →](../03-beanfactory-vs-applicationcontext/README.md) |
+| [← ការយល់ដឹងអំពី Inversion of Control (IoC)](../01-inversion-of-control/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រៀបធៀប BeanFactory vs ApplicationContext →](../03-beanfactory-vs-applicationcontext/README.md) |

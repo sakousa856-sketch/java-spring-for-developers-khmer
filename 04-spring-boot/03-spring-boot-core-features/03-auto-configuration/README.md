@@ -1,74 +1,72 @@
-# Lesson 3: Auto-Configuration Deep Dive
+# មេរៀនទី ៣: យន្តការកំណត់រចនាសម្ព័ន្ធស្វ័យប្រវត្តិ (Auto-Configuration Deep Dive)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../02-spring-boot-annotations/README.md) | [មេរៀនបន្ទាប់ →](../04-dependency-management/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../02-spring-boot-annotations/README.md) | [Next Lesson →](../04-dependency-management/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. How Auto-Configuration Operates](#1-how-auto-configuration-operates)
-- [2. Anatomy of `@SpringBootApplication`](#2-anatomy-of-springbootapplication)
-- [3. Conditional Annotations Matrix](#3-conditional-annotations-matrix)
-- [4. Auto-Configuration Registry (Spring Boot 3.x)](#4-auto-configuration-registry-spring-boot-3x)
-- [5. Disabling Specific Auto-Configurations](#5-disabling-specific-auto-configurations)
+- [1. តើ Auto-Configuration ដំណើរការយ៉ាងដូចម្តេច?](#1-តើ-auto-configuration-ដំណើរការយ៉ាងដូចម្តេច)
+- [2. ការបំបែកសមាសធាតុនៃ `@SpringBootApplication`](#2-ការបំបែកសមាសធាតុនៃ-springbootapplication)
+- [3. យន្តការលក្ខខណ្ឌ Conditional Annotations](#3-យន្តការលក្ខខណ្ឌ-conditional-annotations)
+- [4. កន្លែងផ្ទុកបញ្ជី Auto-Configuration (Spring Boot 3.x)](#4-កន្លែងផ្ទុកបញ្ជី-auto-configuration-spring-boot-3x)
+- [5. របៀបបិទ Auto-Configuration ខ្លះដែលមិនចង់ប្រើ (Disabling Auto-Config)](#5-របៀបបិទ-auto-configuration-ខ្លះដែលមិនចង់ប្រើ-disabling-auto-config)
 
 ---
 
-## 1. How Auto-Configuration Operates
+## 1. តើ Auto-Configuration ដំណើរការយ៉ាងដូចម្តេច?
 
-**Auto-Configuration** is Spring Boot's hallmark feature. It automatically evaluates the application context at startup and configures beans based on:
-1. **Classpath content:** E.g., if PostgreSQL driver is present, it registers a `DataSource`.
-2. **Configuration properties:** E.g., checking `application.properties`.
-3. **Existing Beans:** Evaluating whether the developer already supplied a custom bean.
+**Auto-Configuration** គឺជា "មន្តអាគម" ដ៏ល្បីល្បាញបំផុតរបស់ Spring Boot។ វាជាយន្តការស្វ័យប្រវត្តិនៃការបង្កើត និងរៀបចំ Beans នៅក្នុង IoC Container ដោយផ្អែកលើ៖
+1. **Libraries ដែលមាននៅលើ Classpath:** (ឧ. បើឃើញ Driver របស់ PostgreSQL វានឹងរៀបចំ Connection ទៅ DB)
+2. **Properties ដែលបានកំណត់ក្នុង `application.properties`**
+3. **Beans ដែល Developer បានបង្កើតដោយខ្លួនឯង**
 
-> **Guiding Principle:** *"Provide sensible defaults out of the box, but back away completely the moment the developer defines their own bean."*
+> **គោលការណ៍មាស:** *"បើអ្នកមិនបានបង្កើត Bean នោះទេ Spring Boot នឹងបង្កើតតម្លៃលំនាំដើមឱ្យអ្នក។ តែបើអ្នកបានបង្កើត Bean ផ្ទាល់ខ្លួនហើយ នោះ Spring Boot នឹងដកថយឱ្យ Bean របស់អ្នកដើរតួនាទីជំនួសវិញ"*។
 
 ---
 
-## 2. Anatomy of `@SpringBootApplication`
+## 2. ការបំបែកសមាសធាតុនៃ `@SpringBootApplication`
 
-The `@SpringBootApplication` annotation on the primary bootstrap class is a composite **meta-annotation** combining three key annotations:
+នៅលើ Main Class នៃ Spring Boot យើងតែងតែឃើញ Annotation មួយគត់គឺ `@SpringBootApplication`។ តាមពិតវាជា **Meta-Annotation** ដែលរួមផ្សំដោយ Annotations ធំៗចំនួន ៣៖
 
 ```java
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootConfiguration     // 1. Indicates the class provides @Bean configuration
-@EnableAutoConfiguration     // 2. Activates Spring Boot auto-configuration machinery
-@ComponentScan               // 3. Enables component scanning in the current package tree
+@SpringBootConfiguration     // 1. សម្គាល់ថា Class នេះជា @Configuration Class
+@EnableAutoConfiguration     // 2. បើកដំណើរការយន្តការ Auto-Configuration
+@ComponentScan               // 3. ស្កេនរក @Component, @Service, @Repository ក្នុង package បច្ចុប្បន្ន
 public @interface SpringBootApplication { ... }
 ```
 
 ---
 
-## 3. Conditional Annotations Matrix
+## 3. យន្តការលក្ខខណ្ឌ Conditional Annotations
 
-Spring Boot's auto-configuration classes leverage `@Conditional` annotations:
+Spring Boot ដឹងថាពេលណាត្រូវរៀបចំ Bean អ្វីមួយ តាមរយៈ **Conditional Annotations**៖
 
-| Conditional Annotation | Evaluation Criterion |
+| Annotation | លក្ខខណ្ឌដែលត្រូវផ្ទៀងផ្ទាត់ |
 | :--- | :--- |
-| **`@ConditionalOnClass`** | Matches if specified classes/JARs are on the classpath |
-| **`@ConditionalOnMissingBean`** | Matches **only if no custom bean** of that type exists |
-| **`@ConditionalOnProperty`** | Matches if a configuration property matches expected values |
-| **`@ConditionalOnWebApplication`** | Matches if the application is running inside a web context |
+| **`@ConditionalOnClass`** | ដំណើរការ Auto-Config លុះត្រាតែ Class ឬ Library ជាក់លាក់មានវត្តមានក្នុង Classpath |
+| **`@ConditionalOnMissingBean`** | បង្កើត Bean លំនាំដើម **លុះត្រាតែ Developer មិនទាន់បានបង្កើត Bean នោះដោយខ្លួនឯង** |
+| **`@ConditionalOnProperty`** | ដំណើរការលុះត្រាតែ Property ក្នុង `application.properties` ត្រូវបានបើកឱ្យប្រើ (`true`) |
+| **`@ConditionalOnWebApplication`** | ដំណើរការលុះត្រាតែ Project បច្ចុប្បន្នជាប្រភេទ Web Application |
 
-### Example:
-If you supply a custom `@Bean public DataSource dataSource()`, Spring Boot's internal `DataSourceAutoConfiguration` skips its default instantiation because of `@ConditionalOnMissingBean(DataSource.class)`.
+### ឧទាហរណ៍ជាក់ស្តែង៖
+ប្រសិនបើអ្នកបង្កើត `DataSource` Bean ដោយខ្លួនឯង Spring Boot នឹងឃើញថាមាន Bean រួចហើយ (តាម `@ConditionalOnMissingBean(DataSource.class)`) ដូច្នេះវានឹងមិនបង្កើត DataSource ស្វ័យប្រវត្តិនោះឡើយ។
 
 ---
 
-## 4. Auto-Configuration Registry (Spring Boot 3.x)
+## 4. កន្លែងផ្ទុកបញ្ជី Auto-Configuration (Spring Boot 3.x)
 
-- **Spring Boot 2.x:** Registered inside `META-INF/spring.factories`.
-- **Spring Boot 3.x:** Relocated to the dedicated descriptor file:
+- ក្នុង **Spring Boot 2.x:** បញ្ជី Auto-configuration ត្រូវបានផ្ទុកក្នុងឯកសារ `META-INF/spring.factories`។
+- ក្នុង **Spring Boot 3.x:** បញ្ជីនេះត្រូវបានផ្លាស់ប្តូរទៅកាន់ឯកសារថ្មីដែលមានទម្រង់ស្អាតជាងមុន៖
   ```
   META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
   ```
-  This file lists all potential auto-configuration classes (such as `DataSourceAutoConfiguration`, `JacksonAutoConfiguration`, `SecurityAutoConfiguration`) evaluated by the engine.
+  ឯកសារនេះផ្ទុកនូវឈ្មោះ Configuration Classes រាប់រយ (ដូចជា `DataSourceAutoConfiguration`, `JacksonAutoConfiguration`, `WebMvcAutoConfiguration`) ដែល Spring Boot ត្រូវត្រួតពិនិត្យពេល Application ចាប់ផ្តើម។
 
 ---
 
-## 5. Disabling Specific Auto-Configurations
+## 5. របៀបបិទ Auto-Configuration ខ្លះដែលមិនចង់ប្រើ (Disabling Auto-Config)
 
-To prevent a specific auto-configuration from running (e.g., disabling automatic database initialization):
+ប្រសិនបើអ្នកចង់បិទការបង្កើត DataSource ស្វ័យប្រវត្តិ (ឧ. ពេលកំពុងបង្កើត App ដែលមិនទាន់ចង់ភ្ជាប់ Database) អ្នកអាចប្រើពាក្យបញ្ជា `exclude`៖
 
 ```java
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
@@ -81,8 +79,8 @@ public class Application {
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Core Spring Boot Annotations](../02-spring-boot-annotations/README.md) | [📚 Module Index](../README.md) | [Starter Dependencies and Dependency Management →](../04-dependency-management/README.md) |
+| [← Spring Boot Annotations សំខាន់ៗ (Core Spring Boot Annotations)](../02-spring-boot-annotations/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការគ្រប់គ្រង Starter Dependencies (Dependency Management) →](../04-dependency-management/README.md) |

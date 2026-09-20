@@ -1,50 +1,51 @@
-# Lesson 5: Eclipse IDE Setup for Spring Boot
+# មេរៀនទី ៥: ការតម្លើង និងបង្កើតគម្រោងលើ Eclipse IDE
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../04-sts-project-setup/README.md) | [មេរៀនបន្ទាប់ →](../06-intellij-idea-setup/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../04-sts-project-setup/README.md) | [Next Lesson →](../06-intellij-idea-setup/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Introduction](#1-introduction)
-- [2. Installing Spring Tools 4 Plugin in Eclipse](#2-installing-spring-tools-4-plugin-in-eclipse)
-- [3. Scaffolding a Spring Boot Project](#3-scaffolding-a-spring-boot-project)
-- [4. Summary](#4-summary)
+- [1. សេចក្តីផ្តើម](#1-សេចក្តីផ្តើម)
+- [2. ការដំឡើង Spring Tools 4 Plugin ក្នុង Eclipse](#2-ការដំឡើង-spring-tools-4-plugin-ក្នុង-eclipse)
+- [3. ការបង្កើតគម្រោង Spring Boot តាម Eclipse Marketplace](#3-ការបង្កើតគម្រោង-spring-boot-តាម-eclipse-marketplace)
+- [4. សង្ខេប](#4-សង្ខេប)
 
 ---
 
-## 1. Introduction
+## 1. សេចក្តីផ្តើម
 
-Developers possessing a standard installation of **Eclipse IDE for Enterprise Java** can avoid downloading standalone STS by simply installing the **Spring Tools 4** plugin directly from the Eclipse Marketplace.
-
----
-
-## 2. Installing Spring Tools 4 Plugin in Eclipse
-
-1. Launch Eclipse IDE
-2. Navigate to menu: **Help -> Eclipse Marketplace...**
-3. Query the marketplace with: `Spring Tools 4`
-4. Click **Install** on *"Spring Tools 4 (aka Spring Tool Suite 4)"*
-5. Accept licensing terms, finish installation, and restart Eclipse.
+ប្រសិនបើអ្នកមាន **Eclipse IDE for Java Developers** រួចជាស្រេចនៅលើម៉ាស៊ីន អ្នកមិនបាច់ទាញយក STS ថ្មីក៏បាន ដោយគ្រាន់តែដំឡើង Plugin **Spring Tools 4** បន្ថែមចូលក្នុង Eclipse ធម្មតា។
 
 ---
 
-## 3. Scaffolding a Spring Boot Project
+## 2. ការដំឡើង Spring Tools 4 Plugin ក្នុង Eclipse
 
-1. Select **File -> New -> Other...**
-2. Expand directory **Spring Boot -> Spring Starter Project**
-3. Configure Maven coordinates and dependencies identical to STS wizard.
+1. បើក Eclipse IDE
+2. ចូលទៅកាន់ Menu: **Help -> Eclipse Marketplace...**
+
+3. ក្នុងប្រអប់ Find វាយពាក្យ: `Spring Tools 4`
+4. ចុចប៊ូតុង **Install** នៅលើ *"Spring Tools 4 (aka Spring Tool Suite 4)"*
+5. យល់ព្រមលើ Terms & Conditions រួច Restart Eclipse។
+
+---
+
+## 3. ការបង្កើតគម្រោង Spring Boot តាម Eclipse Marketplace
+
+1. ចូលទៅកាន់ **File -> New -> Other...**
+
+2. ស្វែងរកថត **Spring Boot -> Spring Starter Project**
+
+3. បំពេញព័ត៌មាន Project និងជ្រើសរើស Starter Dependencies ដូចទៅនឹង STS ដែរ។
 
 ---
 
-## 4. Summary
+## 4. សង្ខេប
 
-- Standard Eclipse environments seamlessly transform into Spring-native IDEs via Marketplace plugins.
+- Eclipse អាចប្រែក្លាយជា Spring Boot IDE ដ៏មានឥទ្ធិពលតាមរយៈ Spring Tools 4 Plugin ពី Eclipse Marketplace។
 
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Spring Tool Suite (STS) Project Setup](../04-sts-project-setup/README.md) | [📚 Module Index](../README.md) | [Scaffolding Projects in IntelliJ IDEA →](../06-intellij-idea-setup/README.md) |
+| [← ការដំឡើង និងបង្កើតគម្រោងលើ Spring Tool Suite (STS)](../04-sts-project-setup/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការបង្កើតគម្រោងជាមួយ IntelliJ IDEA (Community & Ultimate) →](../06-intellij-idea-setup/README.md) |

@@ -1,23 +1,20 @@
-# Module 8: Event-Driven Messaging with Apache Kafka
-
-> 🌐 **Language / ភាសា:** 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md) | 🇬🇧 **[English](README.md)**
-
+# Module 8: ស្ថាបត្យកម្ម Event-Driven ជាមួយ Apache Kafka (Spring Boot with Kafka)
 ![Module 8: Event-Driven Messaging with Apache Kafka](../assets/cloud_and_devops.webp)
 
 
-> 📂 **Runnable Example Project for this Module:**  
+> 📂 **គម្រោងកូដគំរូជាក់ស្តែងសម្រាប់ Module នេះ (Runnable Project):**  
 > 👉 **[Apache Kafka Event-Driven Messaging](../examples/04-kafka-messaging)**  
-> Complete Maven project featuring Kafka Producer (KafkaTemplate), Consumer (@KafkaListener), JSON Domain Events, and Docker Compose.
+> គម្រោង Maven ពេញលេញរួមមាន Kafka Producer (KafkaTemplate), Consumer (@KafkaListener), JSON Domain Events, និង Docker Compose។
 
 ---
 
-## 📖 Module Overview
+## 📖 សេចក្តីផ្តើមអំពី Module
 
-Asynchronous event streaming: Kafka producers, consumers, publishing JSON/String payloads, topic partitioning, Elasticsearch & Grafana observability, and dynamic listeners.
+ស្ថាបត្យកម្ម Asynchronous Event-Driven៖ Kafka Producers, Consumers, JSON/String Messages, Topic Configurations, Elasticsearch & Grafana integration, និង Dynamic Listeners។
 
 ---
 
-## 🗺️ Module Learning Roadmap
+## 🗺️ ផែនទីសិក្សាប្រចាំ Module (Learning Roadmap)
 
 ```mermaid
 flowchart TD
@@ -29,28 +26,29 @@ flowchart TD
     L6["06. Consuming String Messages from Kafka"] --> L7["07. Create and Configure Kafka Topics"]
     L7["07. Create and Configure Kafka Topics"] --> L8["08. Kafka, Elasticsearch & Grafana Pipeline"]
     L8["08. Kafka, Elasticsearch & Grafana Pipeline"] --> L9["09. Start/Stop Kafka Listener Dynamically"]
+
 ```
 
 ---
 
-## 📚 Lessons in This Module (9 Lessons)
+## 📚 បញ្ជីមេរៀនក្នុង Module (9 Lessons)
 
-| Lesson | Topic | Description |
+| មេរៀន (Lesson) | ប្រធានបទ (Topic) | ការពិពណ៌នា (Description) |
 | :---: | :--- | :--- |
-| **01** | [Kafka Producer in Spring Boot](01-kafka-producer/README.md) | Configuring KafkaTemplate and emitting streaming records |
-| **02** | [Kafka Consumer in Spring Boot](02-kafka-consumer/README.md) | Consuming topic events asynchronously with @KafkaListener |
-| **03** | [Publishing JSON Messages to Kafka](03-publish-json-messages/README.md) | Serializing domain objects into JSON payloads for Kafka topics |
-| **04** | [Consuming JSON Messages from Kafka](04-consume-json-messages/README.md) | Deserializing incoming JSON payloads into strongly-typed objects |
-| **05** | [Publishing String Messages to Kafka](05-publish-string-messages/README.md) | Publishing plain-text string payloads to Kafka topics |
-| **06** | [Consuming String Messages from Kafka](06-consume-string-messages/README.md) | Consuming string messages across consumer group partitions |
-| **07** | [Create and Configure Kafka Topics](07-create-configure-topics/README.md) | Programmatic topic creation and partition replication configuration |
-| **08** | [Kafka, Elasticsearch & Grafana Pipeline](08-kafka-elasticsearch-grafana/README.md) | Building a real-time data pipeline from Kafka to Elasticsearch & Grafana |
-| **09** | [Start/Stop Kafka Listener Dynamically](09-dynamic-kafka-listener/README.md) | Dynamically starting, pausing, and resuming Kafka listeners at runtime |
+| **01** | [Kafka Producer in Spring Boot](01-kafka-producer/README.md) | ការបង្កើត Kafka Producer និងការប្រើប្រាស់ KafkaTemplate |
+| **02** | [Kafka Consumer in Spring Boot](02-kafka-consumer/README.md) | ការបង្កើត Kafka Consumer ជាមួយ @KafkaListener |
+| **03** | [Publishing JSON Messages to Kafka](03-publish-json-messages/README.md) | ការបម្លែង Java Object ទៅជា JSON បញ្ជូនទៅ Kafka |
+| **04** | [Consuming JSON Messages from Kafka](04-consume-json-messages/README.md) | ការទទួល និង Deserializing JSON Event មកជា Java DTO |
+| **05** | [Publishing String Messages to Kafka](05-publish-string-messages/README.md) | ការផ្ញើសារជា Text/String ធម្មតាទៅកាន់ Topic |
+| **06** | [Consuming String Messages from Kafka](06-consume-string-messages/README.md) | ការចាប់យក Text Message ពី Topic តាម Consumer Group |
+| **07** | [Create and Configure Kafka Topics](07-create-configure-topics/README.md) | ការបង្កើត និងគ្រប់គ្រង Partitions & Replicas តាម Java Code |
+| **08** | [Kafka, Elasticsearch & Grafana Pipeline](08-kafka-elasticsearch-grafana/README.md) | Data Pipeline: ទាញទិន្នន័យពី Kafka រក្សាទុកក្នុង ES និង Plot លើ Grafana |
+| **09** | [Start/Stop Kafka Listener Dynamically](09-dynamic-kafka-listener/README.md) | ការគ្រប់គ្រង Lifecycle នៃ Kafka Listener Container ក្នុង Runtime |
 
 ---
 
-## 🧭 Navigation
+## 🧭 ការរុករក (Navigation)
 
-| Previous | Main Index | Next Module |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Index) | បន្ទាប់ (Next Module) |
 | :--- | :---: | :--- |
-| [Module 7: Microservices](../07-microservices-with-spring-boot/README.md) | [📚 Spring Boot Home](../README.md) | [Module 9: Aspect-Oriented Programming →](../09-spring-boot-with-aop/README.md) |
+| [Module 7: Microservices](../07-microservices-with-spring-boot/README.md) | [📚 មាតិកា Spring Boot](../README.md) | [Module 9: Aspect-Oriented Programming →](../09-spring-boot-with-aop/README.md) |

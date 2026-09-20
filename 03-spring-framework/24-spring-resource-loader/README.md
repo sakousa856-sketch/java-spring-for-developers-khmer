@@ -1,68 +1,71 @@
-# Part 24: Spring Resource Loader & File Abstraction
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+# Part 24: ការគ្រប់គ្រងឯកសារ និងធនធាន Resource Loader (Spring Resource Loader & File Abstraction)
 > 
-> 📖 **Official Spring Documentation:** [Resources](https://docs.spring.io/spring-framework/reference/core/resources.html) | [The ResourceLoader](https://docs.spring.io/spring-framework/reference/core/resources/resourceloader.html)
+> 📖 **ឯកសារយោងផ្លូវការ Spring Docs:** [Resources](https://docs.spring.io/spring-framework/reference/core/resources.html) | [The ResourceLoader](https://docs.spring.io/spring-framework/reference/core/resources/resourceloader.html)
 
 ![Spring Resource Loader Architecture](./assets/spring-resource-loader.svg "Spring Resource Loader & File Abstraction Architecture")
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Shortcomings of java.net.URL and Spring's Resource Abstraction](#1-shortcomings-of-javaneturl-and-springs-resource-abstraction)
-- [2. Primary Resource Prefixes (classpath:, file:, https:)](#2-primary-resource-prefixes-classpath-file-https)
-- [3. Leveraging ResourceLoader Programmatically](#3-leveraging-resourceloader-programmatically)
-- [4. Direct Resource Injection via @Value](#4-direct-resource-injection-via-value)
-- [5. Bulk Wildcard Resolution with ResourcePatternResolver](#5-bulk-wildcard-resolution-with-resourcepatternresolver)
-- [6. Practical Code Challenge](#6-practical-code-challenge)
-- [🔗 Official Spring Documentation](#-official-spring-documentation)
-
----
-
-## 1. Shortcomings of java.net.URL and Spring's Resource Abstraction
-
-Standard Java's `java.net.URL` mechanism lacks standardized primitives for loading assets relative to classpaths, servlet contexts, or nested within archived JAR boundaries.
-
-Spring addresses this via the **`org.springframework.core.io.Resource`** descriptor:
-- `exists()`: Validates physical file existence
-- `isReadable()`: Confirms accessibility
-- `getInputStream()`: Provides an open byte stream
-- `contentLength()`: Quantifies byte size
-- `getFilename()`: Extracts base asset name
+- [1. ដែនកំណត់នៃ java.net.URL និងដំណោះស្រាយរបស់ Spring Resource](#1-ដែនកំណត់នៃ-javaneturl-និងដំណោះស្រាយរបស់-spring-resource)
+- [2. ប្រភេទ Resource Prefixes សំខាន់ៗ (classpath:, file:, http:)](#2-ប្រភេទ-resource-prefixes-សំខាន់ៗ-classpath-file-http)
+- [3. ការប្រើប្រាស់ ResourceLoader ក្នុងការអានឯកសារ](#3-ការប្រើប្រាស់-resourceloader-ក្នុងការអានឯកសារ)
+- [4. ការ Inject Resource ដោយផ្ទាល់តាមរយៈ @Value](#4-ការ-inject-resource-ដោយផ្ទាល់តាមរយៈ-value)
+- [5. ការទាញយកឯកសារច្រើនដោយ Wildcards (ResourcePatternResolver)](#5-ការទាញយកឯកសារច្រើនដោយ-wildcards-resourcepatternresolver)
+- [6. លំហាត់អនុវត្តកូដ (Code Challenge)](#6-លំហាត់អនុវត្តកូដ-code-challenge)
+- [🔗 ឯកសារយោងផ្លូវការ Spring Docs](#-ឯកសារយោងផ្លូវការ-spring-docs)
 
 ---
 
-## 2. Primary Resource Prefixes
+## 1. ដែនកំណត់នៃ java.net.URL និងដំណោះស្រាយរបស់ Spring Resource
 
-| Prefix | Usage Example | Semantic Meaning |
+នៅក្នុង Java ស្តង់ដារ Class `java.net.URL` មិនផ្តល់នូវវិធីងាយស្រួលក្នុងការអាន File ពី Classpath ឬពីខាងក្នុង JAR File ឡើយ។
+
+Spring Framework បានបង្កើតនូវ Interface **`org.springframework.core.io.Resource`** ដែលជា Abstraction ដ៏មានអនុភាព រួបរួមគ្រប់ប្រភពឯកសារទាំងអស់ឱ្យនៅក្រោម Interface តែមួយ៖
+- `exists()`: ពិនិត្យមើលថាតើឯកសារមានពិតឬទេ
+- `isReadable()`: អាចបើកអានបានឬទេ
+- `isOpen()`: បញ្ជាក់ថាតើ Stream ត្រូវបានបើកឬនៅ
+- `getInputStream()`: យក `InputStream` ដើម្បីអានទិន្នន័យ
+- `contentLength()`: ទំហំឯកសារគិតជា Bytes
+- `getFilename()`: ឈ្មោះឯកសារ
+
+---
+
+## 2. ប្រភេទ Resource Prefixes សំខាន់ៗ
+
+Spring ស្គាល់ Prefixes ជាច្រើនដើម្បីកំណត់ប្រភពឯកសារ៖
+
+| Prefix | ឧទាហរណ៍ | ការពន្យល់ |
 | :--- | :--- | :--- |
-| **`classpath:`** | `classpath:config/app.json` | Resolves from application classpath or embedded JAR |
-| **`file:`** | `file:/opt/data/certs.pem` | Resolves from underlying operating system filesystem |
-| **`https:` / `http:`**| `https://domain.com/feed.xml` | Resolves as HTTP web network stream |
-| **(None)** | `data/users.csv` | Depends on context loader implementation |
+| **`classpath:`** | `classpath:data/users.json` | ផ្ទុកឯកសារពី Classpath (ក្នុង `src/main/resources` ឬក្នុង JAR) |
+| **`file:`** | `file:/var/data/report.pdf` | ផ្ទុកឯកសារពី File System របស់ប្រព័ន្ធប្រតិបត្តិការ |
+| **`https:` / `http:`**| `https://api.example.com/data` | ផ្ទុកឯកសារពី Web Server តាមបណ្តាញ Internet |
+| **គ្មាន Prefix** | `data/config.xml` | ពឹងផ្អែកលើប្រភេទ Container (ឧ. Classpath បើប្រើ `ClassPathXmlApplicationContext`) |
 
 ---
 
-## 3. Leveraging ResourceLoader Programmatically
+## 3. ការប្រើប្រាស់ ResourceLoader ក្នុងការអានឯកសារ
 
-Every Spring `ApplicationContext` implements `ResourceLoader`:
+គ្រប់ `ApplicationContext` ក្នុង Spring សុទ្ធតែជា `ResourceLoader`។ យើងអាច Inject `ResourceLoader` ចូលក្នុង Service បានយ៉ាងងាយស្រួល៖
 
 ```java
 @Service
-public class DocumentService {
+public class ReportDataLoader {
 
-    private final ResourceLoader loader;
+    private final ResourceLoader resourceLoader;
 
-    public DocumentService(ResourceLoader loader) {
-        this.loader = loader;
+    public ReportDataLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
     }
 
-    public byte[] loadDocument(String uri) throws IOException {
-        Resource resource = loader.getResource(uri);
+    public String loadTemplate(String path) throws IOException {
+        Resource resource = resourceLoader.getResource(path);
+
         if (!resource.exists()) {
-            throw new FileNotFoundException("Asset not found at: " + uri);
+            throw new FileNotFoundException("រកមិនឃើញឯកសារ: " + path);
         }
-        try (InputStream stream = resource.getInputStream()) {
-            return stream.readAllBytes();
+
+        try (InputStream is = resource.getInputStream()) {
+            return new String(is.readAllBytes(), StandardCharsets.UTF_8);
         }
     }
 }
@@ -70,48 +73,50 @@ public class DocumentService {
 
 ---
 
-## 4. Direct Resource Injection via @Value
+## 4. ការ Inject Resource ដោយផ្ទាល់តាមរយៈ @Value
 
-Spring's built-in `PropertyEditor` converts string path expressions directly into `Resource` beans:
+Spring អនុញ្ញាតឱ្យអ្នក Inject ឯកសារ `Resource` ដោយផ្ទាល់ទៅក្នុង Field តាមរយៈ `@Value` ដោយមិនចាំបាច់សរសេរកូដ Load ដោយដៃឡើយ៖
 
 ```java
 @Component
-public class DatabaseBootstrap {
+public class DatabaseSchemaInitializer {
 
+    // Spring នឹងស្វែងរក និង Inject Resource ដោយស្វ័យប្រវត្តិតាម Type Converter
     @Value("classpath:schema.sql")
-    private Resource ddlScript;
+    private Resource sqlSchema;
 
-    @Value("file:/var/app/license.key")
-    private Resource licenseKey;
+    @Value("file:/etc/app/license.key")
+    private Resource licenseFile;
 
-    public void verify() throws IOException {
-        System.out.printf("Resource: %s (Size: %d bytes)%n", 
-                ddlScript.getFilename(), ddlScript.contentLength());
+    public void initialize() throws IOException {
+        System.out.println("Reading schema: " + sqlSchema.getFilename());
+        System.out.println("File size: " + sqlSchema.contentLength() + " bytes");
     }
 }
 ```
 
 ---
 
-## 5. Bulk Wildcard Resolution with ResourcePatternResolver
+## 5. ការទាញយកឯកសារច្រើនដោយ Wildcards (ResourcePatternResolver)
 
-To load multiple files matching Ant-style patterns (wildcards), leverage `ResourcePatternResolver`:
+ប្រសិនបើអ្នកចង់អាន Files ច្រើនស្របពេលគ្នា (ឧ. រាល់ file `.xml` ទាំងអស់ក្នុង folder) អ្នកអាចប្រើ `ResourcePatternResolver` ជាមួយ Prefix **`classpath*:`**៖
 
 ```java
 @Service
-public class PluginScanner {
+public class MultiConfigLoader {
 
-    private final ResourcePatternResolver resolver;
+    private final ResourcePatternResolver patternResolver;
 
-    public PluginScanner(ResourcePatternResolver resolver) {
-        this.resolver = resolver;
+    public MultiConfigLoader(ResourcePatternResolver patternResolver) {
+        this.patternResolver = patternResolver;
     }
 
-    public void discover() throws IOException {
-        // Loads matching resources across all jars in classpath
-        Resource[] definitions = resolver.getResources("classpath*:modules/**/plugin.xml");
-        for (Resource r : definitions) {
-            System.out.println("Discovered manifest: " + r.getURI());
+    public void loadAllPlugins() throws IOException {
+        // អានគ្រប់ file json ទាំងអស់ក្នុង folder plugins និង subfolders
+        Resource[] resources = patternResolver.getResources("classpath*:plugins/**/*.json");
+
+        for (Resource r : resources) {
+            System.out.println("Loaded plugin file: " + r.getFilename());
         }
     }
 }
@@ -119,28 +124,30 @@ public class PluginScanner {
 
 ---
 
-## 6. Practical Code Challenge
+## 6. លំហាត់អនុវត្តកូដ (Code Challenge)
 
-**Challenge:** Create a component `SystemBanner` that injects `classpath:banner.txt` via `@Value`. Print the banner in uppercase to the console upon container initialization (`@PostConstruct`).
+**លំហាត់:** ចូរបង្កើត Service ឈ្មោះ `BannerPrinter` ដែល Inject `Resource` ឈ្មោះ `classpath:banner.txt` តាមរយៈ `@Value` រួចបង្កើត method `printBanner()` ដែលអាន និងបង្ហាញអត្ថបទ banner នោះទៅកាន់ Console ពេលកម្មវិធីចាប់ផ្តើម (`@PostConstruct`)។
 
 <details>
-<summary>🔍 Click to view solution</summary>
+<summary>🔍 ចុចទីនេះដើម្បីមើលដំណោះស្រាយគំរូ</summary>
 
 ```java
 @Component
-public class SystemBanner {
+public class BannerPrinter {
 
     @Value("classpath:banner.txt")
-    private Resource banner;
+    private Resource bannerResource;
 
     @PostConstruct
-    public void display() {
-        if (banner.exists()) {
-            try (InputStream in = banner.getInputStream()) {
-                String text = new String(in.readAllBytes(), StandardCharsets.UTF_8);
-                System.out.println(text.toUpperCase());
+    public void printBanner() {
+        if (bannerResource.exists()) {
+            try (InputStream is = bannerResource.getInputStream()) {
+                String banner = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                System.out.println("====================================");
+                System.out.println(banner);
+                System.out.println("====================================");
             } catch (IOException e) {
-                System.err.println("Failed to read banner: " + e.getMessage());
+                System.err.println("Could not load banner: " + e.getMessage());
             }
         }
     }
@@ -150,7 +157,7 @@ public class SystemBanner {
 
 ---
 
-## 🔗 Official Spring Documentation
+## 🔗 ឯកសារយោងផ្លូវការ Spring Docs
 
 - [Spring Resources Abstraction](https://docs.spring.io/spring-framework/reference/core/resources.html)
 - [The ResourceLoader Specification](https://docs.spring.io/spring-framework/reference/core/resources/resourceloader.html)
@@ -158,8 +165,8 @@ public class SystemBanner {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next Course |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | វគ្គបន្ទាប់ (Next Course) |
 | :--- | :---: | :--- |
-| [← Part 23: Circular Dependencies](../23-circular-dependencies-resolution/README.md) | [📚 Spring Framework Index](../README.md) | [Course 04: Spring Boot →](../../04-spring-boot/README.md) |
+| [← Part 23: Circular Dependencies](../23-circular-dependencies-resolution/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Course 04: Spring Boot →](../../04-spring-boot/README.md) |

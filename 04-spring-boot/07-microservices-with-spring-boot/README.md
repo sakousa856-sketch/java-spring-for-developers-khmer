@@ -1,46 +1,44 @@
-# Module 7: Microservices Architecture with Spring Boot
-
-> 🌐 **Language / ភាសា:** 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md) | 🇬🇧 **[English](README.md)**
-
+# Module 7: ស្ថាបត្យកម្ម Microservices ជាមួយ Spring Boot (Microservices)
 ![Module 7: Microservices Architecture with Spring Boot](../assets/microservices.webp)
 
 
-> 📂 **Runnable Example Project for this Module:**  
+> 📂 **គម្រោងកូដគំរូជាក់ស្តែងសម្រាប់ Module នេះ (Runnable Project):**  
 > 👉 **[E-Commerce Microservices Architecture (Spring Cloud)](../examples/05-microservices-ecommerce)**  
-> Complete 4-service platform (Eureka Server, API Gateway, Product Service, Order Service with OpenFeign) and Docker Compose.
+> គម្រោងពេញលេញ ៤ សេវាកម្ម (Eureka Server, API Gateway, Product Service, Order Service ជាមួយ OpenFeign) និង Docker Compose។
 
 ---
 
-## 📖 Module Overview
+## 📖 សេចក្តីផ្តើមអំពី Module
 
-Architecting distributed systems: microservices principles, inter-service REST communication (RestClient, Feign), deploying to AWS Elastic Beanstalk, and sample project design.
+ការកសាងប្រព័ន្ធ Microservices ខ្នាតធំ៖ មូលដ្ឋានគ្រឹះ Microservices, ការប្រាស្រ័យទាក់ទងគ្នា (RestClient, Feign), ការ Deploy លើ AWS Elastic Beanstalk, និងគម្រោង Microservices គំរូ។
 
 ---
 
-## 🗺️ Module Learning Roadmap
+## 🗺️ ផែនទីសិក្សាប្រចាំ Module (Learning Roadmap)
 
 ```mermaid
 flowchart TD
     L1["01. Microservices Step-by-Step Guide"] --> L2["02. Communication Between Microservices"]
     L2["02. Communication Between Microservices"] --> L3["03. Deploy on AWS Elastic Beanstalk"]
     L3["03. Deploy on AWS Elastic Beanstalk"] --> L4["04. Microservices Sample Project"]
+
 ```
 
 ---
 
-## 📚 Lessons in This Module (4 Lessons)
+## 📚 បញ្ជីមេរៀនក្នុង Module (4 Lessons)
 
-| Lesson | Topic | Description |
+| មេរៀន (Lesson) | ប្រធានបទ (Topic) | ការពិពណ៌នា (Description) |
 | :---: | :--- | :--- |
-| **01** | [Microservices Step-by-Step Guide](01-microservices-step-by-step-guide/README.md) | Step-by-step guide to microservices fundamentals and service boundaries |
-| **02** | [Communication Between Microservices](02-inter-service-communication/README.md) | Synchronous inter-service communication: RestClient, WebClient, Feign |
-| **03** | [Deploy on AWS Elastic Beanstalk](03-deploy-aws-elastic-beanstalk/README.md) | Packaging and deploying containerized microservices to AWS Beanstalk |
-| **04** | [Microservices Sample Project](04-microservices-sample-project/README.md) | Architectural walkthrough of a multi-service eCommerce ecosystem |
+| **01** | [Microservices Step-by-Step Guide](01-microservices-step-by-step-guide/README.md) | ការស្វែងយល់អំពី Microservices Architecture និងការបំបែក Domain |
+| **02** | [Communication Between Microservices](02-inter-service-communication/README.md) | ការហៅឆ្លង Service ជាមួយ RestClient, WebClient, និង OpenFeign |
+| **03** | [Deploy on AWS Elastic Beanstalk](03-deploy-aws-elastic-beanstalk/README.md) | ការវេចខ្ចប់ JAR និងការ Deploy ទៅកាន់ AWS Cloud |
+| **04** | [Microservices Sample Project](04-microservices-sample-project/README.md) | ស្ថាបត្យកម្មគម្រោងជាក់ស្តែង៖ Order, Product, និង Payment Services |
 
 ---
 
-## 🧭 Navigation
+## 🧭 ការរុករក (Navigation)
 
-| Previous | Main Index | Next Module |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Index) | បន្ទាប់ (Next Module) |
 | :--- | :---: | :--- |
-| [Module 6: Advanced Features](../06-advanced-spring-boot-features/README.md) | [📚 Spring Boot Home](../README.md) | [Module 8: Kafka Messaging →](../08-spring-boot-with-kafka/README.md) |
+| [Module 6: Advanced Features](../06-advanced-spring-boot-features/README.md) | [📚 មាតិកា Spring Boot](../README.md) | [Module 8: Kafka Messaging →](../08-spring-boot-with-kafka/README.md) |

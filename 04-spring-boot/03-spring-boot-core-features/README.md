@@ -1,16 +1,13 @@
-# Module 3: Spring Boot Core Features & Runtime Engine
-
-> 🌐 **Language / ភាសា:** 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md) | 🇬🇧 **[English](README.md)**
-
+# Module 3: លក្ខណៈពិសេសស្នូលរបស់ Spring Boot (Core Features)
 ![Module 3: Spring Boot Core Features & Runtime Engine](../assets/web_development.webp)
 
-## 📖 Module Overview
+## 📖 សេចក្តីផ្តើមអំពី Module
 
-Mastering the runtime engine of Spring Boot: layered architecture, core annotations, auto-configuration conditions, dependency management, YAML profiles, Actuator, and DevTools.
+ស្វែងយល់ពីបច្ចេកវិទ្យាស្នូលរបស់ Spring Boot៖ ស្ថាបត្យកម្ម Layered, Annotations សំខាន់ៗ, យន្តការ Auto-Configuration, Starters, Properties/YAML, Actuator, និង DevTools។
 
 ---
 
-## 🗺️ Module Learning Roadmap
+## 🗺️ ផែនទីសិក្សាប្រចាំ Module (Learning Roadmap)
 
 ```mermaid
 flowchart TD
@@ -21,27 +18,28 @@ flowchart TD
     L5["05. Application Properties Configuration"] --> L6["06. YAML Configuration (application.yml)"]
     L6["06. YAML Configuration (application.yml)"] --> L7["07. Spring Boot Actuator"]
     L7["07. Spring Boot Actuator"] --> L8["08. Spring Boot DevTools"]
+
 ```
 
 ---
 
-## 📚 Lessons in This Module (8 Lessons)
+## 📚 បញ្ជីមេរៀនក្នុង Module (8 Lessons)
 
-| Lesson | Topic | Description |
+| មេរៀន (Lesson) | ប្រធានបទ (Topic) | ការពិពណ៌នា (Description) |
 | :---: | :--- | :--- |
-| **01** | [Spring Boot Architecture](01-spring-boot-architecture/README.md) | Layered architecture and internal request-response flow |
-| **02** | [Spring Boot Core Annotations](02-spring-boot-annotations/README.md) | Comprehensive guide to indispensable Spring Boot annotations |
-| **03** | [Auto-Configuration Deep Dive](03-auto-configuration/README.md) | Under the hood: Auto-Configuration and @Conditional annotations |
-| **04** | [Dependency Management & Starters](04-dependency-management/README.md) | Opinionated starter POMs and transitive dependency management |
-| **05** | [Application Properties Configuration](05-application-properties/README.md) | Configuration via application.properties and type-safe binding |
-| **06** | [YAML Configuration (application.yml)](06-yaml-configuration/README.md) | Configuring application.yml and multi-environment profiles |
-| **07** | [Spring Boot Actuator](07-spring-boot-actuator/README.md) | Production telemetry via Actuator health, metrics, and env endpoints |
-| **08** | [Spring Boot DevTools](08-spring-boot-devtools/README.md) | Accelerating development with sub-second restarts and LiveReload |
+| **01** | [Spring Boot Architecture](01-spring-boot-architecture/README.md) | ស្ថាបត្យកម្ម 4-Layer និងដំណើរការ Request-Response |
+| **02** | [Spring Boot Core Annotations](02-spring-boot-annotations/README.md) | បណ្តុំ Annotations សំខាន់ៗបំផុតដែលត្រូវចេះក្នុង Spring Boot |
+| **03** | [Auto-Configuration Deep Dive](03-auto-configuration/README.md) | យន្តការកំណត់រចនាសម្ព័ន្ធស្វ័យប្រវត្តិ និង @Conditional |
+| **04** | [Dependency Management & Starters](04-dependency-management/README.md) | ការគ្រប់គ្រង Dependencies តាម Starters និង Spring Boot BOM |
+| **05** | [Application Properties Configuration](05-application-properties/README.md) | ការកំណត់ Properties, @Value, និង @ConfigurationProperties |
+| **06** | [YAML Configuration (application.yml)](06-yaml-configuration/README.md) | ការប្រើប្រាស់ YAML, Hierarchical structure, និង Multi-Profiles |
+| **07** | [Spring Boot Actuator](07-spring-boot-actuator/README.md) | ការត្រួតពិនិត្យសុខភាពប្រព័ន្ធតាម /health, /metrics, /info |
+| **08** | [Spring Boot DevTools](08-spring-boot-devtools/README.md) | បង្កើនល្បឿនអភិវឌ្ឍន៍ជាមួយ Automatic Restart និង LiveReload |
 
 ---
 
-## 🧭 Navigation
+## 🧭 ការរុករក (Navigation)
 
-| Previous | Main Index | Next Module |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Index) | បន្ទាប់ (Next Module) |
 | :--- | :---: | :--- |
-| [Module 2: Spring Core Concept](../02-spring-core-concept/README.md) | [📚 Spring Boot Home](../README.md) | [Module 4: REST APIs →](../04-spring-boot-with-rest-api/README.md) |
+| [Module 2: Spring Core Concept](../02-spring-core-concept/README.md) | [📚 មាតិកា Spring Boot](../README.md) | [Module 4: REST APIs →](../04-spring-boot-with-rest-api/README.md) |

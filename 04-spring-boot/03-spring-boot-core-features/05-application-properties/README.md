@@ -1,52 +1,50 @@
-# Lesson 5: Managing Configuration with Application Properties
+# មេរៀនទី ៥: ការកំណត់រចនាសម្ព័ន្ធជាមួយ Application Properties
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../04-dependency-management/README.md) | [មេរៀនបន្ទាប់ →](../06-yaml-configuration/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../04-dependency-management/README.md) | [Next Lesson →](../06-yaml-configuration/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Bookstore Application Configuration](../../examples/01-rest-api-crud)  
-> 📄 **Source Code Files:** [`application.yml`](../../examples/01-rest-api-crud/src/main/resources/application.yml) | [`pom.xml`](../../examples/01-rest-api-crud/pom.xml)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Bookstore Application Configuration](../../examples/01-rest-api-crud)  
+> 📄 **File កូដជាក់ស្តែង:** [`application.yml`](../../examples/01-rest-api-crud/src/main/resources/application.yml) | [`pom.xml`](../../examples/01-rest-api-crud/pom.xml)
 
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Configuration Management in Spring Boot](#1-configuration-management-in-spring-boot)
-- [2. Comparison: `application.properties` vs. `application.yml`](#2-comparison-applicationproperties-vs-applicationyml)
-- [3. Pattern 1: Value Injection with `@Value`](#3-pattern-1-value-injection-with-value)
-- [4. Pattern 2: Type-Safe Binding with `@ConfigurationProperties`](#4-pattern-2-type-safe-binding-with-configurationproperties)
-- [5. Environment Isolation with Profiles](#5-environment-isolation-with-profiles)
+- [1. ទិដ្ឋភាពទូទៅនៃ Configuration ក្នុង Spring Boot](#1-ទិដ្ឋភាពទូទៅនៃ-configuration-ក្នុង-spring-boot)
+- [2. ការប្រៀបធៀប៖ `application.properties` vs `application.yml`](#2-ការប្រៀបធៀប-applicationproperties-vs-applicationyml)
+- [3. វិធីទី ១៖ អានតម្លៃដោយប្រើ `@Value`](#3-វិធីទី-១-អានតម្លៃដោយប្រើ-value)
+- [4. វិធីទី ២៖ Type-Safe Configuration ជាមួយ `@ConfigurationProperties`](#4-វិធីទី-២-type-safe-configuration-ជាមួយ-configurationproperties)
+- [5. ការគ្រប់គ្រងបរិស្ថានតាម Profiles (`dev`, `staging`, `prod`)](#5-ការគ្រប់គ្រងបរិស្ថានតាម-profiles-dev-staging-prod)
 
 ---
 
-## 1. Configuration Management in Spring Boot
+## 1. ទិដ្ឋភាពទូទៅនៃ Configuration ក្នុង Spring Boot
 
-In Spring Boot, external application settings (server ports, datasource credentials, timeout thresholds, API tokens) reside in `src/main/resources/` within `application.properties` or `application.yml`.
+នៅក្នុង Spring Boot រាល់ការកំណត់រចនាសម្ព័ន្ធ (ដូចជា Server Port, Database Connection, Secret Keys, Third-party APIs) ត្រូវបានដាក់នៅទីតាំងកណ្តាលមួយក្នុង `src/main/resources/` ដោយប្រើឯកសារ **`application.properties`** ឬ **`application.yml`**។
 
-Spring Boot supports externalized configuration, allowing the same application artifact to adapt across different deployment environments without recompiling source code.
+Spring Boot ផ្តល់នូវភាពបត់បែនខ្ពស់ក្នុងការកែប្រែ Configuration ដោយមិនចាំបាច់ប៉ះពាល់ដល់កូដ Java ឡើយ។
 
 ---
 
-## 2. Comparison: `application.properties` vs. `application.yml`
+## 2. ការប្រៀបធៀប៖ `application.properties` vs `application.yml`
 
-| `application.properties` (Flat key-value format) | `application.yml` (Hierarchical YAML) |
+| `application.properties` (Flat format) | `application.yml` (Hierarchical YAML) |
 | :--- | :--- |
 | ```properties<br>server.port=8080<br>spring.datasource.url=jdbc:postgresql://localhost:5432/mydb<br>spring.datasource.username=postgres<br>spring.datasource.password=secret<br>``` | ```yaml<br>server:<br>  port: 8080<br>spring:<br>  datasource:<br>    url: jdbc:postgresql://localhost:5432/mydb<br>    username: postgres<br>    password: secret<br>``` |
 
-**Why engineers prefer YAML:**
-- Natural visual nesting prevents repetitive prefix typing
-- Native support for ordered lists and structured data objects
+**ហេតុអ្វីបានជា Developer និយមប្រើ YAML?**
+- មានទម្រង់ជារចនាសម្ព័ន្ធដើមឈើ (Tree Hierarchy) ស្អាត មិនបាច់សរសេរ prefix ស្ទួនៗ
+- គាំទ្រ Data Lists, Maps, និង Comments ច្បាស់លាស់
 
 ---
 
-## 3. Pattern 1: Value Injection with `@Value`
+## 3. វិធីទី ១៖ អានតម្លៃដោយប្រើ `@Value`
 
-Direct injection of individual configuration values into Spring Beans:
+ប្រើប្រាស់ `@Value` Annotation ដើម្បីទាញយកតម្លៃមកដាក់ក្នុង Field ដោយផ្ទាល់៖
 
 ```java
 @Service
 public class PaymentGatewayService {
 
-    // Injects property with a fallback default value of 30
+    // ទាញយកតម្លៃពី config បើគ្មានដាក់ default ជា 30
     @Value("${payment.timeout:30}")
     private int timeoutSeconds;
 
@@ -54,16 +52,16 @@ public class PaymentGatewayService {
     private String apiKey;
 
     public void process() {
-        System.out.println("Timeout: " + timeoutSeconds + ", Key: " + apiKey);
+        System.out.println("Connecting with API Key: " + apiKey + ", Timeout: " + timeoutSeconds);
     }
 }
 ```
 
 ---
 
-## 4. Pattern 2: Type-Safe Binding with `@ConfigurationProperties`
+## 4. វិធីទី ២៖ Type-Safe Configuration ជាមួយ `@ConfigurationProperties`
 
-For structured, multi-field configurations, use type-safe binding into POJOs or **Java 17+ Records**:
+សម្រាប់ Configuration ដែលមានទំហំធំ ឬស្មុគស្មាញ ការប្រើ `@Value` ច្រើនជួរងាយនឹងច្រឡំ។ វិធីសាស្ត្រស្តង់ដារល្អបំផុតគឺបង្កើត Class ឬ **Java Record** ជាមួយ `@ConfigurationProperties`៖
 
 ```yaml
 # application.yml
@@ -74,47 +72,48 @@ app:
 ```
 
 ```java
-// Immutable, type-safe configuration record
+// Type-Safe Config Record (Java 17+)
 @ConfigurationProperties(prefix = "app.jwt")
 public record JwtProperties(String secret, int expirationHours) {}
 ```
 
 ```java
+// យកទៅប្រើប្រាស់ក្នុង Service
 @Service
 @RequiredArgsConstructor
 public class TokenService {
     private final JwtProperties jwtProperties;
 
     public void generateToken() {
-        System.out.println("Configured secret: " + jwtProperties.secret());
+        System.out.println("Secret: " + jwtProperties.secret());
     }
 }
 ```
 
 ---
 
-## 5. Environment Isolation with Profiles
+## 5. ការគ្រប់គ្រងបរិស្ថានតាម Profiles (`dev`, `staging`, `prod`)
 
-Segregate environments via dedicated profile configurations:
-- `application-dev.yml` (local development with in-memory H2)
-- `application-prod.yml` (production cloud database)
+Spring Boot អនុញ្ញាតឱ្យយើងបំបែក Configuration តាមបរិស្ថានការងារជាក់ស្តែង៖
+- `application-dev.yml` (សម្រាប់ run លើម៉ាស៊ីនផ្ទាល់ខ្លួន — ប្រើ H2 DB)
+- `application-prod.yml` (សម្រាប់ Server ពិតប្រាកដ — ប្រើ Cloud PostgreSQL)
 
-### Activating Profiles
+### ការជ្រើសរើស Profile ឱ្យដំណើរការ៖
 ```yaml
-# application.yml
+# application.yml (Default)
 spring:
   profiles:
     active: dev
 ```
 
-Or pass at runtime via environment variables or CLI arguments:
+ឬនៅពេល Deploy លើ Production តាមរយៈ Terminal / Docker៖
 ```bash
 java -jar -Dspring.profiles.active=prod app.jar
 ```
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Starter Dependencies and Dependency Management](../04-dependency-management/README.md) | [📚 Module Index](../README.md) | [Configuration with YAML in Spring Boot →](../06-yaml-configuration/README.md) |
+| [← ការគ្រប់គ្រង Starter Dependencies (Dependency Management)](../04-dependency-management/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការកំណត់រចនាសម្ព័ន្ធជាមួយ YAML (YAML Configuration in Spring Boot) →](../06-yaml-configuration/README.md) |

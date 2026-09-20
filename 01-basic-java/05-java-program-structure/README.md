@@ -24,31 +24,32 @@ public class AppOne {
 
 ```mermaid
 classDiagram
-    class Package["1. package com.example.tutorial (កញ្ចប់ផ្ទុកកូដ)"]
-    class AppOne["2. public class AppOne (ថ្នាក់មេ)"]
-    class MainMethod["3. public static void main(String[] args) (មេថូតចាប់ផ្តើម)"]
-    class Statement["4. System.out.println('Hello World'); (បញ្ជាប្រតិបត្តិ)"]
+    class Package["1. package com.example.tutorial (Package)"]
+    class AppOne["2. public class AppOne (Main Class)"]
+    class MainMethod["3. public static void main(String[] args) (Main Entry Method)"]
+    class Statement["4. System.out.println('Hello World'); (Statement)"]
     
     Package --> AppOne
     AppOne --> MainMethod
     MainMethod --> Statement
+
 ```
 
 ---
 
 ## 🔍 ២. ការពន្យល់ធាតុផ្សំនីមួយៗ (Component Breakdown)
 
-### 📦 ១. `package` (កញ្ចប់ផ្ទុក)
+### 📦 ១. `package` (Package Namespace)
 * បន្ទាត់ទី ១៖ `package com.example.tutorial;`
 * ជា Folders ឬ Namespace សម្រាប់រៀបចំចាត់ថ្នាក់ឯកសារកូដឱ្យមានសណ្តាប់ធ្នាប់ ការពារការជាន់ឈ្មោះ Class គ្នាទៅវិញទៅមក។
 
-### 🏛️ ២. `public class AppOne` (ថ្នាក់មេ)
+### 🏛️ ២. `public class AppOne` (Class)
 * បន្ទាត់ទី ៣៖ `public class AppOne`
 * នៅក្នុង Java គ្រប់កូដទាំងអស់ត្រូវតែសរសេរនៅក្នុង **Class**។
 * **`public`**: ជា Access Modifier អនុញ្ញាតឱ្យ Class នេះអាចហៅប្រើពីទីណាក៏បាន។
 * **`AppOne`**: ជាឈ្មោះ Class ដែលត្រូវសរសេរតាមទម្រង់ **PascalCase** (អក្សរធំនៅដើមពាក្យនីមួយៗ)។
 
-### 🚪 ៣. `public static void main(String[] args)` (ច្រកទ្វារចាប់ផ្តើម)
+### 🚪 ៣. `public static void main(String[] args)` (Main Entry Method)
 * បន្ទាត់ទី ៤៖ `public static void main(...)`
 * គឺជា **Main Method** ដែលជាកន្លែងដែល JVM ចាប់ផ្តើម Execute កូដដំបូងបង្អស់។ កូដណាដែលយើងចង់ឱ្យដំណើរការ ត្រូវសរសេរនៅក្នុងប្លុក `{ }` នៃ main method នេះ។
 * **`static`**: អនុញ្ញាតឱ្យ JVM ហៅ method នេះដំណើរការបានដោយមិនបាច់បង្កើត Object ឡើយ។

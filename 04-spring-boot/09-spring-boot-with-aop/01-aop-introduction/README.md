@@ -1,34 +1,32 @@
-# Lesson 1: Managing Cross-Cutting Concerns with Aspect-Oriented Programming (AOP)
+# មេរៀនទី ១: ការគ្រប់គ្រង Cross-Cutting Concerns ជាមួយ Aspect-Oriented Programming (AOP)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../../08-spring-boot-with-kafka/09-dynamic-kafka-listener/README.md) | [មេរៀនបន្ទាប់ →](../02-aop-advices-overview/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../../08-spring-boot-with-kafka/09-dynamic-kafka-listener/README.md) | [Next Lesson →](../02-aop-advices-overview/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. What is Aspect-Oriented Programming (AOP)?](#1-what-is-aspect-oriented-programming-aop)
-- [2. Core Concepts and Terminology](#2-core-concepts-and-terminology)
-- [3. The 5 Types of AOP Advices (`@Before`, `@After`, `@Around`, ...)](#3-the-5-types-of-aop-advices-before-after-around-)
-- [4. Pointcut Expression Syntax (`execution(...)`)](#4-pointcut-expression-syntax-execution)
-- [5. Practical Production Example: `@LogExecutionTime` Performance Profiler](#5-practical-production-example-logexecutiontime-performance-profiler)
-- [6. Summary](#6-summary)
+- [1. តើ Aspect-Oriented Programming (AOP) ជាអ្វី?](#1-តើ-aspect-oriented-programming-aop-ជាអ្វី)
+- [2. គោលគំនិត និងពាក្យគន្លឹះសំខាន់ៗក្នុង AOP](#2-គោលគំនិត-និងពាក្យគន្លឹះសំខាន់ៗក្នុង-aop)
+- [3. ប្រភេទនៃ Advices ទាំង ៥ (`@Before`, `@After`, `@Around`, ...)](#3-ប្រភេទនៃ-advices-ទាំង-៥-before-after-around-)
+- [4. Pointcut Expressions (`execution(...)`)](#4-pointcut-expressions-execution)
+- [5. ឧទាហរណ៍ជាក់ស្តែង៖ បង្កើត `@LogExecutionTime` វាស់ស្ទង់ល្បឿន Method](#5-ឧទាហរណ៍ជាក់ស្តែង-បង្កើត-logexecutiontime-វាស់ស្ទង់ល្បឿន-method)
+- [6. សង្ខេប](#6-សង្ខេប)
 
 ---
 
-## 1. What is Aspect-Oriented Programming (AOP)?
+## 1. តើ Aspect-Oriented Programming (AOP) ជាអ្វី?
 
-In enterprise systems, multiple requirements span horizontally across disparate layers:
-- Diagnostic logging (Audit trails)
-- Performance timing and latency profiling
-- Role-based authorization assertions
-- Transaction coordination (`@Transactional`)
+នៅក្នុងការអភិវឌ្ឍប្រព័ន្ធ មានការងារមួយចំនួនដែលត្រូវធ្វើដដែលៗនៅគ្រប់ទីកន្លែង ដូចជា៖
+- ការកត់ត្រា Log (Logging)
+- ការវាស់ស្ទង់ពេលវេលាដំណើរការកូដ (Performance Profiling)
+- ការត្រួតពិនិត្យសិទ្ធិ (Security / Authorization)
+- ការគ្រប់គ្រង Transaction (`@Transactional`)
 
-These concerns are designated **Cross-Cutting Concerns**. Embedding boilerplate metrics and audit logic repeatedly inside core domain services introduces tight coupling and maintenance overhead.
+ការងារទាំងនេះត្រូវបានហៅថា **Cross-Cutting Concerns** (កង្វល់កាត់ទទឹង)។ ប្រសិនបើយើងសរសេរកូដ Log ឬ Timer នៅរាល់ Method ទាំងអស់ក្នុង Service នោះកូដរបស់យើងនឹងច្របូកច្របល់ និងពិបាកថែទាំបំផុត។
 
-**AOP** externalizes these auxiliary behaviors into centralized **Aspects**, intercepting execution graphs transparently without altering domain code.
+**AOP** អនុញ្ញាតឱ្យយើងទាញកូដទាំងនោះចេញ ហើយដាក់ក្នុង **Aspect** តែមួយកន្លែង ដោយមិនចាំបាច់កែប្រែ Business Logic Method ដើមឡើយ!
 
 ```mermaid
 flowchart TD
-    Aspect["Cross-Cutting Aspect (Logging / Metrics / Security)"]
+    Aspect["Cross-Cutting Aspect (Logging / Security / Timer)"]
     
     subgraph BusinessLogic ["Core Business Services"]
         S1["UserService.createUser()"]
@@ -39,54 +37,56 @@ flowchart TD
     Aspect -.->|Intercepts| S1
     Aspect -.->|Intercepts| S2
     Aspect -.->|Intercepts| S3
+
 ```
 
 ---
 
-## 2. Core Concepts and Terminology
+## 2. គោលគំនិត និងពាក្យគន្លឹះសំខាន់ៗក្នុង AOP
 
-1. **Aspect:** A modular class encapsulating a distinct cross-cutting concern (e.g., `SecurityAspect`, `AuditAspect`).
-2. **Join Point:** A candidate execution point in the runtime program flow (in Spring AOP, this is invariably method execution).
-3. **Pointcut:** A predicate expression matching specific Join Points (e.g., all methods within the `com.example.service` package).
-4. **Advice:** The executable logic dispatched at a matched Join Point.
+1. **Aspect (ទិដ្ឋភាព):** Class ពិសេសដែលផ្ទុកនូវ Cross-cutting Logic (ឧ. `LoggingAspect`)។
+2. **Join Point (ចំណុចប្រសព្វ):** ចំណុចជាក់លាក់មួយនៅក្នុងដំណើរការកម្មវិធីដែលយើងអាចស្ទាក់ចាប់បាន (ក្នុង Spring AOP ជាទូទៅគឺ Method Execution)។
+3. **Pointcut (ចំណុចកំណត់គោលដៅ):** Expression (កន្សោម) ដែលកំណត់ថា Method ណាខ្លះដែលត្រូវស្ទាក់ចាប់ (ដូចជា រាល់ Method ក្នុង package `service`)។
+4. **Advice (សកម្មភាពអនុវត្ត):** សកម្មភាពជាក់ស្តែងដែលត្រូវធ្វើ (តើត្រូវធ្វើមុន Method រត់, ក្រោយ Method រត់, ឬរុំព័ទ្ធ Method?)។
 
 ---
 
-## 3. The 5 Types of AOP Advices
+## 3. ប្រភេទនៃ Advices ទាំង ៥
 
-| Advice Annotation | Invocation Lifecycle |
+| Advice Annotation | ពេលណាដែលវាដំណើរការ |
 | :--- | :--- |
-| **`@Before`** | Runs **prior to** target method invocation |
-| **`@AfterReturning`** | Runs **after** the target method returns successfully (captures return payload) |
-| **`@AfterThrowing`** | Runs **if** the target method raises an uncaught exception |
-| **`@After` (Finally)** | Runs **unconditionally** after target method exit (success or error) |
-| **`@Around`** | **Most powerful:** Surrounds method invocation entirely; controls execution via `ProceedingJoinPoint` and can modify arguments or return values |
+| **`@Before`** | ដំណើរការ **មុនពេល** Method គោលដៅចាប់ផ្តើមរត់ |
+| **`@AfterReturning`** | ដំណើរការ **ក្រោយពេល** Method គោលដៅរត់ចប់ជោគជ័យ (អាចចាប់ Return value បាន) |
+| **`@AfterThrowing`** | ដំណើរការ **នៅពេល** Method គោលដៅបោះ Exception |
+| **`@After` (Finally)** | ដំណើរការក្រោយ Method រត់ចប់ជានិច្ច (ទោះជោគជ័យ ឬបោះ Exception ក៏ដោយ) |
+| **`@Around`** | **ខ្លាំងក្លាបំផុត!** រុំព័ទ្ធ Method ទាំងស្រុង អាចសម្រេចចិត្តថាតើត្រូវឱ្យ Method រត់ ឬអត់ និងកែប្រែ Return Value បាន |
 
 ---
 
-## 4. Pointcut Expression Syntax (`execution(...)`)
+## 4. Pointcut Expressions (`execution(...)`)
 
-Standard execution signature pattern:
+ទម្រង់ទូទៅ៖
 ```text
 execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern) throws-pattern?)
 ```
 
-- `execution(* com.example.service.*.*(..))`: Matches all methods within classes under `com.example.service`.
-- `@annotation(com.example.annotation.LogExecutionTime)`: Targets methods annotated explicitly with `@LogExecutionTime`.
+- `execution(* com.example.service.*.*(..))`: ចាប់យកគ្រប់ Method ទាំងអស់ដែលមានក្នុងគ្រប់ Class នៃ Package `com.example.service`។
+- `@annotation(com.example.annotation.LogExecutionTime)`: ចាប់តែ Method ណាដែលមានបិទ Annotation `@LogExecutionTime` ប៉ុណ្ណោះ!
 
 ---
 
-## 5. Practical Production Example: `@LogExecutionTime` Performance Profiler
+## 5. ឧទាហរណ៍ជាក់ស្តែង៖ បង្កើត `@LogExecutionTime` វាស់ស្ទង់ល្បឿន Method
 
-### Step 1: Add Spring Boot AOP Starter
+### ជំហានទី ១៖ បញ្ចូល Dependency ក្នុង `pom.xml`
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-aop</artifactId>
+
 </dependency>
 ```
 
-### Step 2: Define Custom Marker Annotation
+### ជំហានទី ២៖ បង្កើត Custom Annotation
 ```java
 package com.example.demo.annotation;
 
@@ -97,7 +97,7 @@ import java.lang.annotation.*;
 public @interface LogExecutionTime {}
 ```
 
-### Step 3: Implement Aspect Class with `@Around`
+### ជំហានទី ៣៖ បង្កើត Aspect Class ជាមួយ `@Around`
 ```java
 package com.example.demo.aspect;
 
@@ -118,43 +118,43 @@ public class PerformanceTrackerAspect {
     public Object trackTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
 
-        // Delegate execution to the underlying target method
+        // ដំណើរការ Method គោលដៅ
         Object result = joinPoint.proceed();
 
         long timeTaken = System.currentTimeMillis() - startTime;
-        log.info("⏱️ Method [{}] completed execution in: {} ms", joinPoint.getSignature().toShortString(), timeTaken);
+        log.info("⏱️ Method [{}] ចំណាយពេលដំណើរការ: {} ms", joinPoint.getSignature().toShortString(), timeTaken);
 
         return result;
     }
 }
 ```
 
-### Step 4: Apply to Domain Services
+### ជំហានទី ៤៖ យកទៅប្រើប្រាស់ក្នុង Service
 ```java
 @Service
 public class ReportService {
 
     @LogExecutionTime
     public void generateHeavyReport() throws InterruptedException {
-        Thread.sleep(850); // Simulate intensive analytics workload
-        System.out.println("Analytics report generated successfully!");
+        Thread.sleep(850); // ក្លែងធ្វើជាការងារយឺត
+        System.out.println("របាយការណ៍ត្រូវបានបង្កើតចប់សព្វគ្រប់!");
     }
 }
 ```
-*(Invoking this service automatically logs: `⏱️ Method [ReportService.generateHeavyReport()] completed execution in: 852 ms`)*.
+*(ពេលហៅ Method នេះ Console នឹងបង្ហាញ: `⏱️ Method [ReportService.generateHeavyReport()] ចំណាយពេលដំណើរការ: 852 ms` ដោយស្វ័យប្រវត្តិ!)*
 
 ---
 
-## 6. Summary
+## 6. សង្ខេប
 
-- AOP decouples **Cross-Cutting Concerns** (logging, metrics, security) from core domain services.
-- `@Around` grants total invocation governance via `ProceedingJoinPoint.proceed()`.
-- Combining custom runtime annotations with AOP aspects produces expressive, clean architecture patterns.
+- AOP ដោះស្រាយបញ្ហា **Cross-Cutting Concerns** (Logging, Metrics, Security) ឱ្យដាច់ចេញពី Business Logic។
+- `@Around` ផ្តល់នូវការគ្រប់គ្រងពេញលេញបំផុតតាមរយៈ `ProceedingJoinPoint.proceed()`។
+- បង្កើត Custom Annotation (ដូចជា `@LogExecutionTime`) រួមជាមួយ AOP គឺជាស្ទីលសរសេរកូដកម្រិត Senior ដ៏ស្អាតបំផុត (Clean Architecture)។
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Dynamic Kafka Listener Endpoint Registration](../../08-spring-boot-with-kafka/09-dynamic-kafka-listener/README.md) | [📚 Module Index](../README.md) | [Overview of AOP Advices →](../02-aop-advices-overview/README.md) |
+| [← ការបង្កើត Dynamic Kafka Listener Endpoint (Dynamic Kafka Listener Registration)](../../08-spring-boot-with-kafka/09-dynamic-kafka-listener/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ទិដ្ឋភាពទូទៅនៃប្រភេទ AOP Advices ទាំង ៥ (Overview of AOP Advices) →](../02-aop-advices-overview/README.md) |

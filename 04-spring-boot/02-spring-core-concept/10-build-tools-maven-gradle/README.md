@@ -1,40 +1,38 @@
-# Lesson 10: Build Tools in Spring: Maven and Gradle
+# មេរៀនទី ១០: ការប្រើប្រាស់ Build Tools ជាមួយ Spring (Maven & Gradle)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../09-dispatcherservlet/README.md) | [មេរៀនបន្ទាប់ →](../../03-spring-boot-core-features/01-spring-boot-architecture/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../09-dispatcherservlet/README.md) | [Next Lesson →](../../03-spring-boot-core-features/01-spring-boot-architecture/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. What is a Build Automation Tool?](#1-what-is-a-build-automation-tool)
-- [2. Apache Maven vs Gradle Comparison](#2-apache-maven-vs-gradle-comparison)
-- [3. Maven `pom.xml` Configuration](#3-maven-pomxml-configuration)
-- [4. Gradle `build.gradle` Configuration](#4-gradle-buildgradle-configuration)
-- [5. Summary](#5-summary)
+- [1. តើ Build Tool ជាអ្វី?](#1-តើ-build-tool-ជាអ្វី)
+- [2. ការប្រៀបធៀប Apache Maven vs Gradle](#2-ការប្រៀបធៀប-apache-maven-vs-gradle)
+- [3. រចនាសម្ព័ន្ធ `pom.xml` ក្នុង Maven](#3-រចនាសម្ព័ន្ធ-pomxml)
+- [4. រចនាសម្ព័ន្ធ `build.gradle` ក្នុង Gradle](#4-រចនាសម្ព័ន្ធ-buildgradle)
+- [5. សង្ខេប](#5-សង្ខេប)
 
 ---
 
-## 1. What is a Build Automation Tool?
+## 1. តើ Build Tool ជាអ្វី?
 
-Build automation tools orchestrate the software release pipeline:
-- Resolving transitive third-party dependencies from remote artifact repositories
-- Compiling Java source into JVM bytecode
-- Executing test suites
-- Packaging artifacts into standalone executable JARs or WARs
+Build Tool គឺជាកម្មវិធីស្វ័យប្រវត្តិកម្មដែលទទួលបន្ទុក៖
+- ទាញយក External Libraries (Dependencies) ពី Central Repository
+- Compile កូដ Java ទៅជា `.class` Bytecode
+- ដំណើរការ Automated Unit Tests
+- វេចខ្ចប់ជា Executable JAR ឬ WAR
 
 ---
 
-## 2. Apache Maven vs Gradle Comparison
+## 2. ការប្រៀបធៀប Apache Maven vs Gradle
 
-| Criteria | Apache Maven | Gradle |
+| លក្ខណៈវិនិច្ឆ័យ | Apache Maven | Gradle |
 | :--- | :--- | :--- |
-| **Configuration DSL** | Declarative XML (`pom.xml`) | Groovy or Kotlin DSL (`build.gradle.kts`) |
-| **Build Performance** | Standard linear execution | Blazing fast (incremental build caching & parallel execution daemons) |
-| **Enterprise Adoption** | Industry staple for strict consistency | Standard in high-complexity monoliths and Android |
-| **Learning Curve** | Gentle, standardized convention | Steeper due to programmatic DSL flexibility |
+| **ភាសាកំណត់ (Config DSL)** | XML (`pom.xml`) | Groovy ឬ Kotlin DSL (`build.gradle.kts`) |
+| **ល្បឿន Build** | មធ្យម (ដំណើរការ Sequential) | លឿនខ្លាំង (Build Cache & Daemon Parallelism) |
+| **ភាពពេញនិយមក្នុង Enterprise** | ពេញនិយមខ្លាំង (ស្ថេរភាព និង Predictable) | ពេញនិយមខ្លាំងក្នុងគម្រោងធំៗ និង Android |
+| **Learning Curve** | ងាយស្រួលយល់ | ពិបាកជាងបន្តិច |
 
 ---
 
-## 3. Maven `pom.xml` Configuration
+## 3. រចនាសម្ព័ន្ធ `pom.xml` ក្នុង Maven
 
 ```xml
 <dependencies>
@@ -47,7 +45,7 @@ Build automation tools orchestrate the software release pipeline:
 
 ---
 
-## 4. Gradle `build.gradle` Configuration
+## 4. រចនាសម្ព័ន្ធ `build.gradle` ក្នុង Gradle
 
 ```groovy
 dependencies {
@@ -57,16 +55,16 @@ dependencies {
 
 ---
 
-## 5. Summary
+## 5. សង្ខេប
 
-- Maven emphasizes convention, predictability, and uniform declarative XML schemas.
-- Gradle delivers peak execution velocity, fine-grained lifecycle customization, and modern DSLs.
+- Maven ផ្តល់នូវភាពងាយស្រួល ស្ថេរភាព និងងាយស្រួលថែទាំ។
+- Gradle ផ្តល់នូវល្បឿន Build លឿន និងភាពបត់បែនខ្ពស់តាមកូដ Script។
 
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← ](../09-dispatcherservlet/README.md) | [📚 Module Index](../README.md) | [Spring Boot Internal Architecture and Execution Flow →](../../03-spring-boot-core-features/01-spring-boot-architecture/README.md) |
+| [← ](../09-dispatcherservlet/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ស្ថាបត្យកម្មខាងក្នុងរបស់ Spring Boot (Spring Boot Architecture) →](../../03-spring-boot-core-features/01-spring-boot-architecture/README.md) |

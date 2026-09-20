@@ -1,76 +1,73 @@
-# Part 3: Features of Spring
+# Part 3: លក្ខណៈពិសេសរបស់ Spring Framework (Features of Spring)
+![លក្ខណៈពិសេសរបស់ Spring](./assets/what-are-the-features-of-spring.jpg "What are the features of Spring")
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+## មាតិកា (Table of Contents)
 
-![Features of Spring](./assets/what-are-the-features-of-spring.jpg "What are the features of Spring")
-
-## Table of Contents
-
-- [1. Overview of Spring Features](#1-overview-of-spring-features)
-- [2. The 6 Feature Groups](#2-the-6-feature-groups)
-- [3. Feature Breakdown Table](#3-feature-breakdown-table)
+- [1. ទិដ្ឋភាពទូទៅនៃលក្ខណៈពិសេស Spring](#1-ទិដ្ឋភាពទូទៅនៃលក្ខណៈពិសេស-spring)
+- [2. ក្រុមលក្ខណៈពិសេសទាំង ៦ (The 6 Feature Groups)](#2-ក្រុមលក្ខណៈពិសេសទាំង-៦-the-6-feature-groups)
+- [3. តារាងសង្ខេបលក្ខណៈពិសេស (Feature Breakdown)](#3-តារាងសង្ខេបលក្ខណៈពិសេស-feature-breakdown)
 
 ---
 
-## 1. Overview of Spring Features
+## 1. ទិដ្ឋភាពទូទៅនៃលក្ខណៈពិសេស Spring
 
-The **Spring Framework** provides an end-to-end programming model for modern enterprise applications. Its capabilities are organized into six major functional pillars, spanning from the foundational IoC container to reactive web and messaging.
-
----
-
-## 2. The 6 Feature Groups
-
-### 1. Core Technologies
-The backbone of the framework:
-- **Dependency Injection (DI) & IoC Container:** Object lifecycle and dependency wiring.
-- **AOP (Aspect-Oriented Programming):** Decoupling cross-cutting concerns (logging, security, transactions).
-- **Events & Resources:** Application event publishing and generic resource loading.
-- **I18n (Internationalization):** Localized message resolution.
-- **Validation, Data Binding & Type Conversion:** Form/JSON mapping and validation.
-- **SpEL (Spring Expression Language):** Powerful runtime expression evaluation.
-
-### 2. Testing
-- **Mock Objects:** Mocks for HTTP requests, servlets, and environmental beans.
-- **TestContext Framework:** Seamless Spring container caching during unit and integration test runs.
-- **Spring MVC Test:** Fluid test execution of controllers without running a real web server.
-- **WebTestClient:** Non-blocking reactive testing for WebFlux endpoints.
-
-### 3. Data Access & Persistence
-- **Declarative Transactions:** Transparent transaction demarcation with `@Transactional`.
-- **DAO Support:** Consistent, unchecked `DataAccessException` hierarchy.
-- **JDBC & ORM:** Seamless integration with Hibernate, JPA, and MyBatis.
-- **Object-XML Mapping (OXM):** Marshalling and unmarshalling XML structures.
-
-### 4. Web Frameworks
-- **Spring MVC:** Model-View-Controller framework built on the Servlet API for classic REST APIs and web apps.
-- **Spring WebFlux:** Asynchronous, reactive, non-blocking web framework for event-driven systems.
-
-### 5. Integration
-- **JMS & AMQP:** Message-oriented middleware integration (RabbitMQ, Kafka, ActiveMQ).
-- **Email Support:** Simple email dispatching via `JavaMailSender`.
-- **Tasks & Scheduling:** Declarative background jobs using `@Async` and `@Scheduled`.
-- **Cache Abstraction:** Unified caching APIs supporting Redis, Caffeine, and Hazelcast.
-- **JMX & JCA:** Enterprise systems monitoring and legacy connection architecture.
-
-### 6. Languages
-- Beyond Java, Spring provides first-class support for **Kotlin** (coroutines, null-safety extensions) and **Groovy**.
+**Spring Framework** ផ្តល់នូវដំណោះស្រាយយ៉ាងពេញលេញសម្រាប់ Enterprise Application Development។ ដើម្បីងាយស្រួលយល់ លក្ខណៈពិសេសទាំងនោះត្រូវបានចាត់ថ្នាក់ជា ៦ ក្រុមធំៗ ចាប់ពី Core IoC រហូតដល់ Web Reactive និង Messaging។
 
 ---
 
-## 3. Feature Breakdown Table
+## 2. ក្រុមលក្ខណៈពិសេសទាំង ៦ (The 6 Feature Groups)
 
-| Pillar | Core Capabilities | Real-World Developer Value |
+### 1. Core Technologies (បច្ចេកវិទ្យាស្នូល)
+ជាបេះដូងរបស់ Spring Framework ដែលរៀបចំរាល់ដំណើរការទាំងអស់៖
+- **Dependency Injection (DI) & IoC Container:** ការគ្រប់គ្រង Object Lifecycle និងការផ្គុំ Components ចូលគ្នា។
+- **AOP (Aspect-Oriented Programming):** ការបំបែក Cross-Cutting Concerns (Logging, Security, Transactions) ចេញពី Business Logic។
+- **Events & Resources:** ប្រព័ន្ធ Publish-Subscribe សម្រាប់ Application Events និង Resource Loader។
+- **I18n (Internationalization):** ការបកប្រែពហុភាសាសម្រាប់ Messages។
+- **Validation, Data Binding & Type Conversion:** ការផ្ទៀងផ្ទាត់ទិន្នន័យពី Form/JSON មកកាន់ Java Object។
+- **SpEL (Spring Expression Language):** ភាសា Query និង Manipulate Object Graphs ក្នុង Runtime។
+
+### 2. Testing (ការធ្វើតេស្ត)
+- **Mock Objects:** ឧបករណ៍ Mock HTTP Requests, Responses, និង Components។
+- **TestContext Framework:** ការគ្រប់គ្រង Spring IoC Container កំឡុងពេល Run Unit & Integration Tests។
+- **Spring MVC Test:** ការធ្វើតេស្ត Controllers ដោយមិនបាច់បើក Web Server ពិតប្រាកដ។
+- **WebTestClient:** សម្រាប់តេស្ត Non-blocking Reactive WebFlux Endpoints។
+
+### 3. Data Access & Persistence (ការគ្រប់គ្រងទិន្នន័យ)
+- **Declarative Transactions:** ការគ្រប់គ្រង Transaction ស្វ័យប្រវត្តិតាមរយៈ `@Transactional`។
+- **DAO Support:** ការបំប្លែង Exception របស់ Database មកជា Spring `DataAccessException` ឯកសណ្ឋាន។
+- **JDBC & ORM Integration:** ដំណើរការយ៉ាងរលូនជាមួយ Hibernate, JPA, MyBatis, និង JDO។
+- **Object-XML Mapping (OXM):** ការ Marshall/Unmarshal ទិន្នន័យ XML។
+
+### 4. Web Technologies (បច្ចេកវិទ្យាគេហទំព័រ និង APIs)
+- **Spring MVC:** ស្ថាបត្យកម្ម Model-View-Controller ឈរលើ Servlet API សម្រាប់ Traditional Web Apps & REST APIs។
+- **Spring WebFlux:** Reactive, Non-blocking Web Framework សម្រាប់ High-Concurrency Streaming Applications។
+
+### 5. Integration (ការតភ្ជាប់ប្រព័ន្ធខាងក្រៅ)
+- **JMS & AMQP:** ការផ្ញើសារតាម Message Queues (RabbitMQ, ActiveMQ, Kafka)។
+- **Email Support:** ការផ្ញើអ៊ីមែលតាម JavaMailSender។
+- **Task Execution & Scheduling:** ការដំណើរការ Background Jobs តាម `@Scheduled` និង `@Async`។
+- **Cache Abstraction:** ការតភ្ជាប់ Cache ដូចជា Redis, Ehcache, Hazelcast។
+- **JMX & JCA:** ការគ្រប់គ្រង និង Monitor សុខភាពប្រព័ន្ធ។
+
+### 6. Languages (ការគាំទ្រភាសា)
+- ក្រៅពី Java, Spring គាំទ្រយ៉ាងពេញទំហឹងនូវ **Kotlin** (ជាមួយ Coroutines និង Null-safety), **Groovy**, និង Dynamic JVM Languages។
+
+---
+
+## 3. តារាងសង្ខេបលក្ខណៈពិសេស (Feature Breakdown)
+
+| ក្រុម (Group) | បច្ចេកវិទ្យាសំខាន់ៗ | តួនាទីជាក់ស្តែង |
 | :--- | :--- | :--- |
-| **Core** | IoC, DI, AOP, SpEL | Manages bean lifecycle and decouples modules |
-| **Data Access** | JDBC, JPA, Transactions | Simplifies database operations and guarantees ACID compliance |
-| **Web** | Spring MVC, WebFlux | Builds scalable RESTful APIs and microservices |
-| **Testing** | Mockito, SpringBootTest | Ensures high test coverage with minimal boilerplate |
-| **Integration** | Redis, RabbitMQ, Scheduling | Powers event-driven and background batch jobs |
+| **Core** | IoC, DI, AOP, SpEL | គ្រប់គ្រង Beans និង decoupling កូដ |
+| **Data Access** | JDBC, JPA, Transactions | ភ្ជាប់ Database និងធានាសុចរិតភាពទិន្នន័យ |
+| **Web** | Spring MVC, WebFlux | បង្កើត REST APIs និង Web Endpoints |
+| **Testing** | Mockito, SpringBootTest | ធានាគុណភាពកូដមុនពេលឡើង Production |
+| **Integration** | Redis, RabbitMQ, Kafka, Tasks | ធ្វើការជាមួយ Event-driven architectures |
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 2: Advantages of Spring](../02-advantages-of-spring/README.md) | [📚 Spring Framework Index](../README.md) | [Part 4: Spring Modules Architecture →](../04-modules-of-spring/README.md) |
+| [← Part 2: គុណសម្បត្តិរបស់ Spring Framework](../02-advantages-of-spring/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 4: ស្ថាបត្យកម្ម និង Modules របស់ Spring →](../04-modules-of-spring/README.md) |

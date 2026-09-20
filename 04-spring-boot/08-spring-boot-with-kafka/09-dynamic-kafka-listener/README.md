@@ -1,21 +1,19 @@
-# Lesson 9: Dynamic Kafka Listener Endpoint Registration
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../08-kafka-elasticsearch-grafana/README.md) | [Next Lesson →](../../09-spring-boot-with-aop/01-aop-introduction/README.md)
+# មេរៀនទី ៩: ការបង្កើត Dynamic Kafka Listener Endpoint (Dynamic Kafka Listener Registration)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../08-kafka-elasticsearch-grafana/README.md) | [មេរៀនបន្ទាប់ →](../../09-spring-boot-with-aop/01-aop-introduction/README.md)
 
 ---
 
-## Table of Contents
-1. [What is a Dynamic Kafka Listener?](#what-is-dynamic-listener)
+## មាតិកា (Table of Contents)
+1. [តើអ្វីទៅជា Dynamic Kafka Listener?](#តើអ្វីទៅជា-dynamic-kafka-listener)
 2. [KafkaListenerEndpointRegistry Overview](#kafkalistenerendpointregistry)
-3. [Pausing, Resuming, and Stopping Listeners at Runtime](#lifecycle-management)
-4. [Registering Arbitrary Topics at Runtime](#runtime-topic-registration)
+3. [ការបញ្ជា Start, Stop, និង Pause Listener Containers](#ការបញ្ជា-start-stop)
+4. [ការចុះឈ្មោះ Topic Listener ថ្មីនៅ Runtime](#ការចុះឈ្មោះ-runtime)
 
 ---
 
-## Runtime Lifecycle Management via KafkaListenerEndpointRegistry
+## ការបញ្ជា Listener តាមរយៈ KafkaListenerEndpointRegistry
 
-Dynamically control message listener containers via management REST endpoints during maintenance windows:
+យើងអាចបញ្ជា Stop/Start ឬ Pause/Resume Kafka Listener នៅ Runtime តាមរយៈ REST API ឧទាហរណ៍ ពេល Maintenance System៖
 
 ```java
 package com.example.controller;
@@ -58,8 +56,8 @@ public class KafkaListenerLifecycleController {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Kafka Observability with Elasticsearch, Prometheus, and Grafana](../08-kafka-elasticsearch-grafana/README.md) | [📚 Module Index](../README.md) | [Managing Cross-Cutting Concerns with Aspect-Oriented Programming (AOP) →](../../09-spring-boot-with-aop/01-aop-introduction/README.md) |
+| [← ការតាមដាន Kafka Metrics ជាមួយ Elasticsearch និង Grafana (Kafka Observability)](../08-kafka-elasticsearch-grafana/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការគ្រប់គ្រង Cross-Cutting Concerns ជាមួយ Aspect-Oriented Programming (AOP) →](../../09-spring-boot-with-aop/01-aop-introduction/README.md) |

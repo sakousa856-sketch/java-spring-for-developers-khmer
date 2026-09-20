@@ -1,27 +1,25 @@
-# Lesson 3: Publishing JSON Messages with Kafka
+# មេរៀនទី ៣: ការផ្ញើ JSON Messages តាមរយៈ Kafka (Publishing JSON Messages)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../02-kafka-consumer/README.md) | [មេរៀនបន្ទាប់ →](../04-consume-json-messages/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../02-kafka-consumer/README.md) | [Next Lesson →](../04-consume-json-messages/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Publish JSON Events via KafkaTemplate](../../examples/04-kafka-messaging)  
-> 📄 **Source Code Files:** [`OrderEventProducer.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/producer/OrderEventProducer.java) | [`OrderCreatedEvent.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/event/OrderCreatedEvent.java) | [`application.yml`](../../examples/04-kafka-messaging/src/main/resources/application.yml)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Publish JSON Events via KafkaTemplate](../../examples/04-kafka-messaging)  
+> 📄 **File កូដជាក់ស្តែង:** [`OrderEventProducer.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/producer/OrderEventProducer.java) | [`OrderCreatedEvent.java`](../../examples/04-kafka-messaging/src/main/java/com/example/kafka/event/OrderCreatedEvent.java) | [`application.yml`](../../examples/04-kafka-messaging/src/main/resources/application.yml)
 
 
 ---
 
-## Table of Contents
-1. [Why Structured JSON in Event-Driven Architectures?](#why-json)
+## មាតិកា (Table of Contents)
+1. [ហេតុអ្វីត្រូវប្រើ JSON នៅក្នុង Event-Driven Systems?](#ហេតុអ្វីត្រូវប្រើ-json)
 2. [Jackson JsonSerializer Configuration](#jackson-jsonserializer)
-3. [Creating Strongly-Typed Domain Event Records](#event-records)
-4. [Building the Kafka Producer Service](#producer-service)
-5. [Message Key Routing and Partition Guarantees](#routing-keys)
+3. [ការបង្កើត Model / Event Record](#ការបង្កើត-model)
+4. [ការបង្កើត Generic Kafka Producer Service](#ការបង្កើត-kafka-producer)
+5. [ការគ្រប់គ្រង Routing Key & Partitioning](#routing-key)
 
 ---
 
 ## Jackson JsonSerializer Configuration
 
-In `application.yml`:
+នៅក្នុង `application.yml`៖
 ```yaml
 spring:
   kafka:
@@ -35,7 +33,7 @@ spring:
 
 ---
 
-## Creating Domain Event Records & Producer Service
+## ការបង្កើត Event Record & Producer Service
 
 ```java
 package com.example.event;
@@ -74,6 +72,7 @@ public class OrderJsonProducer {
 
     public void publishOrder(OrderCreatedEvent event) {
         log.info("Publishing JSON order event: {}", event);
+        // ប្រើ orderId ជា Message Key ដើម្បីធានា Order Partition Affiliation
         kafkaTemplate.send(TOPIC, event.orderId(), event)
                 .whenComplete((result, ex) -> {
                     if (ex == null) {
@@ -88,8 +87,8 @@ public class OrderJsonProducer {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Kafka Consumer with @KafkaListener](../02-kafka-consumer/README.md) | [📚 Module Index](../README.md) | [Consuming JSON Messages with Spring Kafka →](../04-consume-json-messages/README.md) |
+| [← ការបង្កើត Kafka Consumer ជាមួយ @KafkaListener (Kafka Consumer in Spring Boot)](../02-kafka-consumer/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការទទួល និង Parse JSON Messages ពី Kafka (Consuming JSON Messages) →](../04-consume-json-messages/README.md) |

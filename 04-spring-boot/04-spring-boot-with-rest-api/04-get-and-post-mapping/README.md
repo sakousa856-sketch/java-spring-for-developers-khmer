@@ -1,33 +1,31 @@
-# Lesson 4: Mastering @GetMapping & @PostMapping
+# មេរៀនទី ៤: ការប្រើប្រាស់ @GetMapping និង @PostMapping (Mastering @GetMapping & @PostMapping)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../03-request-mapping/README.md) | [មេរៀនបន្ទាប់ →](../05-put-and-delete-mapping/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../03-request-mapping/README.md) | [Next Lesson →](../05-put-and-delete-mapping/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Bookstore REST API (@GetMapping & @PostMapping)](../../examples/01-rest-api-crud)  
-> 📄 **Source Code Files:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`CreateBookRequest.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/dto/CreateBookRequest.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Bookstore REST API (@GetMapping & @PostMapping)](../../examples/01-rest-api-crud)  
+> 📄 **File កូដជាក់ស្តែង:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`CreateBookRequest.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/dto/CreateBookRequest.java)
 
 
 ---
 
-## Table of Contents
-1. [Introduction to Composed Request Mappings](#introduction-to-composed-request-mappings)
-2. [Fetching Data with @GetMapping](#fetching-data-with-getmapping)
-3. [Creating Resources with @PostMapping](#creating-resources-with-postmapping)
-4. [Using ResponseEntity with HTTP Status Codes (200 vs 201)](#using-responseentity-with-http-status-codes-200-vs-201)
-5. [End-to-End Example with DTOs](#end-to-end-example-with-dtos)
-6. [Summary](#summary)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើមអំពី Composed Request Mappings](#សេចក្តីផ្តើមអំពី-composed-request-mappings)
+2. [ការប្រើប្រាស់ @GetMapping សម្រាប់ទាញយកទិន្នន័យ](#ការប្រើប្រាស់-getmapping-សម្រាប់ទាញយកទិន្នន័យ)
+3. [ការប្រើប្រាស់ @PostMapping សម្រាប់បង្កើត Resource ថ្មី](#ការប្រើប្រាស់-postmapping-សម្រាប់បង្កើត-resource-ថ្មី)
+4. [ការប្រើប្រាស់ ResponseEntity ជាមួយ Status Codes (200 vs 201)](#ការប្រើប្រាស់-responseentity-ជាមួយ-status-codes-200-vs-201)
+5. [ឧទាហរណ៍ជាក់ស្តែងជាមួយ DTO](#ឧទាហរណ៍ជាក់ស្តែងជាមួយ-dto)
+6. [សង្ខេប](#សង្ខេប)
 
 ---
 
-## Introduction to Composed Request Mappings
-In Spring 4.3+, `@GetMapping` and `@PostMapping` act as expressive shorthand annotations for `@RequestMapping(method = RequestMethod.GET)` and `@RequestMapping(method = RequestMethod.POST)`. They enhance readability and eliminate boilerplate mapping declarations.
+## សេចក្តីផ្តើមអំពី Composed Request Mappings
+នៅក្នុង Spring 4.3+, `@GetMapping` និង `@PostMapping` គឺជា Composed Annotations ដែលដើរតួជា Shortcut ជំនួស `@RequestMapping(method = RequestMethod.GET)` និង `@RequestMapping(method = RequestMethod.POST)` ដើម្បីឱ្យកូដមានភាពខ្លី ស្អាត និងងាយស្រួលយល់។
 
 ---
 
-## Fetching Data with @GetMapping
+## ការប្រើប្រាស់ @GetMapping សម្រាប់ទាញយកទិន្នន័យ
 
-`@GetMapping` handles read-only retrieval of resources. It is both **safe** (produces no side effects on the database) and **idempotent**:
+`@GetMapping` ប្រើសម្រាប់ទាញយកទិន្នន័យពី Server ដោយគ្មានការផ្លាស់ប្តូរស្ថានភាព (State) របស់ Database ឡើយ (Safe & Idempotent)៖
 
 ```java
 @GetMapping
@@ -43,41 +41,41 @@ public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {
 
 ---
 
-## Creating Resources with @PostMapping
+## ការប្រើប្រាស់ @PostMapping សម្រាប់បង្កើត Resource ថ្មី
 
-`@PostMapping` processes client-submitted payloads to create new resources on the server:
+`@PostMapping` ប្រើប្រាស់សម្រាប់បង្កើត Resource ថ្មីនៅលើ Server ដោយទទួលទិន្នន័យពី HTTP Request Body៖
 
 ```java
 @PostMapping
 public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody CreateProductRequest request) {
     ProductResponse created = productService.create(request);
     
-    // Construct the canonical URI for the newly created resource
+    // បង្កើត URI Location ទៅកាន់ Resource ថ្មី
     URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
             .buildAndExpand(created.id())
             .toUri();
 
-    // Return 201 Created with Location header and response body
+    // ឆ្លើយតបជាមួយ HTTP Status 201 Created និង Header Location
     return ResponseEntity.created(location).body(created);
 }
 ```
 
 ---
 
-## Using ResponseEntity with HTTP Status Codes (200 vs 201)
+## ការប្រើប្រាស់ ResponseEntity ជាមួយ Status Codes (200 vs 201)
 
-| HTTP Verb | Operation | Standard Status | ResponseEntity Factory Method |
+| HTTP Method | ប្រតិបត្តិការ | Status Code ស្តង់ដារ | ResponseEntity Method |
 | :--- | :--- | :--- | :--- |
-| `GET` | Successful resource retrieval | `200 OK` | `ResponseEntity.ok(...)` |
-| `POST` | Successful resource creation | `201 Created` | `ResponseEntity.created(uri).body(...)` |
-| `GET / POST` | Empty response | `204 No Content` | `ResponseEntity.noContent().build()` |
+| `GET` | ជោគជ័យក្នុងការទាញយកទិន្នន័យ | `200 OK` | `ResponseEntity.ok(...)` |
+| `POST` | ជោគជ័យក្នុងការបង្កើត Resource ថ្មី | `201 Created` | `ResponseEntity.created(uri).body(...)` |
+| `GET / POST` | មិនមាន Content ឆ្លើយតប | `204 No Content` | `ResponseEntity.noContent().build()` |
 
 ---
 
-## End-to-End Example with DTOs
+## ឧទាហរណ៍ជាក់ស្តែងជាមួយ DTO
 
-### Product Request & Response DTOs:
+### Product DTOs:
 ```java
 public record CreateProductRequest(
     @NotBlank(message = "Product name is required")
@@ -97,8 +95,8 @@ public record ProductResponse(
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Deep Dive into @RequestMapping](../03-request-mapping/README.md) | [📚 Module Index](../README.md) | [Working with @PutMapping & @DeleteMapping →](../05-put-and-delete-mapping/README.md) |
+| [← ការប្រើប្រាស់ @RequestMapping (Deep Dive into @RequestMapping)](../03-request-mapping/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រើប្រាស់ @PutMapping និង @DeleteMapping (Working with @PutMapping & @DeleteMapping) →](../05-put-and-delete-mapping/README.md) |

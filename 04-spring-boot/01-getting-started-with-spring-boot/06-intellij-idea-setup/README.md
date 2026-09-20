@@ -1,71 +1,70 @@
-# Lesson 6: Scaffolding Projects in IntelliJ IDEA
+# មេរៀនទី ៦: ការបង្កើតគម្រោងជាមួយ IntelliJ IDEA (Community & Ultimate)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../05-eclipse-ide-setup/README.md) | [មេរៀនបន្ទាប់ →](../07-run-spring-boot-application/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../05-eclipse-ide-setup/README.md) | [Next Lesson →](../07-run-spring-boot-application/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Industry Dominance of IntelliJ IDEA](#1-industry-dominance-of-intellij-idea)
-- [2. Scaffolding in IntelliJ IDEA Ultimate Edition](#2-scaffolding-in-intellij-idea-ultimate-edition)
-- [3. Scaffolding in IntelliJ IDEA Community Edition (Free)](#3-scaffolding-in-intellij-idea-community-edition-free)
-- [4. Canonical Project Directory Structure](#4-canonical-project-directory-structure)
-- [5. Summary](#5-summary)
+- [1. ហេតុអ្វីបានជា IntelliJ IDEA ពេញនិយមបំផុត?](#1-ហេតុអ្វីបានជា-intellij-idea-ពេញនិយមបំផុត)
+- [2. វិធីបង្កើតក្នុង IntelliJ IDEA Ultimate Edition](#2-វិធីបង្កើតក្នុង-intellij-idea-ultimate-edition)
+- [3. វិធីបង្កើតក្នុង IntelliJ IDEA Community Edition (Free)](#3-វិធីបង្កើតក្នុង-intellij-idea-community-edition-free)
+- [4. ការរៀបចំ Project Structure ឱ្យត្រឹមត្រូវ](#4-ការរៀបចំ-project-structure-ឱ្យត្រឹមត្រូវ)
+- [5. សង្ខេប](#5-សង្ខេប)
 
 ---
 
-## 1. Industry Dominance of IntelliJ IDEA
+## 1. ហេតុអ្វីបានជា IntelliJ IDEA ពេញនិយមបំផុត?
 
-IntelliJ IDEA by JetBrains commands over 70% of professional Java enterprise mindshare due to:
-- Context-aware code indexing and static analysis
-- Effortless semantic refactorings
-- Seamless build tool and git integration
-
----
-
-## 2. Scaffolding in IntelliJ IDEA Ultimate Edition
-
-1. Select **New Project**
-2. Select **Spring Initializr** from the left navigation panel
-3. Configure language (`Java`), build system (`Maven`), and JDK (`17` / `21`)
-4. Attach required starters (`Spring Web`, `DevTools`) and click **Create**
+IntelliJ IDEA (បង្កើតដោយ JetBrains) គឺជា IDE លេខមួយដែលត្រូវបានប្រើប្រាស់ដោយ Java Software Engineers ជាង ៧០% ទូទាំងពិភពលោក ដោយសារតែ៖
+- Smart Code Completion លឿនដូចផ្លេកបន្ទោរ
+- ការវិភាគ Error និង Refactoring ដ៏មានឥទ្ធិពល
+- ការគាំទ្រ Git និង Maven/Gradle យ៉ាងរលូន
 
 ---
 
-## 3. Scaffolding in IntelliJ IDEA Community Edition (Free)
+## 2. វិធីបង្កើតក្នុង IntelliJ IDEA Ultimate Edition
 
-Because Community Edition omits the embedded Spring wizard:
-1. Navigate to the official web generator: `https://start.spring.io`
-2. Configure Maven coordinates, Java LTS, and add `Spring Web`
-3. Click **GENERATE** and unzip the generated archive
-4. Launch IntelliJ Community -> Click **Open** -> Select target directory -> Confirm **Open as Maven Project**.
+1. ចុច **New Project**
+2. ជ្រើសរើស **Spring Initializr** នៅ Sidebar ខាងឆ្វេង
+3. កំណត់ Language: `Java`, Build: `Maven`, JDK: `17` ឬ `21`
+4. ជ្រើសរើស Dependencies: `Spring Web`, `Lombok`, `DevTools`
+5. ចុច **Create**
 
 ---
 
-## 4. Canonical Project Directory Structure
+## 3. វិធីបង្កើតក្នុង IntelliJ IDEA Community Edition (Free)
+
+ដោយសារ Community Edition មិនមាន Built-in Spring Initializr Wizard៖
+1. បើក Browser ចូលទៅកាន់ `https://start.spring.io`
+2. ជ្រើសរើស Maven, Java 17+, បន្ថែម Dependencies `Spring Web`
+3. ចុច **GENERATE** ដើម្បីទាញយក `.zip` មកពន្លា (Unzip)
+4. បើក IntelliJ IDEA -> ចុច **Open** -> ជ្រើសរើស Folder ដែលពន្លារួច -> ជ្រើសរើស **Open as Project**។
+
+---
+
+## 4. ការរៀបចំ Project Structure ឱ្យត្រឹមត្រូវ
 
 ```
 demo-app/
 ├── src/main/java/com/example/demo/
-│   ├── DemoApplication.java          # Root Application bootstrap
-│   ├── controller/                   # HTTP Web endpoints
-│   ├── service/                      # Core transactional domain logic
-│   ├── repository/                   # Persistence access interfaces
-│   └── entity/                       # JPA Database domain records
+│   ├── DemoApplication.java          # Main Class (មាន @SpringBootApplication)
+│   ├── controller/
+│   ├── service/
+│   ├── repository/
+│   └── entity/
 └── src/main/resources/
-    └── application.yml               # Unified environment configuration
+    └── application.yml               # Configuration
 ```
 
 ---
 
-## 5. Summary
+## 5. សង្ខេប
 
-- IntelliJ IDEA provides the industry gold-standard productivity environment for enterprise Java development.
+- IntelliJ IDEA គឺជាជម្រើសឈានមុខគេក្នុងឧស្សាហកម្មសម្រាប់អភិវឌ្ឍ Spring Boot។
 
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Eclipse IDE Setup for Spring Boot](../05-eclipse-ide-setup/README.md) | [📚 Module Index](../README.md) | [4 Ways to Run a Spring Boot Application →](../07-run-spring-boot-application/README.md) |
+| [← ការតម្លើង និងបង្កើតគម្រោងលើ Eclipse IDE](../05-eclipse-ide-setup/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [វិធីទាំង ៤ ក្នុងការ Run កម្មវិធី Spring Boot →](../07-run-spring-boot-application/README.md) |

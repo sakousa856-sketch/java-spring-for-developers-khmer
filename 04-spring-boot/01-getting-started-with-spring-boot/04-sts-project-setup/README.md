@@ -1,63 +1,63 @@
-# Lesson 4: Spring Tool Suite (STS) Project Setup
+# មេរៀនទី ៤: ការដំឡើង និងបង្កើតគម្រោងលើ Spring Tool Suite (STS)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../03-spring-mvc-vs-spring-boot/README.md) | [មេរៀនបន្ទាប់ →](../05-eclipse-ide-setup/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../03-spring-mvc-vs-spring-boot/README.md) | [Next Lesson →](../05-eclipse-ide-setup/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. About Spring Tool Suite 4 (STS)](#1-about-spring-tool-suite-4-sts)
-- [2. Downloading and Installing STS](#2-downloading-and-installing-sts)
-- [3. Scaffolding a Spring Boot Project in STS](#3-scaffolding-a-spring-boot-project-in-sts)
-- [4. Verification and Execution](#4-verification-and-execution)
-- [5. Summary](#5-summary)
+- [1. អំពី Spring Tool Suite 4 (STS)](#1-អំពី-spring-tool-suite-4-sts)
+- [2. របៀបដំឡើង STS](#2-របៀបដំឡើង-sts)
+- [3. ជំហានបង្កើតគម្រោង Spring Boot ដំបូង](#3-ជំហានបង្កើតគម្រោង-spring-boot-ដំបូង)
+- [4. ការដំណើរការ និងផ្ទៀងផ្ទាត់](#4-ការដំណើរការ-និងផ្ទៀងផ្ទាត់)
+- [5. សង្ខេប](#5-សង្ខេប)
 
 ---
 
-## 1. About Spring Tool Suite 4 (STS)
+## 1. អំពី Spring Tool Suite 4 (STS)
 
-**Spring Tool Suite 4 (STS)** is the official Eclipse-powered IDE curated by VMware for Spring Boot development. It features specialized language servers, dynamic annotation indexing, and the Spring Boot Dashboard.
-
----
-
-## 2. Downloading and Installing STS
-
-1. Navigate to official download portal: `https://spring.io/tools`
-2. Select target OS binary package (macOS ARM/x64, Linux, or Windows)
-3. Unpack and launch the IDE binary
+**Spring Tool Suite 4 (STS)** គឺជា IDE ផ្លូវការដែលបង្កើតឡើងដោយក្រុមការងារ Spring ផ្អែកលើ Eclipse Foundation។ វាត្រូវបាន Optimized យ៉ាងពិសេសសម្រាប់ Spring Boot ដោយមានមុខងារដូចជា Code Completion សម្រាប់ Annotations, Live Hover Information, និង Spring Boot Dash View។
 
 ---
 
-## 3. Scaffolding a Spring Boot Project in STS
+## 2. របៀបដំឡើង STS
 
-1. Select **File -> New -> Spring Starter Project**
-2. Populate project attributes:
-   - **Project Name:** `demo-sts-app`
-   - **Build System:** Maven
-   - **JDK Platform:** Java 17+ (LTS)
-   - **Packaging:** JAR
-3. Attach starter dependencies:
-   - **Spring Web**
+1. ចូលទៅកាន់គេហទំព័រផ្លូវការ: `https://spring.io/tools`
+2. ទាញយក Version ត្រូវនឹង OS របស់អ្នក (macOS, Windows, ឬ Linux)
+3. Extract និងបើកដំណើរការកម្មវិធី
+
+---
+
+## 3. ជំហានបង្កើតគម្រោង Spring Boot ដំបូង
+
+1. បើក STS រួចចុច **File -> New -> Spring Starter Project**
+
+2. កំណត់ Project Metadata:
+   - **Name:** `demo-sts-app`
+   - **Type:** Maven
+   - **Java Version:** 17 ឬ 21
+   - **Packaging:** Jar
+3. ជ្រើសរើស Dependencies សំខាន់ៗ:
+   - **Spring Web** (`spring-boot-starter-web`)
    - **Spring Boot DevTools**
-4. Click **Finish** to bootstrap the workspace.
+4. ចុច **Finish** រួចរង់ចាំ Maven ទាញយក Dependencies។
 
 ---
 
-## 4. Verification and Execution
+## 4. ការដំណើរការ និងផ្ទៀងផ្ទាត់
 
-- Right-click `DemoStsAppApplication.java` -> **Run As -> Spring Boot App**
-- Inspect console output verifying embedded Tomcat initialization on default port `8080`.
+- ចុចកណ្ដុរស្ដាំលើ `DemoStsAppApplication.java` -> **Run As -> Spring Boot App**
 
----
-
-## 5. Summary
-
-- STS delivers an official, free, specialized development environment tailored for Spring applications.
-
-
+- Console នឹងបង្ហាញ Spring Banner និងសារ `Tomcat started on port 8080 (http)`។
 
 ---
-## 🧭 Lesson Navigation
 
-| Previous Lesson | Module Index | Next Lesson |
+## 5. សង្ខេប
+
+- STS ផ្តល់នូវបទពិសោធន៍រៀបចំគម្រោង Spring Boot ផ្លូវការលឿន និងឥតគិតថ្លៃ។
+
+
+
+---
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
+
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Spring MVC vs Spring Boot Comparison](../03-spring-mvc-vs-spring-boot/README.md) | [📚 Module Index](../README.md) | [Eclipse IDE Setup for Spring Boot →](../05-eclipse-ide-setup/README.md) |
+| [← ការប្រៀបធៀប Spring MVC vs Spring Boot](../03-spring-mvc-vs-spring-boot/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការតម្លើង និងបង្កើតគម្រោងលើ Eclipse IDE →](../05-eclipse-ide-setup/README.md) |

@@ -1,27 +1,25 @@
-# Lesson 3: Deep Dive into @RequestMapping
+# មេរៀនទី ៣: ការប្រើប្រាស់ @RequestMapping (Deep Dive into @RequestMapping)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../02-rest-controller/README.md) | [មេរៀនបន្ទាប់ →](../04-get-and-post-mapping/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../02-rest-controller/README.md) | [Next Lesson →](../04-get-and-post-mapping/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Bookstore REST API (@RequestMapping)](../../examples/01-rest-api-crud)  
-> 📄 **Source Code Files:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Bookstore REST API (@RequestMapping)](../../examples/01-rest-api-crud)  
+> 📄 **File កូដជាក់ស្តែង:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java)
 
 
 ---
 
-## Table of Contents
-1. [What is @RequestMapping?](#what-is-requestmapping)
-2. [Key Attributes of @RequestMapping](#key-attributes-of-requestmapping)
-3. [Class-Level vs Method-Level Mapping](#class-level-vs-method-level-mapping)
-4. [Filtering by Headers and Media Types (consumes / produces)](#filtering-by-headers-and-media-types-consumes--produces)
-5. [@RequestMapping vs Composed Annotations](#requestmapping-vs-composed-annotations)
-6. [Summary & Best Practices](#summary--best-practices)
+## មាតិកា (Table of Contents)
+1. [តើអ្វីទៅជា @RequestMapping?](#តើអ្វីទៅជា-requestmapping)
+2. [Attributes សំខាន់ៗនៃ @RequestMapping](#attributes-សំខាន់ៗនៃ-requestmapping)
+3. [ការកំណត់ Base URL នៅកម្រិត Class Level](#ការកំណត់-base-url-នៅកម្រិត-class-level)
+4. [Filtering តាមរយៈ Headers និង Content-Type (consumes / produces)](#filtering-តាមរយៈ-headers-និង-content-type-consumes--produces)
+5. [ការប្រៀបធៀប @RequestMapping ជាមួយ Composed Annotations](#ការប្រៀបធៀប-requestmapping-ជាមួយ-composed-annotations)
+6. [សង្ខេប & Best Practices](#សង្ខេប--best-practices)
 
 ---
 
-## What is @RequestMapping?
-`@RequestMapping` is the foundational annotation in Spring MVC used to map web HTTP requests to specific handler classes or handler methods. It can be declared at the class level (to specify a shared base URL) and at the method level (to define narrow handler actions).
+## តើអ្វីទៅជា @RequestMapping?
+`@RequestMapping` គឺជា core annotation នៅក្នុង Spring MVC សម្រាប់ map web HTTP requests ទៅកាន់ handler methods នៅក្នុង Controller classes។ វាអាចដាក់នៅកម្រិត Class (ដើម្បីកំណត់ Base Path) ឬនៅកម្រិត Method (ដើម្បីកំណត់ Action ជាក់លាក់)។
 
 ```mermaid
 graph TD
@@ -29,26 +27,27 @@ graph TD
     B --> C["HandlerMapping"]
     C --> D["@RequestMapping Matcher"]
     D --> E["Execute Controller Method"]
+
 ```
 
 ---
 
-## Key Attributes of @RequestMapping
+## Attributes សំខាន់ៗនៃ @RequestMapping
 
-| Attribute | Type | Description |
+| Attribute | ប្រភេទ | ការពិពណ៌នា |
 | :--- | :--- | :--- |
-| `value` / `path` | `String[]` | The URL mapping paths (e.g. `/api/v1/orders`) |
-| `method` | `RequestMethod[]` | The HTTP method constraints (GET, POST, PUT, DELETE, etc.) |
-| `params` | `String[]` | Matches requests based on presence or value of query parameters |
-| `headers` | `String[]` | Matches requests based on specific HTTP header conditions |
-| `consumes` | `String[]` | Request body media type constraint (e.g. `application/json`) |
-| `produces` | `String[]` | Response body media type constraint (e.g. `application/json`) |
+| `value` / `path` | `String[]` | URL path mapping (ឧ. `/api/v1/orders`) |
+| `method` | `RequestMethod[]` | HTTP Method (GET, POST, PUT, DELETE, etc.) |
+| `params` | `String[]` | Filter request ដោយផ្អែកលើ Query Parameter ដែលមាន |
+| `headers` | `String[]` | Filter request ផ្អែកលើវត្តមាន ឬតម្លៃនៃ HTTP Header |
+| `consumes` | `String[]` | កំណត់ Request Body Media Type (ឧ. `application/json`) |
+| `produces` | `String[]` | កំណត់ Response Media Type (ឧ. `application/json`) |
 
 ---
 
-## Class-Level vs Method-Level Mapping
+## ការកំណត់ Base URL នៅកម្រិត Class Level
 
-A best practice is placing `@RequestMapping` at the class level to establish a uniform base route:
+ការអនុវត្តល្អបំផុតគឺដាក់ `@RequestMapping` នៅលើ Class ដើម្បីជៀសវាងការសរសេរ URL ដដែលៗ៖
 
 ```java
 package com.example.controller;
@@ -76,16 +75,16 @@ public class EmployeeController {
 
 ---
 
-## Filtering by Headers and Media Types (consumes / produces)
+## Filtering តាមរយៈ Headers និង Content-Type (consumes / produces)
 
-You can narrow request matching based on explicit header requirements or media types:
+យើងអាចកំណត់លក្ខខណ្ឌអោយ method ដំណើរការបានលុះត្រាតែ request មាន Header ឬ Media Type ត្រឹមត្រូវ៖
 
 ```java
 @RestController
 @RequestMapping("/api/v1/reports")
 public class ReportController {
 
-    // Executes only when client specifies "X-API-VERSION=2"
+    // ដំណើរការតែពេល client ផ្ញើ Header "X-API-VERSION=2" ប៉ុណ្ណោះ
     @RequestMapping(
         value = "/summary",
         method = RequestMethod.GET,
@@ -96,7 +95,7 @@ public class ReportController {
         return "{"version": 2, "status": "ACTIVE"}";
     }
 
-    // Restricts request body to JSON and produces JSON
+    // ទទួលតែ request ដែលមាន Content-Type ជា application/json
     @RequestMapping(
         value = "/upload",
         method = RequestMethod.POST,
@@ -111,29 +110,29 @@ public class ReportController {
 
 ---
 
-## @RequestMapping vs Composed Annotations
+## ការប្រៀបធៀប @RequestMapping ជាមួយ Composed Annotations
 
-Starting with Spring 4.3, composed annotations serve as method-level shortcuts for common HTTP verbs:
+ចាប់ពី Spring 4.3 មក Spring បានណែនាំ Composed Shortcut Annotations ដូចជា `@GetMapping`, `@PostMapping`៖
 
 ```java
-// Verbose legacy mapping:
+// បែបប្រពៃណីចាស់ (Verbose):
 @RequestMapping(value = "/users", method = RequestMethod.GET)
 
-// Clean modern shortcut:
+// បែបសម័យទំនើប (Modern & Clean):
 @GetMapping("/users")
 ```
 
 ---
 
-## Summary & Best Practices
-- Define `@RequestMapping("/base-path")` at the **class level** for clean route modularity.
-- At the **method level**, always prefer composed shortcuts (`@GetMapping`, `@PostMapping`, etc.).
-- Explicitly define `consumes` and `produces` attributes for clarity and accurate OpenAPI/Swagger documentation generation.
+## សង្ខេប & Best Practices
+- ប្រើប្រាស់ `@RequestMapping("/base-path")` នៅកម្រិត **Class Level**។
+- នៅកម្រិត **Method Level**, គួរប្រើ Shortcut Composed Annotations (`@GetMapping`, `@PostMapping`, etc.) ជំនួសវិញ ដើម្បីឱ្យកូដខ្លី និងច្បាស់លាស់។
+- កំណត់ `consumes` និង `produces` អោយបានច្បាស់លាស់សម្រាប់ API Documentation និងចៀសវាង Payload Mismatch។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Building REST Controllers with @RestController](../02-rest-controller/README.md) | [📚 Module Index](../README.md) | [Mastering @GetMapping & @PostMapping →](../04-get-and-post-mapping/README.md) |
+| [← ការបង្កើត REST Controller ជាមួយ @RestController](../02-rest-controller/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រើប្រាស់ @GetMapping និង @PostMapping (Mastering @GetMapping & @PostMapping) →](../04-get-and-post-mapping/README.md) |

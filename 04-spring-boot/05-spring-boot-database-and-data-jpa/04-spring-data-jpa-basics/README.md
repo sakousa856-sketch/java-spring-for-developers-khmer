@@ -1,85 +1,84 @@
-# Lesson 4: Spring Data JPA Fundamentals and Entity Mapping
+# មេរៀនទី ៤: មូលដ្ឋានគ្រឹះនៃ Spring Data JPA និង Entity Mapping
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../03-integration-with-mongodb/README.md) | [មេរៀនបន្ទាប់ →](../05-spring-boot-jdbc-jdbctemplate/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../03-integration-with-mongodb/README.md) | [Next Lesson →](../05-spring-boot-jdbc-jdbctemplate/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Todo App Spring Data JPA Entities & Repositories](../../examples/02-spring-data-jpa-postgresql)  
-> 📄 **Source Code Files:** [`Todo.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/model/Todo.java) | [`TodoRepository.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/repository/TodoRepository.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Todo App Spring Data JPA Entities & Repositories](../../examples/02-spring-data-jpa-postgresql)  
+> 📄 **File កូដជាក់ស្តែង:** [`Todo.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/model/Todo.java) | [`TodoRepository.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/repository/TodoRepository.java)
 
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Dissecting JPA, Hibernate, and Spring Data JPA](#1-dissecting-jpa-hibernate-and-spring-data-jpa)
-- [2. The ORM (Object-Relational Mapping) Paradigm](#2-the-orm-object-relational-mapping-paradigm)
-- [3. Essential Entity Mapping Annotations](#3-essential-entity-mapping-annotations)
-- [4. Primary Key Generation Strategies (`@GeneratedValue`)](#4-primary-key-generation-strategies-generatedvalue)
-- [5. Practical Production Example: Product Entity](#5-practical-production-example-product-entity)
-- [6. Summary](#6-summary)
+- [1. ស្វែងយល់អំពី JPA, Hibernate, និង Spring Data JPA](#1-ស្វែងយល់អំពី-jpa-hibernate-និង-spring-data-jpa)
+- [2. ស្ថាបត្យកម្ម ORM (Object-Relational Mapping)](#2-ស្ថាបត្យកម្ម-orm-object-relational-mapping)
+- [3. Entity Mapping Annotations សំខាន់ៗ](#3-entity-mapping-annotations-សំខាន់ៗ)
+- [4. យុទ្ធសាស្ត្របង្កើត Primary Key (`@GeneratedValue`)](#4-យុទ្ធសាស្ត្របង្កើត-primary-key-generatedvalue)
+- [5. ឧទាហរណ៍ជាក់ស្តែង៖ Product Entity](#5-ឧទាហរណ៍ជាក់ស្តែង-product-entity)
+- [6. សង្ខេប](#6-សង្ខេប)
 
 ---
 
-## 1. Dissecting JPA, Hibernate, and Spring Data JPA
+## 1. ស្វែងយល់អំពី JPA, Hibernate, និង Spring Data JPA
 
-Software engineers frequently conflate these three foundational concepts:
+អ្នករៀន Java ជាច្រើនតែងច្រឡំរវាងពាក្យទាំងបីនេះ៖
 
 ```mermaid
 flowchart TD
-    subgraph Spec ["1. Specification (Interface Standard)"]
+    subgraph Spec ["1. Specification (ស្តង់ដារក្រដាស)"]
         JPA["Jakarta Persistence API (JPA)"]
     end
-    subgraph Impl ["2. Implementation (Underlying Engine)"]
+    subgraph Impl ["2. Implementation (ម៉ាស៊ីនអនុវត្តកូដ)"]
         Hibernate["Hibernate ORM"]
     end
-    subgraph Abstraction ["3. High-Level Abstraction (Spring Library)"]
-        SDJ["Spring Data JPA (Repositories & Dynamic Proxies)"]
+    subgraph Abstraction ["3. High-Level Abstraction (បណ្ណាល័យ Spring)"]
+        SDJ["Spring Data JPA (Repositories & Automation)"]
     end
 
-    JPA -->|Implemented by| Hibernate
-    SDJ -->|Wraps around| Hibernate
+    JPA -->|អនុវត្តដោយ| Hibernate
+    SDJ -->|រុំព័ទ្ធពីលើ| Hibernate
+
 ```
 
-1. **JPA (Jakarta Persistence API):** A vendor-neutral **specification** (standard interfaces and annotations) defining how relational tables map to object models in Java. It contains no executable persistence logic.
-2. **Hibernate:** The industry-standard concrete **implementation** of the JPA specification. Hibernate translates high-level queries into dialect-specific SQL, manages connection state, and coordinates database sessions.
-3. **Spring Data JPA:** An abstraction layer atop JPA providers. It generates boilerplate repository implementations dynamically at runtime via reflection and proxies, removing the need for manual SQL statement authoring.
+1. **JPA (Jakarta Persistence API):** គឺជា **Specification (ស្តង់ដារ ឬ Interface)** សុទ្ធសាធដែលកំណត់ពីរបៀបដែល Java Objects ត្រូវ Map ទៅកាន់ Relational Database Tables។ វាមិនមានកូដ Logic ដំណើរការផ្ទាល់ខ្លួនឡើយ។
+2. **Hibernate:** គឺជា **Implementation (អ្នកអនុវត្ត)** ជាក់ស្តែងនៃស្តង់ដារ JPA។ Hibernate ជាអ្នកសរសេរ SQL Queries, គ្រប់គ្រង Connection, និងទាញ Data ចេញពី Database។
+3. **Spring Data JPA:** គឺជាស្រទាប់បន្ថែមដែលបង្កើតឡើងដោយ Spring Framework ដើម្បីកាត់បន្ថយ Boilerplate Code។ វាជួយឱ្យយើងបង្កើត Repository Interface ដោយមិនបាច់សរសេរ SQL Query មួយជួរឡើយ!
 
 ---
 
-## 2. The ORM (Object-Relational Mapping) Paradigm
+## 2. ស្ថាបត្យកម្ម ORM (Object-Relational Mapping)
 
-**ORM** bridges the architectural impedance mismatch separating two disparate paradigms:
-- **Object-Oriented Domain (Java):** Composed of classes, encapsulated objects, inheritance hierarchies, and polymorphic graph references.
-- **Relational Domain (SQL):** Composed of normalized relational tables, rows, columns, foreign keys, and referential constraints.
+**ORM** គឺជាបច្ចេកទេសស្ពានចម្លងទិន្នន័យរវាងពិភពពីរដែលខុសគ្នាទាំងស្រុង៖
+- **ពិភព Object-Oriented (Java):** គិតជា Classes, Objects, Inheritance, References។
+- **ពិភព Relational Database (SQL):** គិតជា Tables, Rows, Columns, Foreign Keys។
 
 ---
 
-## 3. Essential Entity Mapping Annotations
+## 3. Entity Mapping Annotations សំខាន់ៗ
 
-| Annotation | Purpose | Example |
+| Annotation | តួនាទី | ឧទាហរណ៍ |
 | :--- | :--- | :--- |
-| **`@Entity`** | Marks the Java class as a managed JPA persistence entity | `@Entity public class User` |
-| **`@Table`** | Customizes underlying table metadata (table name, indexes, unique constraints) | `@Table(name = "tbl_users")` |
-| **`@Id`** | Identifies the primary key attribute | `@Id private Long id;` |
-| **`@GeneratedValue`** | Configures auto-generation strategies for the primary key | `@GeneratedValue(strategy = GenerationType.IDENTITY)` |
-| **`@Column`** | Defines column-specific attributes (`name`, `nullable`, `unique`, `length`) | `@Column(name = "user_email", nullable = false, unique = true)` |
-| **`@Enumerated`** | Dictates enum serialization in the persistence store (`STRING` vs `ORDINAL`) | `@Enumerated(EnumType.STRING)` |
-| **`@Transient`** | Excludes non-persistent computed attributes from database schema mapping | `@Transient private double discountPrice;` |
+| **`@Entity`** | ប្រកាសថា Java Class នេះគឺជា JPA Entity ដែលត្រូវ Map ទៅ Table ក្នុង Database | `@Entity public class User` |
+| **`@Table`** | កំណត់ឈ្មោះ Table និង Constraints ក្នុង Database (ប្រសិនបើមិនដាក់ វានឹងយកឈ្មោះ Class) | `@Table(name = "tbl_users")` |
+| **`@Id`** | កំណត់ Field នេះជា Primary Key នៃ Table | `@Id private Long id;` |
+| **`@GeneratedValue`** | កំណត់របៀបបង្កើត Primary Key ដោយស្វ័យប្រវត្តិ (Auto-increment) | `@GeneratedValue(strategy = GenerationType.IDENTITY)` |
+| **`@Column`** | កំណត់ឈ្មោះ Column, `nullable`, `unique`, និងប្រវែងអក្សរ `length` | `@Column(name = "user_email", nullable = false, unique = true)` |
+| **`@Enumerated`** | កំណត់របៀបរក្សាទុក Java Enum ក្នុង Database (`STRING` ឬ `ORDINAL`) | `@Enumerated(EnumType.STRING)` |
+| **`@Transient`** | ប្រាប់ JPA ថាកុំ Save Field នេះចូល Database (សម្រាប់តែគណនាក្នុង Java) | `@Transient private double discountPrice;` |
 
-> ⚠️ **Best Practice Warning:** Always annotate enums with `@Enumerated(EnumType.STRING)`. Using `ORDINAL` introduces database corruption if enum constants are later reordered or extended!
-
----
-
-## 4. Primary Key Generation Strategies (`@GeneratedValue`)
-
-Spring Data JPA supports 4 primary key generation strategies:
-- **`GenerationType.IDENTITY`:** Delegates identifier assignment to native database auto-increment columns (optimized for MySQL, PostgreSQL).
-- **`GenerationType.SEQUENCE`:** Utilizes database sequences for identifier batching (standard for Oracle, enterprise PostgreSQL).
-- **`GenerationType.UUID`:** (Standardized in Hibernate 6 / Spring Boot 3) Generates RFC-compliant 36-character UUID strings natively.
-- **`GenerationType.AUTO`:** Delegates strategy selection to the underlying persistence provider based on database dialect.
+> ⚠️ **ការដាស់តឿន:** សម្រាប់ Enum ត្រូវប្រើ `@Enumerated(EnumType.STRING)` ជានិច្ច! កុំប្រើ `ORDINAL` ព្រោះបើសិនយើងបន្ថែមតម្លៃថ្មីក្នុង Enum នោះលេខលំដាប់នឹងច្រឡូកច្រឡំក្នុង Database ចាស់។
 
 ---
 
-## 5. Practical Production Example: Product Entity
+## 4. យុទ្ធសាស្ត្របង្កើត Primary Key (`@GeneratedValue`)
+
+Spring Data JPA គាំទ្រយុទ្ធសាស្ត្រសំខាន់ៗចំនួន ៤៖
+- **`GenerationType.IDENTITY`:** ពឹងផ្អែកលើ Auto-Increment របស់ Database (ស័ក្តិសមបំផុតជាមួយ MySQL, PostgreSQL)។
+- **`GenerationType.SEQUENCE`:** ប្រើ Database Sequence (លឿន និងស័ក្តិសមជាមួយ Oracle, PostgreSQL)។
+- **`GenerationType.UUID`:** (ចាប់ពី Hibernate 6 / Spring Boot 3) បង្កើត String UUID 36 តួអក្សរដោយស្វ័យប្រវត្តិ។
+- **`GenerationType.AUTO`:** ឱ្យ JPA ជ្រើសរើសដោយស្វ័យប្រវត្តិតាមប្រភេទ Database។
+
+---
+
+## 5. ឧទាហរណ៍ជាក់ស្តែង៖ Product Entity
 
 ```java
 package com.example.demo.entity;
@@ -109,8 +108,10 @@ public class Product {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    // Default Constructor (Mandatory requirement for JPA reflective instantiation)
-    public Product() {}
+    // Constructors
+    public Product() {
+        // JPA ទាមទារ No-Args Constructor ជាចាំបាច់!
+    }
 
     public Product(String name, BigDecimal price, ProductStatus status) {
         this.name = name;
@@ -119,22 +120,22 @@ public class Product {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters omitted for brevity ...
+    // Getters and Setters ...
 }
 ```
 
 ---
 
-## 6. Summary
+## 6. សង្ខេប
 
-- JPA establishes the specification, Hibernate implements the runtime engine, and Spring Data JPA delivers high-level repository conveniences.
-- Apply `@Entity` and `@Table` at the class declaration and identify primary keys with `@Id`.
-- Always serialize enums as strings via `@Enumerated(EnumType.STRING)`.
-- Entities strictly require a no-argument constructor for Hibernate's reflection-based instantiation.
+- JPA ជាស្តង់ដារ Interface, Hibernate ជាអ្នកអនុវត្តជាក់ស្តែង, ហើយ Spring Data JPA ជាស្រទាប់ជំនួយ Repository ដ៏មានឥទ្ធិពល។
+- ប្រើ `@Entity` និង `@Table` លើ Class, និង `@Id` លើ Primary Key។
+- ប្រើ `@Enumerated(EnumType.STRING)` ជានិច្ចសម្រាប់ Enum។
+- JPA Entity ត្រូវតែមាន No-argument Constructor (Constructor ទទេ) ជានិច្ច ដើម្បីឱ្យ Hibernate អាច Instantiate Object បានតាមរយៈ Reflection។
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Integration with MongoDB (NoSQL)](../03-integration-with-mongodb/README.md) | [📚 Module Index](../README.md) | [Spring Boot JDBC with JdbcTemplate →](../05-spring-boot-jdbc-jdbctemplate/README.md) |
+| [← ការភ្ជាប់ Spring Boot ជាមួយ MongoDB (Integration with MongoDB NoSQL)](../03-integration-with-mongodb/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រើប្រាស់ Spring Boot JDBC និង JdbcTemplate (Spring Boot JDBC with JdbcTemplate) →](../05-spring-boot-jdbc-jdbctemplate/README.md) |

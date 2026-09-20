@@ -1,21 +1,19 @@
-# Lesson 4: Declarative API Testing with ZeroCode
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../03-integration-testing-mockmvc/README.md) | [Next Lesson →](../README.md)
+# មេរៀនទី ៤: ការធ្វើ Declarative API Testing ជាមួយ ZeroCode (ZeroCode Testing Framework)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../03-integration-testing-mockmvc/README.md) | [មេរៀនបន្ទាប់ →](../README.md)
 
 ---
 
-## Table of Contents
-1. [What is the ZeroCode Testing Framework?](#what-is-zerocode)
-2. [Advantages of Declarative JSON-Based API Testing](#advantages)
+## មាតិកា (Table of Contents)
+1. [តើអ្វីទៅជា ZeroCode Framework?](#តើអ្វីទៅជា-zerocode)
+2. [ហេតុអ្វីត្រូវជ្រើសរើស Declarative JSON Testing?](#ហេតុអ្វី)
 3. [Maven Dependency Setup](#maven-dependency-setup)
-4. [Writing JSON Test Scenarios](#json-scenarios)
-5. [Running ZeroCode Tests with JUnit Runners](#test-runners)
+4. [ការបង្កើត JSON Test Scenarios](#ការបង្កើត-json-test)
+5. [ការដំណើរការ ZeroCode Tests ជាមួយ JUnit 5 Runner](#ការដំណើរការ)
 
 ---
 
-## What is the ZeroCode Testing Framework?
-**ZeroCode** is an open-source test-automation framework that enables declarative, code-free API contract, integration, and load testing (REST, Kafka, GraphQL, Databases). Scenarios, expectations, and assertions are declared cleanly in **human-readable JSON**.
+## តើអ្វីទៅជា ZeroCode Framework?
+**ZeroCode** គឺជា Open-Source Framework សម្រាប់ធ្វើ Declarative API Testing (REST, SOAP, Kafka, GraphQL) ដោយពុំចាំបាច់សរសេរបន្ទាត់ Java Code ស្មុគស្មាញឡើយ។ Test Cases ទាំងមូលត្រូវបានសរសេរជាទម្រង់ **JSON Format** យ៉ាងងាយស្រួល ដែលជួយឱ្យទាំង Developers និង QA Engineers អាចសហការគ្នាបានយ៉ាងរលូន។
 
 ```mermaid
 graph LR
@@ -23,6 +21,7 @@ graph LR
     ZeroCode --> API["Spring Boot REST API (HTTP Server)"]
     API --> ZeroCode
     ZeroCode --> Assert["Assert Response Status & Payload Fields"]
+
 ```
 
 ---
@@ -35,14 +34,15 @@ graph LR
     <artifactId>zerocode-tdd</artifactId>
     <version>1.3.43</version>
     <scope>test</scope>
+
 </dependency>
 ```
 
 ---
 
-## Writing JSON Test Scenarios
+## ការបង្កើត JSON Test Scenario
 
-Save scenario in `src/test/resources/tests/get_all_books_test.json`:
+ដាក់ file នៅ `src/test/resources/tests/get_all_books_test.json`៖
 
 ```json
 {
@@ -69,7 +69,7 @@ Save scenario in `src/test/resources/tests/get_all_books_test.json`:
 
 ---
 
-## Running ZeroCode Tests with JUnit Runners
+## ការដំណើរការជាមួយ JUnit Test Runner
 
 ```java
 package com.example.zerocode;
@@ -94,8 +94,8 @@ public class BookApiZeroCodeTest {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← REST Controller Integration Testing with MockMvc](../03-integration-testing-mockmvc/README.md) | [📚 Module Index](../README.md) | [Module Index →](../README.md) |
+| [← ការធ្វើ Integration Testing លើ REST Controller ជាមួយ MockMvc (Integration Testing with MockMvc)](../03-integration-testing-mockmvc/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [មាតិកា Module →](../README.md) |

@@ -1,33 +1,31 @@
-# Lesson 1: Task Scheduling with @Scheduled and Asynchronous Execution with @Async
+# មេរៀនទី ១: ការដំណើរការការងារស្វ័យប្រវត្តិតាមកាលកំណត់ (@Scheduled) និងអសមកាលកម្ម (@Async)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../../05-spring-boot-database-and-data-jpa/09-todo-list-api-project/README.md) | [មេរៀនបន្ទាប់ →](../02-sending-email-smtp/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../../05-spring-boot-database-and-data-jpa/09-todo-list-api-project/README.md) | [Next Lesson →](../02-sending-email-smtp/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Introduction to Background Workloads](#1-introduction-to-background-workloads)
-- [2. Periodic Task Scheduling with `@Scheduled`](#2-periodic-task-scheduling-with-scheduled)
-- [3. Deep Dive: `fixedRate`, `fixedDelay`, and Cron Expressions](#3-deep-dive-fixedrate-fixeddelay-and-cron-expressions)
-- [4. Asynchronous Non-Blocking Processing with `@Async`](#4-asynchronous-non-blocking-processing-with-async)
-- [5. Customizing Enterprise Thread Pools (`ThreadPoolTaskExecutor`)](#5-customizing-enterprise-thread-pools-threadpooltaskexecutor)
-- [6. Summary](#6-summary)
+- [1. សេចក្តីផ្តើមអំពី Background Jobs](#1-សេចក្តីផ្តើមអំពី-background-jobs)
+- [2. ការដំណើរការការងារតាមកាលកំណត់ជាមួយ `@Scheduled`](#2-ការដំណើរការការងារតាមកាលកំណត់ជាមួយ-scheduled)
+- [3. យល់ដឹងអំពី `fixedRate`, `fixedDelay`, និង Cron Expressions](#3-យល់ដឹងអំពី-fixedrate-fixeddelay-និង-cron-expressions)
+- [4. ការដំណើរការការងារអសមកាលកម្ម (Asynchronous Processing) ជាមួយ `@Async`](#4-ការដំណើរការការងារអសមកាលកម្ម-asynchronous-processing-ជាមួយ-async)
+- [5. ការកំណត់ Thread Pool ផ្ទាល់ខ្លួន (`ThreadPoolTaskExecutor`)](#5-ការកំណត់-thread-pool-ផ្ទាល់ខ្លួន-threadpooltaskexecutor)
+- [6. សង្ខេប](#6-សង្ខេប)
 
 ---
 
-## 1. Introduction to Background Workloads
+## 1. សេចក្តីផ្តើមអំពី Background Jobs
 
-In production web applications, numerous computational tasks should never block the primary HTTP request thread:
-- Dispatching user welcome or password reset emails (2–5 seconds latency)
-- Generating large PDF invoices or streaming analytical CSV exports
-- Performing database maintenance or cache eviction batches at midnight
+នៅក្នុងកម្មវិធី Enterprise មានការងារជាច្រើនដែលមិនត្រូវឱ្យ User អង្គុយចាំឡើយ៖
+- ការផ្ញើអ៊ីមែលស្វាគមន៍ ឬ Reset Password (ចំណាយពេល ២-៥ វិនាទី)
+- ការទាញយក Report ឬ Export Excel ធំៗ
+- ការ Clean Up ទិន្នន័យចាស់ៗរៀងរាល់ពាក់កណ្តាលអធ្រាត្រ (Midnight Batch)
 
-Spring Boot provides native support for declarative **Task Scheduling** (time-based execution) and **Asynchronous processing** (`@Async`), eliminating the complexity of configuring external task runners for lightweight tasks.
+ដើម្បីដោះស្រាយបញ្ហានេះ Spring Boot ផ្តល់នូវយន្តការ **Scheduling** (រត់តាមម៉ោងកំណត់) និង **Async** (រត់លើ Background Thread ផ្សេង) ដោយមិនបាច់ពឹងផ្អែកលើបណ្ណាល័យខាងក្រៅស្មុគស្មាញឡើយ។
 
 ---
 
-## 2. Periodic Task Scheduling with `@Scheduled`
+## 2. ការដំណើរការការងារតាមកាលកំណត់ជាមួយ `@Scheduled`
 
-Enable scheduling capabilities in any configuration or main application class via `@EnableScheduling`:
+ជាដំបូង ត្រូវបើកដំណើរការ Scheduling ក្នុង Configuration ឬ Main Class តាមរយៈ `@EnableScheduling`៖
 
 ```java
 @SpringBootApplication
@@ -41,61 +39,62 @@ public class DemoApplication {
 
 ---
 
-## 3. Deep Dive: `fixedRate`, `fixedDelay`, and Cron Expressions
+## 3. យល់ដឹងអំពី `fixedRate`, `fixedDelay`, និង Cron Expressions
 
-### 1. `fixedRate` (Fixed Interval Execution)
-Initiates task execution every fixed duration (e.g., 5000ms), irrespective of whether prior invocations have concluded:
+### 1. `fixedRate` (រត់តាមចន្លោះពេលថេរ)
+ចាប់ផ្តើមរត់រៀងរាល់ ៥ វិនាទីម្តង ដោយមិនខ្វល់ថា Task មុនចប់ឬមិនទាន់ចប់ឡើយ៖
 ```java
 @Scheduled(fixedRate = 5000)
 public void runEveryFiveSeconds() {
-    System.out.println("fixedRate invocation: " + System.currentTimeMillis());
+    System.out.println("fixedRate: " + System.currentTimeMillis());
 }
 ```
 
-### 2. `fixedDelay` (Completion-Dependent Delay)
-Waits until the active task completes execution, pauses for the specified duration (5000ms), and then triggers the subsequent execution (safer against thread concurrency collisions):
+### 2. `fixedDelay` (រង់ចាំឱ្យចប់សិន ទើបរាប់ពេល)
+រង់ចាំឱ្យ Task មុនរត់ចប់សព្វគ្រប់សិន ទើបរង់ចាំ ៥ វិនាទីទៀត រួចទើបរត់ Task បន្ទាប់ (មានសុវត្ថិភាពខ្ពស់ជាង `fixedRate`)៖
 ```java
 @Scheduled(fixedDelay = 5000)
 public void runAfterCompletion() {
-    System.out.println("fixedDelay invocation");
+    System.out.println("fixedDelay execution");
 }
 ```
 
-### 3. Cron Expression (Precise Calendar Scheduling)
-Standard 6-field Spring cron format: `[second] [minute] [hour] [day-of-month] [month] [day-of-week]`
+### 3. Cron Expression (កំណត់ម៉ោងច្បាស់លាស់)
+ទម្រង់ ៦ ខ្ទង់ក្នុង Spring: `[second] [minute] [hour] [day-of-month] [month] [day-of-week]`
 
 ```java
-// Executes precisely at 00:00:00 midnight every day
+// រត់រៀងរាល់ថ្ងៃនៅវេលាម៉ោង 12:00 AM ពាក់កណ្តាលអធ្រាត្រ
 @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Phnom_Penh")
 public void generateDailyReport() {
-    System.out.println("Executing automated daily reporting batch at midnight!");
+    System.out.println("រត់របាយការណ៍ប្រចាំថ្ងៃនៅម៉ោង 12 យប់!");
 }
 ```
 
 ---
 
-## 4. Asynchronous Non-Blocking Processing with `@Async`
+## 4. ការដំណើរការការងារអសមកាលកម្ម (Asynchronous Processing) ជាមួយ `@Async`
 
-When a client registers an account, the API should return within 50ms without waiting for a third-party SMTP server to dispatch an email.
+នៅពេល User ចុចចុះឈ្មោះគណនី (Register) យើងចង់ឱ្យ API ឆ្លើយតបមកវិញភ្លាមៗក្នុងពេលត្រឹម 50ms ដោយមិនបាច់រង់ចាំការផ្ញើអ៊ីមែលដែលត្រូវចំណាយពេល 3 វិនាទីឡើយ។
 
 ```mermaid
 flowchart TD
     Client["Client Request"] --> WebThread["Main Web Thread (Tomcat)"]
-    WebThread --> SaveDB["1. Persist User in DB (10ms)"]
-    WebThread -->|Hand off task| AsyncThread["Background Worker Thread"]
-    WebThread -->|Immediate 201 Created Response| Client
+    WebThread --> SaveDB["1. រក្សាទុក User ក្នុង DB (10ms)"]
+    WebThread -->|បោះការងារឱ្យ| AsyncThread["Background Worker Thread"]
+    WebThread -->|ឆ្លើយតប 201 Created ភ្លាមៗ| Client
     
-    AsyncThread --> SendEmail["2. Deliver SMTP Email (3000ms on background)"]
+    AsyncThread --> SendEmail["2. ផ្ញើអ៊ីមែលស្វាគមន៍ (3000ms លើ Background)"]
+
 ```
 
-### 1. Enable Async Execution:
+### 1. បើក `@EnableAsync`:
 ```java
 @Configuration
 @EnableAsync
 public class AsyncConfig {}
 ```
 
-### 2. Annotate Service Method with `@Async`:
+### 2. បង្កើត Service Method ជាមួយ `@Async`:
 ```java
 @Service
 public class EmailService {
@@ -103,8 +102,8 @@ public class EmailService {
     @Async
     public void sendWelcomeEmail(String email, String username) {
         try {
-            Thread.sleep(3000); // Simulate network latency
-            System.out.println("Email successfully dispatched to: " + email);
+            Thread.sleep(3000); // ក្លែងធ្វើជាផ្ញើអ៊ីមែល ៣ វិនាទី
+            System.out.println("អ៊ីមែលត្រូវបានផ្ញើជោគជ័យទៅកាន់: " + email);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -114,9 +113,9 @@ public class EmailService {
 
 ---
 
-## 5. Customizing Enterprise Thread Pools (`ThreadPoolTaskExecutor`)
+## 5. ការកំណត់ Thread Pool ផ្ទាល់ខ្លួន (`ThreadPoolTaskExecutor`)
 
-By default, Spring employs `SimpleAsyncTaskExecutor`, which instantiates a new unpooled thread for every incoming task. In high-traffic environments, this risks memory exhaustion. Configure a managed `ThreadPoolTaskExecutor`:
+តាមលំនាំដើម Spring ប្រើប្រាស់ `SimpleAsyncTaskExecutor` ដែលបង្កើត Thread ថ្មីរាល់ពេលមាន Task (មិន reuse thread ឡើយ ដែលអាចធ្វើឱ្យអស់ Memory)។ ក្នុង Enterprise យើងត្រូវកំណត់ Thread Pool ត្រឹមត្រូវ៖
 
 ```java
 @Configuration
@@ -125,9 +124,9 @@ public class AsyncThreadPoolConfig {
     @Bean(name = "taskExecutor")
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(5);        // Minimum baseline active threads
-        executor.setMaxPoolSize(20);        // Elastic upper limit during spikes
-        executor.setQueueCapacity(500);     // In-flight task queue capacity
+        executor.setCorePoolSize(5);        // Thread អប្បបរមាដែលដំណើរការរហូត
+        executor.setMaxPoolSize(20);        // Thread អតិបរមាពេលមានបន្ទុកធ្ងន់
+        executor.setQueueCapacity(500);     // ចំនួន Task រង់ចាំក្នុងជួរ Queue
         executor.setThreadNamePrefix("AsyncWorker-");
         executor.initialize();
         return executor;
@@ -137,17 +136,17 @@ public class AsyncThreadPoolConfig {
 
 ---
 
-## 6. Summary
+## 6. សង្ខេប
 
-- Leverage `@Scheduled` for periodic background cleanups, reconciliations, and reporting batches.
-- Utilize Cron expressions for calendar-specific scheduling.
-- Apply `@Async` to offload high-latency operations (notifications, PDF generation) from the main web thread.
-- Always configure an explicit `ThreadPoolTaskExecutor` to manage system concurrency safely.
+- ប្រើ `@Scheduled` សម្រាប់ Batch Jobs, Clean up, ឬ Report តាមម៉ោងកំណត់។
+- ប្រើ Cron Expression ដើម្បីកំណត់ម៉ោងជាក់លាក់ (ម៉ោង, ថ្ងៃ, សប្តាហ៍)។
+- ប្រើ `@Async` ដើម្បីរុញការងារដែលយឺត (ផ្ញើ Mail, Generate PDF) ទៅរត់លើ Background Thread ជៀសវាង Block Web Request។
+- កំណត់ `ThreadPoolTaskExecutor` ផ្ទាល់ខ្លួនជានិច្ច ដើម្បីគ្រប់គ្រងធនធាន RAM & CPU របស់ Server។
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Todo List REST API Project with Database](../../05-spring-boot-database-and-data-jpa/09-todo-list-api-project/README.md) | [📚 Module Index](../README.md) | [Sending Email with Spring Boot JavaMailSender →](../02-sending-email-smtp/README.md) |
+| [← គម្រោង Todo List REST API ជាមួយ Database (Todo List REST API Project)](../../05-spring-boot-database-and-data-jpa/09-todo-list-api-project/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការផ្ញើ Email ជាមួយ Spring Boot JavaMailSender (Sending Email with SMTP) →](../02-sending-email-smtp/README.md) |

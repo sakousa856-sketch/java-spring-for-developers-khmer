@@ -1,26 +1,25 @@
-# Lesson 9: Todo List REST API Project with Database
+# មេរៀនទី ៩: គម្រោង Todo List REST API ជាមួយ Database (Todo List REST API Project)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../08-crud-operations-jpa/README.md) | [មេរៀនបន្ទាប់ →](../../06-advanced-spring-boot-features/01-task-scheduling/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../08-crud-operations-jpa/README.md) | [Next Lesson →](../../06-advanced-spring-boot-features/01-task-scheduling/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Todo List REST API Full Project](../../examples/02-spring-data-jpa-postgresql)  
-> 📄 **Source Code Files:** [`Todo.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/model/Todo.java) | [`TodoController.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/controller/TodoController.java) | [`TodoService.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/service/TodoService.java) | [`TodoRepository.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/repository/TodoRepository.java) | [`application.yml`](../../examples/02-spring-data-jpa-postgresql/src/main/resources/application.yml)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Todo List REST API Full Project](../../examples/02-spring-data-jpa-postgresql)  
+> 📄 **File កូដជាក់ស្តែង:** [`Todo.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/model/Todo.java) | [`TodoController.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/controller/TodoController.java) | [`TodoService.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/service/TodoService.java) | [`TodoRepository.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/repository/TodoRepository.java) | [`application.yml`](../../examples/02-spring-data-jpa-postgresql/src/main/resources/application.yml)
 
 
 ---
 
-## Table of Contents
-1. [Project Architecture Overview](#project-architecture-overview)
-2. [Todo Entity & Repository Implementation](#todo-entity--repository-implementation)
-3. [DTOs & Service Layer Implementation](#dtos--service-layer-implementation)
-4. [TodoController Endpoints](#todocontroller-endpoints)
-5. [End-to-End API Verification](#end-to-end-api-verification)
+## មាតិកា (Table of Contents)
+1. [ទិដ្ឋភាពទូទៅនៃគម្រោង Todo API](#ទិដ្ឋភាពទូទៅនៃគម្រោង)
+2. [ស្ថាបត្យកម្មប្រព័ន្ធ (Layered Architecture)](#ស្ថាបត្យកម្មប្រព័ន្ធ)
+3. [ការបង្កើត Todo Entity & Repository](#ការបង្កើត-todo-entity--repository)
+4. [ការបង្កើត DTOs & Service Layer](#ការបង្កើត-dtos--service-layer)
+5. [ការបង្កើត TodoController](#ការបង្កើត-todocontroller)
+6. [ការធ្វើតេស្ត API ជាមួយ Postman ឬ cURL](#ការធ្វើតេស្ត-api)
 
 ---
 
-## Project Architecture Overview
-In this capstone lesson for Module 5, we build an end-to-end **Todo RESTful API** powered by Spring Data JPA with real database persistence, pagination, DTO patterns, and status toggles.
+## ទិដ្ឋភាពទូទៅនៃគម្រោង
+នៅក្នុងគម្រោងបញ្ចប់ Module 5 នេះ យើងនឹងសាងសង់ **Todo Management RESTful API** ពេញលេញមួយ ដែលភ្ជាប់ជាមួយ Relational Database តាមរយៈ Spring Data JPA ដោយគាំទ្រ Status Filtering, Pagination, និង Validation។
 
 ```mermaid
 sequenceDiagram
@@ -32,11 +31,12 @@ sequenceDiagram
     TodoRepository-->>TodoService: Todo Entity
     TodoService-->>TodoController: TodoResponse DTO
     TodoController-->>Client: 201 Created + JSON
+
 ```
 
 ---
 
-## Todo Entity & Repository Implementation
+## ការបង្កើត Todo Entity & Repository
 
 ```java
 package com.example.todo.model;
@@ -69,6 +69,7 @@ public class Todo {
         this.description = description;
     }
 
+    // Getters & Setters
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
@@ -89,12 +90,13 @@ import java.util.List;
 
 public interface TodoRepository extends JpaRepository<Todo, Long> {
     List<Todo> findByCompleted(boolean completed);
+
 }
 ```
 
 ---
 
-## DTOs & Service Layer Implementation
+## ការបង្កើត DTOs & Service Layer
 
 ```java
 package com.example.todo.dto;
@@ -170,7 +172,7 @@ public class TodoService {
 
 ---
 
-## TodoController Endpoints
+## ការបង្កើត TodoController
 
 ```java
 package com.example.todo.controller;
@@ -219,8 +221,8 @@ public class TodoController {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Full CRUD Operations with Spring Data JPA](../08-crud-operations-jpa/README.md) | [📚 Module Index](../README.md) | [Task Scheduling with @Scheduled and Asynchronous Execution with @Async →](../../06-advanced-spring-boot-features/01-task-scheduling/README.md) |
+| [← ប្រតិបត្តិការ CRUD ពេញលេញជាមួយ Spring Data JPA (Full CRUD Operations)](../08-crud-operations-jpa/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការដំណើរការការងារស្វ័យប្រវត្តិតាមកាលកំណត់ (@Scheduled) និងអសមកាលកម្ម (@Async) →](../../06-advanced-spring-boot-features/01-task-scheduling/README.md) |

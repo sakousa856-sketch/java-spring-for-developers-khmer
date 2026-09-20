@@ -1,21 +1,19 @@
-# Lesson 2: Unit Testing with Mockito
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../01-unit-testing-junit/README.md) | [Next Lesson →](../03-integration-testing-mockmvc/README.md)
+# មេរៀនទី ២: ការធ្វើ Unit Testing ជាមួយ Mockito (Unit Testing with Mockito)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../01-unit-testing-junit/README.md) | [មេរៀនបន្ទាប់ →](../03-integration-testing-mockmvc/README.md)
 
 ---
 
-## Table of Contents
-1. [What is Mocking and Mockito?](#what-is-mocking)
-2. [Core Annotations: @Mock, @InjectMocks, @Spy](#core-annotations)
-3. [Stubbing Method Behaviors (when...thenReturn / doThrow)](#stubbing)
-4. [Verification Semantics (verify, times, never)](#verification)
-5. [Comprehensive Service Layer Test Example](#comprehensive-example)
+## មាតិកា (Table of Contents)
+1. [តើអ្វីទៅជា Mocking និង Mockito?](#តើអ្វីទៅជា-mocking)
+2. [Annotations សំខាន់ៗ: @Mock, @InjectMocks, @Spy](#annotations-សំខាន់ៗ)
+3. [Stubbing Methods (when...thenReturn / doThrow)](#stubbing-methods)
+4. [ការផ្ទៀងផ្ទាត់ការហៅ Method (verify, times, never)](#ការផ្ទៀងផ្ទាត់)
+5. [ឧទាហរណ៍ជាក់ស្តែង: Testing Service Layer ដោយ Mock Repository](#ឧទាហរណ៍ជាក់ស្តែង)
 
 ---
 
-## What is Mocking and Mockito?
-In **Unit Testing**, isolation is paramount. The system under test (SUT) must be tested independently of external databases, third-party REST APIs, or file systems. **Mockito** allows you to generate simulated proxy objects (mocks) to emulate dependency responses and verify collaborative interactions.
+## តើអ្វីទៅជា Mocking និង Mockito?
+នៅក្នុង **Unit Testing**, យើងចង់ធ្វើតេស្ត Business Logic នៃ Class តែមួយគត់ដាច់ដោយឡែក (Isolation) ដោយមិនចង់ឱ្យវាភ្ជាប់ទៅកាន់ Database, External Network API ឬ Email Server ពិតប្រាកដឡើយ។ **Mockito** គឺជា Java Mocking Framework ដ៏ពេញនិយមបំផុតដែលជួយបង្កើត Fake/Mock Objects សម្រាប់ជំនួស Dependencies ទាំងនោះ។
 
 ```mermaid
 graph TD
@@ -29,15 +27,15 @@ graph TD
 
 ---
 
-## Core Annotations
+## Annotations សំខាន់ៗ
 
-- `@Mock`: Synthesizes a mock instance of the declared class or interface.
-- `@InjectMocks`: Instantiates the target class and injects all created mocks into its constructor/fields.
-- `@ExtendWith(MockitoExtension.class)`: Integrates Mockito lifecycle extensions with JUnit 5.
+- `@Mock`: បង្កើត Mock Object ក្លែងក្លាយ។
+- `@InjectMocks`: ចាក់បញ្ចូល Mock Objects ទាំងអស់ចូលទៅក្នុង Class ដែលយើងកំពុងធ្វើតេស្ត។
+- `@ExtendWith(MockitoExtension.class)`: បើកដំណើរការ Mockito annotations ជាមួយ JUnit 5។
 
 ---
 
-## Comprehensive Service Layer Test Example
+## ឧទាហរណ៍ជាក់ស្តែង: Testing UserService
 
 ```java
 package com.example.service;
@@ -77,9 +75,9 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("createUser() should persist user and return DTO when email is unique")
+    @DisplayName("createUser() គួរតែ save និង return UserDTO ពេល email មិនទាន់មាន")
     void shouldCreateUserSuccessfully() {
-        // Given
+        // Given (Stubbing)
         when(userRepository.findByEmail("dara@example.com")).thenReturn(Optional.empty());
         when(userRepository.save(any(User.class))).thenReturn(sampleUser);
 
@@ -92,11 +90,12 @@ class UserServiceTest {
         assertThat(response.id()).isEqualTo(1L);
         assertThat(response.username()).isEqualTo("dara");
 
+        // Verify that save was called exactly 1 time
         verify(userRepository, times(1)).save(any(User.class));
     }
 
     @Test
-    @DisplayName("createUser() should throw IllegalArgumentException when email exists")
+    @DisplayName("createUser() គួរតែបោះ IllegalArgumentException ពេល email មានរួចហើយ")
     void shouldThrowExceptionWhenEmailExists() {
         // Given
         when(userRepository.findByEmail("dara@example.com")).thenReturn(Optional.of(sampleUser));
@@ -107,6 +106,7 @@ class UserServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Email already registered");
 
+        // Verify save was NEVER called
         verify(userRepository, never()).save(any(User.class));
     }
 }
@@ -114,8 +114,8 @@ class UserServiceTest {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Unit Testing Spring Boot Applications with JUnit 5 & AssertJ](../01-unit-testing-junit/README.md) | [📚 Module Index](../README.md) | [REST Controller Integration Testing with MockMvc →](../03-integration-testing-mockmvc/README.md) |
+| [← ការធ្វើតេស្តកម្មវិធី Spring Boot ជាមួយ JUnit 5 និង AssertJ (Unit Testing)](../01-unit-testing-junit/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការធ្វើ Integration Testing លើ REST Controller ជាមួយ MockMvc (Integration Testing with MockMvc) →](../03-integration-testing-mockmvc/README.md) |

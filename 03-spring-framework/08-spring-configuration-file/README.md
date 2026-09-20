@@ -1,32 +1,29 @@
-# Part 8: Spring Configuration File
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
-
+# Part 8: ឯកសារ Spring Configuration (Spring Configuration File)
 ![Spring Configuration File](./assets/what-is-a-spring-configuration-file.jpg "What is a Spring configuration file")
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. What Is a Spring Configuration File?](#1-what-is-a-spring-configuration-file)
-- [2. Structure of an XML Configuration File](#2-structure-of-an-xml-configuration-file)
-- [3. Loading Configuration in Java](#3-loading-configuration-in-java)
-- [4. Evolution toward Modern JavaConfig](#4-evolution-toward-modern-javaconfig)
-
----
-
-## 1. What Is a Spring Configuration File?
-
-A **Spring Configuration File** is an external configuration file (conventionally formatted in **XML**, such as `beans.xml` or `applicationContext.xml`) that provides the **configuration metadata** consumed by the Spring IoC Container:
-1. **Class Registrations:** Declares which classes should be instantiated as Spring Beans.
-2. **Inter-Bean Collaborations:** Details how beans relate to and depend upon each other.
-3. **Property Configuration:** Injects static values or environment variables upon instantiation.
-
-This represents the foundational **XML-Based Configuration** approach in the Spring Framework.
+- [1. តើ Spring Configuration File ជាអ្វី?](#1-តើ-spring-configuration-file-ជាអ្វី)
+- [2. រចនាសម្ព័ន្ធនៃឯកសារ XML Configuration](#2-រចនាសម្ព័ន្ធនៃឯកសារ-xml-configuration)
+- [3. របៀបដែល Spring Container អានឯកសារ Configuration](#3-របៀបដែល-spring-container-អានឯកសារ-configuration)
+- [4. ការវិវត្តន៍ពី XML មកកាន់ Modern Java Configuration](#4-ការវិវត្តន៍ពី-xml-មកកាន់-modern-java-configuration)
 
 ---
 
-## 2. Structure of an XML Configuration File
+## 1. តើ Spring Configuration File ជាអ្វី?
 
-An XML configuration file defines a top-level `<beans>` element containing nested `<bean>` declarations:
+**Spring Configuration File** គឺជាឯកសារ (ជាទូទៅជាទម្រង់ **XML file** ដូចជា `applicationContext.xml` ឬ `beans.xml`) ដែលផ្ទុកនូវ **Metadata** សំខាន់ៗសម្រាប់ប្រាប់ទៅកាន់ Spring IoC Container អំពី៖
+1. **Class Definitions:** តើ Class ណាខ្លះដែលត្រូវបង្កើតជា Beans?
+2. **Relationships & Wiring:** តើ Bean មួយមានទំនាក់ទំនង និងពឹងផ្អែក (Dependencies) លើ Bean ណាខ្លះទៀត?
+3. **Property Values:** តើតម្លៃអថេរណាខ្លះដែលត្រូវបញ្ចូលទៅក្នុង Bean ពេលបង្កើត?
+
+វិធីនេះគឺជាផ្នែកមួយនៃវិធីសាស្ត្របុរាណហៅថា **XML-Based Configuration** នៅក្នុង Spring Framework។
+
+---
+
+## 2. រចនាសម្ព័ន្ធនៃឯកសារ XML Configuration
+
+ឯកសារ XML ប្រើប្រាស់ root tag `<beans>` និងមាន tags `<bean>` នៅខាងក្នុង៖
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -35,10 +32,10 @@ An XML configuration file defines a top-level `<beans>` element containing neste
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- 1. Define UserRepository Bean -->
+    <!-- 1. កំណត់ Bean សម្រាប់ UserRepository -->
     <bean id="userRepository" class="com.example.repository.UserRepositoryImpl" />
 
-    <!-- 2. Define UserService Bean and wire repository dependency -->
+    <!-- 2. កំណត់ Bean សម្រាប់ UserService និង Inject UserRepository ចូល -->
     <bean id="userService" class="com.example.service.UserServiceImpl">
         <property name="userRepository" ref="userRepository" />
     </bean>
@@ -46,16 +43,17 @@ An XML configuration file defines a top-level `<beans>` element containing neste
 </beans>
 ```
 
-- **`id` / `name`:** Unique identifier for the bean within the container.
-- **`class`:** The fully qualified class name to instantiate.
-- **`<property>`:** Injects collaborators via setter methods.
-- **`<constructor-arg>`:** Passes arguments to class constructors.
+- **`id` / `name`:** ឈ្មោះសម្គាល់ពិសេសរបស់ Bean ក្នុង Container។
+- **`class`:** Full Qualified Name នៃ Java Class ដែលត្រូវ Instantiate។
+- **`<property>`:** សម្រាប់កំណត់តម្លៃតាមរយៈ Setter Injection។
+
+- **`<constructor-arg>`:** សម្រាប់កំណត់តម្លៃតាមរយៈ Constructor Injection។
 
 ---
 
-## 3. Loading Configuration in Java
+## 3. របៀបដែល Spring Container អានឯកសារ Configuration
 
-The Spring container reads this configuration using `ClassPathXmlApplicationContext`:
+នៅក្នុងកូដ Java យើងប្រើប្រាស់ `ClassPathXmlApplicationContext` ដើម្បីផ្ទុកឯកសារ XML នេះ៖
 
 ```java
 ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -64,16 +62,16 @@ UserService userService = context.getBean("userService", UserService.class);
 
 ---
 
-## 4. Evolution toward Modern JavaConfig
+## 4. ការវិវត្តន៍ពី XML មកកាន់ Modern Java Configuration
 
-While XML configuration was ubiquitous in early Spring versions (1.x–2.x), modern enterprise Spring applications have largely transitioned to:
-- **Java-Based Configuration (`@Configuration` & `@Bean`)**: Providing compile-time type safety and effortless IDE refactoring.
-- **Annotation-Driven Components (`@Component`, `@Autowired`)**: Enabled by automatic classpath scanning to eliminate manual bean definitions.
+ទោះបីជា XML Configuration ធ្លាប់ជាវិធីស្តង់ដារក្នុងជំនាន់ Spring 1.x និង 2.x ក៏ដោយ បច្ចុប្បន្នវាត្រូវបានជំនួសដោយវិធីសាស្ត្រទំនើបជាង៖
+- **Java-based Configuration (`@Configuration` & `@Bean`)**: ផ្តល់នូវ Type-safety និងងាយស្រួល Refactor។
+- **Annotation-driven (`@Component`, `@Autowired`)**: ប្រើជាមួយ Component Scanning កាត់បន្ថយការសរសេរ Config ស្ទើរតែទាំងស្រុង។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 7: Types of IoC Containers](../07-types-of-ioc-container/README.md) | [📚 Spring Framework Index](../README.md) | [Part 9: 3 Ways to Configure Spring →](../09-ways-to-configure-spring/README.md) |
+| [← Part 7: ប្រភេទនៃ IoC Containers](../07-types-of-ioc-container/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 9: វិធីទាំង ៣ ក្នុងការកំណត់ Config ក្នុង Spring →](../09-ways-to-configure-spring/README.md) |

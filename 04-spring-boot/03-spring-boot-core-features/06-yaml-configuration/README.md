@@ -1,27 +1,25 @@
-# Lesson 6: Configuration with YAML in Spring Boot
+# មេរៀនទី ៦: ការកំណត់រចនាសម្ព័ន្ធជាមួយ YAML (YAML Configuration in Spring Boot)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../05-application-properties/README.md) | [មេរៀនបន្ទាប់ →](../07-spring-boot-actuator/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../05-application-properties/README.md) | [Next Lesson →](../07-spring-boot-actuator/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Bookstore YAML Configuration](../../examples/01-rest-api-crud)  
-> 📄 **Source Code Files:** [`application.yml`](../../examples/01-rest-api-crud/src/main/resources/application.yml)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Bookstore YAML Configuration](../../examples/01-rest-api-crud)  
+> 📄 **File កូដជាក់ស្តែង:** [`application.yml`](../../examples/01-rest-api-crud/src/main/resources/application.yml)
 
 
 ---
 
-## Table of Contents
-1. [Introduction to YAML](#introduction-to-yaml)
-2. [Comparison: .properties vs .yml (.yaml)](#comparison-properties-vs-yml-yaml)
-3. [YAML Syntax Structure in Spring Boot](#yaml-syntax-structure-in-spring-boot)
-4. [Managing Profiles with Multi-document YAML](#managing-profiles-with-multi-document-yaml)
-5. [Binding Configuration to Java Objects (@ConfigurationProperties)](#binding-configuration-to-java-objects-configurationproperties)
-6. [Best Practices and Common Pitfalls](#best-practices-and-common-pitfalls)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើមអំពី YAML](#សេចក្តីផ្តើមអំពី-yaml)
+2. [ការប្រៀបធៀប .properties និង .yml (.yaml)](#ការប្រៀបធៀប-properties-និង-yml-yaml)
+3. [រចនាសម្ព័ន្ធ YAML Syntax នៅក្នុង Spring Boot](#រចនាសម្ព័ន្ធ-yaml-syntax-នៅក្នុង-spring-boot)
+4. [ការប្រើប្រាស់ Profiles ជាមួយ Multi-document YAML](#ការប្រើប្រាស់-profiles-ជាមួយ-multi-document-yaml)
+5. [Binding Configuration ទៅកាន់ Java Objects (@ConfigurationProperties)](#binding-configuration-ទៅកាន់-java-objects-configurationproperties)
+6. [Best Practices និងកំហុសទូទៅ](#best-practices-និងកំហុសទូទៅ)
 
 ---
 
-## Introduction to YAML
-**YAML** (YAML Ain't Markup Language) is a human-readable data-serialization language. Spring Boot offers first-class support for `application.yml` (and `application.yaml`) right out of the box using SnakeYAML on the runtime classpath.
+## សេចក្តីផ្តើមអំពី YAML
+**YAML** (YAML Ain't Markup Language) គឺជាទម្រង់ឯកសារ Data Serialization ដែលងាយស្រួលអានដោយមនុស្ស (Human-readable)។ នៅក្នុង Spring Boot, យើងអាចប្រើប្រាស់ `application.yml` (ឬ `application.yaml`) ជំនួស `application.properties` បានយ៉ាងងាយស្រួល ដោយ Spring Boot មាន parser ស្រាប់ (SnakeYAML) នៅក្នុង classpath។
 
 ```mermaid
 graph LR
@@ -29,13 +27,14 @@ graph LR
     B --> C["Spring Environment Config"]
     C --> D["@Value Injection"]
     C --> E["@ConfigurationProperties"]
+
 ```
 
 ---
 
-## Comparison: .properties vs .yml (.yaml)
+## ការប្រៀបធៀប .properties និង .yml (.yaml)
 
-### 1. Flat `application.properties`:
+### ១. ទម្រង់ `application.properties` (Flat Key-Value):
 ```properties
 server.port=8080
 server.servlet.context-path=/api
@@ -45,7 +44,7 @@ spring.datasource.password=secret
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 ```
 
-### 2. Hierarchical `application.yml`:
+### ២. ទម្រង់ `application.yml` (Hierarchical Tree):
 ```yaml
 server:
   port: 8080
@@ -60,29 +59,29 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 ```
 
-### Comparison Matrix:
-| Feature | application.properties | application.yml |
+### តារាងប្រៀបធៀប:
+| លក្ខណៈពិសេស | application.properties | application.yml |
 | :--- | :--- | :--- |
-| **Readability** | Verbose with repeated prefixes | Clean, clear hierarchical visual tree |
-| **List / Array Support** | Cumbersome index-based syntax | Natural hyphen lists (`- item`) |
-| **Multi-document Profiles** | Limited | Native document splitting with `---` |
-| **Formatting Sensitivity** | Lenient with whitespace | Strict indentation (No Tabs allowed) |
+| **ភាពងាយស្រួលក្នុងការអាន** | ស្ទួនពាក្យដដែលៗច្រើន | មានលំដាប់ថ្នាក់ឋានានុក្រម (Hierarchical) ស្អាត |
+| **ការគាំទ្រ List / Arrays** | ពិបាក (`app.servers[0]=...`) | ងាយស្រួល (`- host: ...`) |
+| **Multi-document Profiles** | មិនគាំទ្រល្អ | គាំទ្រយ៉ាងល្អជាមួយសញ្ញា `---` |
+| **Syntax Sensitivity** | មិនខ្វល់រឿង Spaces | ប្រកាន់ខ្ជាប់ Indentation (ដាច់ខាតហាមប្រើ Tab) |
 
 ---
 
-## YAML Syntax Structure in Spring Boot
+## រចនាសម្ព័ន្ធ YAML Syntax នៅក្នុង Spring Boot
 
-### 1. Key-Value and Nested Objects
+### ១. Key-Value និង Nested Objects
 ```yaml
 app:
   name: "E-Commerce Microservice"
   version: 1.0.0
   description: >
-    Production-grade enterprise backend service
-    built with Spring Boot 3.x
+    ប្រព័ន្ធសេវាកម្មពាណិជ្ជកម្មអេឡិចត្រូនិច
+    បង្កើតឡើងដោយ Spring Boot 3.x
 ```
 
-### 2. Lists and Arrays
+### ២. Lists និង Arrays
 ```yaml
 security:
   whitelist-paths:
@@ -91,7 +90,7 @@ security:
     - /actuator/health
 ```
 
-### 3. Maps / Key-Value Dictionaries
+### ៣. Maps / Key-Value Dictionaries
 ```yaml
 app:
   currency-rates:
@@ -102,9 +101,9 @@ app:
 
 ---
 
-## Managing Profiles with Multi-document YAML
+## ការប្រើប្រាស់ Profiles ជាមួយ Multi-document YAML
 
-In modern Spring Boot (2.4+), multi-document YAML files allow configuring environment profiles within a single `application.yml` using `---`:
+ចាប់ពី Spring Boot 2.4+ ឡើងទៅ យើងអាចសរសេរ Multi-Profile ក្នុង file `application.yml` តែមួយដោយប្រើ delimiter `---`៖
 
 ```yaml
 spring:
@@ -138,11 +137,11 @@ logging:
 
 ---
 
-## Binding Configuration to Java Objects (@ConfigurationProperties)
+## Binding Configuration ទៅកាន់ Java Objects (@ConfigurationProperties)
 
-The recommended approach to consume complex YAML configurations is using type-safe `@ConfigurationProperties`:
+វិធីសាស្រ្តដែលល្អបំផុតក្នុងការទាញយកទិន្នន័យពី YAML គឺប្រើ **Type-safe Configuration Properties**៖
 
-### 1. YAML Definition:
+### 1. កំណត់ YAML:
 ```yaml
 app:
   mail:
@@ -152,7 +151,7 @@ app:
     auth-enabled: true
 ```
 
-### 2. Java Record Definition:
+### 2. បង្កើត Java Record / Class:
 ```java
 package com.example.config;
 
@@ -167,7 +166,7 @@ public record MailProperties(
 ) {}
 ```
 
-### 3. Enable Configuration Scanning:
+### 3. បើកដំណើរការនៅក្នុង Main Class ឬ Config Class:
 ```java
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -180,15 +179,15 @@ public class DemoApplication {
 
 ---
 
-## Best Practices and Common Pitfalls
-- **Never use Tab characters**: Always use standard 2-space indentation to avoid YAML parsing exceptions.
-- **Prefer `@ConfigurationProperties` over `@Value`**: Grouped properties are validated, type-safe, and facilitate IDE autocompletion.
-- **Follow Kebab-Case in YAML Keys**: Spring Boot automatically maps kebab-case (`auth-enabled`) to camelCase (`authEnabled`) in Java code via relaxed binding.
+## Best Practices និងកំហុសទូទៅ
+- **ដាច់ខាតកុំប្រើ Tab Key សម្រាប់ Indentation**: ប្រើប្រាស់ Space ចំនួន 2 ជានិច្ច ដើម្បីជៀសវាង Syntax Parsing Error។
+- **ប្រើ `@ConfigurationProperties` ជំនួស `@Value`**: នៅពេលដែល properties មានចំនួនច្រើន ឬមានរចនាសម្ព័ន្ធជាក្រុម។
+- **រក្សាឈ្មោះ Key ជា Kebab-case**: ឧទាហរណ៍ `auth-enabled` ឬ `context-path` (Spring Boot ធ្វើការ Relaxed Binding ដោយស្វ័យប្រវត្ត)។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Managing Configuration with Application Properties](../05-application-properties/README.md) | [📚 Module Index](../README.md) | [Production Readiness & Observability with Spring Boot Actuator →](../07-spring-boot-actuator/README.md) |
+| [← ការកំណត់រចនាសម្ព័ន្ធជាមួយ Application Properties](../05-application-properties/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការត្រួតពិនិត្យសុខភាពប្រព័ន្ធ និង Monitoring ជាមួយ Spring Boot Actuator →](../07-spring-boot-actuator/README.md) |

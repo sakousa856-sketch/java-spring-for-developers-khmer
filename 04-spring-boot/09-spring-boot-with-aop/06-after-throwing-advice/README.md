@@ -1,18 +1,16 @@
-# Lesson 6: Using @AfterThrowing Advice
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../05-around-advice/README.md) | [Next Lesson →](../07-after-returning-advice/README.md)
+# មេរៀនទី ៦: ការប្រើប្រាស់ @AfterThrowing Advice (After Throwing Advice in Spring Boot)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../05-around-advice/README.md) | [មេរៀនបន្ទាប់ →](../07-after-returning-advice/README.md)
 
 ---
 
-## Table of Contents
-1. [Introduction to @AfterThrowing](#introduction)
-2. [Capturing Exceptions with the throwing Attribute](#throwing-attribute)
-3. [Use Case: Centralized Failure Alerting](#alerting)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើមអំពី @AfterThrowing](#សេចក្តីផ្តើម)
+2. [ការចាប់ Exception តាមរយៈ Attribute throwing](#attribute-throwing)
+3. [ករណីប្រើប្រាស់: Alerting & Notification on System Faults](#alerting)
 
 ---
 
-## Practical @AfterThrowing Alerting Aspect
+## ឧទាហរណ៍ជាក់ស្តែង @AfterThrowing Alert
 
 ```java
 package com.example.aspect;
@@ -37,14 +35,15 @@ public class GlobalExceptionLoggingAspect {
     public void logAfterException(JoinPoint joinPoint, Throwable ex) {
         log.error("Exception thrown in method [{}]: Reason: {}",
                 joinPoint.getSignature().getName(), ex.getMessage(), ex);
+        // បញ្ជូន Alert ទៅកាន់ Slack ឬ Telegram webhook...
     }
 }
 ```
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Mastering @Around Advice](../05-around-advice/README.md) | [📚 Module Index](../README.md) | [Using @AfterReturning Advice →](../07-after-returning-advice/README.md) |
+| [← ការប្រើប្រាស់ @Around Advice ដ៏មានឥទ្ធិពលបំផុត (Around Advice in Spring Boot)](../05-around-advice/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រើប្រាស់ @AfterReturning Advice (After Returning Advice) →](../07-after-returning-advice/README.md) |

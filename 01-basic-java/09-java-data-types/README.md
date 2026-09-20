@@ -26,6 +26,7 @@ flowchart TD
     P --> P4["Boolean (តក្កវិទ្យា): boolean"]
     
     NP --> NP1["String, Arrays, Classes, Interfaces"]
+
 ```
 
 ---

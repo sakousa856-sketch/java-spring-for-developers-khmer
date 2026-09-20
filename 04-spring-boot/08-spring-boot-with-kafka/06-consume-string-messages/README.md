@@ -1,15 +1,13 @@
-# Lesson 6: Consuming String Messages from Kafka
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../05-publish-string-messages/README.md) | [Next Lesson →](../07-create-configure-topics/README.md)
+# មេរៀនទី ៦: ការទទួល String Messages ពី Kafka (Consuming String Messages)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../05-publish-string-messages/README.md) | [មេរៀនបន្ទាប់ →](../07-create-configure-topics/README.md)
 
 ---
 
-## Table of Contents
-1. [Overview](#overview)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើម](#សេចក្តីផ្តើម)
 2. [StringDeserializer Configuration](#stringdeserializer-configuration)
-3. [Implementing String Listener](#implementing-string-listener)
-4. [Batch Consumption for High Throughput](#batch-consumption)
+3. [ការបង្កើត String Listener](#ការបង្កើត-string-listener)
+4. [Batch Consumption សម្រាប់ High Throughput](#batch-consumption)
 
 ---
 
@@ -37,8 +35,8 @@ public class StringKafkaConsumer {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Publishing String Messages with Kafka](../05-publish-string-messages/README.md) | [📚 Module Index](../README.md) | [Creating and Configuring Kafka Topics Programmatically →](../07-create-configure-topics/README.md) |
+| [← ការផ្ញើ String Messages ទៅកាន់ Kafka (Publishing String Messages)](../05-publish-string-messages/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការបង្កើត និងកំណត់រចនាសម្ព័ន្ធ Topics ដោយស្វ័យប្រវត្តិ (Programmatic Topic Configuration) →](../07-create-configure-topics/README.md) |

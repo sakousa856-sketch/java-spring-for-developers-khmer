@@ -1,22 +1,20 @@
-# Lesson 5: Spring Boot JDBC with JdbcTemplate
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../04-spring-data-jpa-basics/README.md) | [Next Lesson →](../06-crudrepository-vs-jparepository/README.md)
+# មេរៀនទី ៥: ការប្រើប្រាស់ Spring Boot JDBC និង JdbcTemplate (Spring Boot JDBC with JdbcTemplate)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../04-spring-data-jpa-basics/README.md) | [មេរៀនបន្ទាប់ →](../06-crudrepository-vs-jparepository/README.md)
 
 ---
 
-## Table of Contents
-1. [Why Use JdbcTemplate Over or Alongside JPA?](#why-use-jdbctemplate)
-2. [Dependency and Configuration](#dependency-and-configuration)
-3. [CRUD Operations with JdbcTemplate](#crud-operations-with-jdbctemplate)
-4. [Mapping Results with RowMapper](#mapping-results-with-rowmapper)
-5. [NamedParameterJdbcTemplate for Clean Parameters](#namedparameterjdbctemplate)
-6. [Comparison: JdbcTemplate vs Spring Data JPA](#comparison-jdbctemplate-vs-spring-data-jpa)
+## មាតិកា (Table of Contents)
+1. [ហេតុអ្វីត្រូវប្រើ JdbcTemplate ជំនួស ឬរួមគ្នាជាមួយ JPA?](#ហេតុអ្វីត្រូវប្រើ-jdbctemplate)
+2. [Dependency និង Setup](#dependency-និង-setup)
+3. [CRUD Operations ជាមួយ JdbcTemplate](#crud-operations-ជាមួយ-jdbctemplate)
+4. [ការប្រើប្រាស់ RowMapper សម្រាប់បម្លែងទិន្នន័យ ResultSet](#ការប្រើប្រាស់-rowmapper)
+5. [NamedParameterJdbcTemplate សម្រាប់ Clean SQL Parameters](#namedparameterjdbctemplate)
+6. [ការប្រៀបធៀប JdbcTemplate vs Spring Data JPA](#ការប្រៀបធៀប-jdbctemplate-vs-spring-data-jpa)
 
 ---
 
-## Why Use JdbcTemplate?
-While **Spring Data JPA** provides immense rapid application development capabilities, **JdbcTemplate** remains superior for **complex reporting queries**, **high-speed batch operations**, and fine-grained query tuning without the caching and dirty-checking overhead of an ORM.
+## ហេតុអ្វីត្រូវប្រើ JdbcTemplate?
+ទោះបីជា **Spring Data JPA** ងាយស្រួល និងរហ័សក្នុងការអភិវឌ្ឍក៏ដោយ ប៉ុន្តែសម្រាប់ **Complex Reporting Queries**, **Bulk Batch Inserts**, ឬ **High-Performance SQL Optimization**, `JdbcTemplate` ផ្តល់នូវការគ្រប់គ្រង Raw SQL ផ្ទាល់ដោយគ្មាន overhead នៃ Hibernate ORM ឡើយ។
 
 ```mermaid
 graph TD
@@ -24,22 +22,24 @@ graph TD
     B --> C["Raw SQL Execution"]
     B --> D["Auto Connection & Transaction Handling"]
     B --> E["Auto Exception Translation (SQLException -> DataAccessException)"]
+
 ```
 
 ---
 
-## Dependency and Configuration
+## Dependency និង Setup
 
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-jdbc</artifactId>
+
 </dependency>
 ```
 
 ---
 
-## CRUD Operations with JdbcTemplate
+## CRUD Operations ជាមួយ JdbcTemplate
 
 ```java
 @Repository
@@ -51,6 +51,7 @@ public class BookJdbcRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // RowMapper definition
     private final RowMapper<Book> bookRowMapper = (rs, rowNum) -> new Book(
             rs.getLong("id"),
             rs.getString("title"),
@@ -83,7 +84,7 @@ public class BookJdbcRepository {
 
 ## NamedParameterJdbcTemplate
 
-Named parameters eliminate index confusion associated with standard `?` positional placeholders:
+ការប្រើសញ្ញាសួរ `?` នៅក្នុង SQL ងាយនឹងច្រឡំលំដាប់ parameters។ `NamedParameterJdbcTemplate` អនុញ្ញាតឱ្យយើងប្រើឈ្មោះប៉ារ៉ាម៉ែត្រ (Named Parameters)៖
 
 ```java
 @Repository
@@ -108,19 +109,19 @@ public class OrderNamedDao {
 
 ---
 
-## Comparison: JdbcTemplate vs Spring Data JPA
+## ការប្រៀបធៀប JdbcTemplate vs Spring Data JPA
 
-| Feature | JdbcTemplate | Spring Data JPA |
+| លក្ខណៈ | JdbcTemplate | Spring Data JPA |
 | :--- | :--- | :--- |
-| **Abstraction Level** | Low-level (Direct SQL control) | High-level ORM |
-| **Performance** | Peak throughput (zero ORM overhead) | High, but susceptible to N+1 queries |
-| **Relationship Mapping** | Manual join and projection mapping | Automated (`@OneToMany`, `@ManyToMany`) |
-| **Primary Use Cases** | Aggregations, batch migrations, reports | Standard enterprise OLTP CRUD workflows |
+| **កម្រិត Abstraction** | Low-level (Direct SQL) | High-level ORM |
+| **Performance** | លឿនបំផុត (No ORM Overhead) | ល្អ ប៉ុន្តែត្រូវប្រុងប្រយ័ត្ន N+1 Problem |
+| **Entity Relationships** | ត្រូវ map ដោយដៃទាំងអស់ | គាំទ្រ `@OneToMany`, `@ManyToMany` ស្វ័យប្រវត្ត |
+| **ករណីប្រើប្រាស់ល្អបំផុត** | Reporting, Batch processing, Fine-tuned SQL | Standard OLTP CRUD Web Applications |
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Spring Data JPA Fundamentals and Entity Mapping](../04-spring-data-jpa-basics/README.md) | [📚 Module Index](../README.md) | [Repositories Comparison: CrudRepository vs JpaRepository →](../06-crudrepository-vs-jparepository/README.md) |
+| [← មូលដ្ឋានគ្រឹះនៃ Spring Data JPA និង Entity Mapping](../04-spring-data-jpa-basics/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រៀបធៀប Repositories: CrudRepository vs JpaRepository →](../06-crudrepository-vs-jparepository/README.md) |

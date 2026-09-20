@@ -1,23 +1,20 @@
-# Module 6: Advanced Enterprise Features in Spring Boot
-
-> 🌐 **Language / ភាសា:** 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md) | 🇬🇧 **[English](README.md)**
-
+# Module 6: មុខងារកម្រិតខ្ពស់របស់ Spring Boot (Advanced Features)
 ![Module 6: Advanced Enterprise Features in Spring Boot](../assets/security.webp)
 
 
-> 📂 **Runnable Example Project for this Module:**  
+> 📂 **គម្រោងកូដគំរូជាក់ស្តែងសម្រាប់ Module នេះ (Runnable Project):**  
 > 👉 **[Redis Caching & Performance](../examples/03-redis-caching)**  
-> Complete Maven project featuring Redis CacheManager, JSON Serialization, Docker Compose, and Caching Annotations.
+> គម្រោង Maven ពេញលេញរួមមាន Redis CacheManager, JSON Serialization, Docker Compose, និង Caching Annotations។
 
 ---
 
-## 📖 Module Overview
+## 📖 សេចក្តីផ្តើមអំពី Module
 
-Enterprise capabilities: task scheduling, SMTP email dispatch, file upload handling, caching abstraction and Redis, declarative @Transactional management, and DTO mapping.
+មុខងារសំខាន់ៗសម្រាប់ប្រព័ន្ធ Enterprise៖ Task Scheduling, ការផ្ញើ Email តាម SMTP, ការ Upload ឯកសារ, Caching (Redis), Transaction Management (@Transactional), និង DTO Mapping។
 
 ---
 
-## 🗺️ Module Learning Roadmap
+## 🗺️ ផែនទីសិក្សាប្រចាំ Module (Learning Roadmap)
 
 ```mermaid
 flowchart TD
@@ -27,26 +24,27 @@ flowchart TD
     L4["04. Spring Boot Caching Basics"] --> L5["05. Caching with Redis & Other Providers"]
     L5["05. Caching with Redis & Other Providers"] --> L6["06. Transaction Management (@Transactional)"]
     L6["06. Transaction Management (@Transactional)"] --> L7["07. Entity to DTO Mapping"]
+
 ```
 
 ---
 
-## 📚 Lessons in This Module (7 Lessons)
+## 📚 បញ្ជីមេរៀនក្នុង Module (7 Lessons)
 
-| Lesson | Topic | Description |
+| មេរៀន (Lesson) | ប្រធានបទ (Topic) | ការពិពណ៌នា (Description) |
 | :---: | :--- | :--- |
-| **01** | [Task Scheduling (@Scheduled)](01-task-scheduling/README.md) | Automating background jobs with @Scheduled and cron expressions |
-| **02** | [Sending Email via SMTP](02-sending-email-smtp/README.md) | Configuring JavaMailSender for text and HTML email dispatch |
-| **03** | [File Uploading & MultipartFile](03-file-handling-upload/README.md) | Handling single and multi-file uploads with MultipartFile |
-| **04** | [Spring Boot Caching Basics](04-caching/README.md) | Spring Cache abstraction: @Cacheable, @CachePut, and @CacheEvict |
-| **05** | [Caching with Redis & Other Providers](05-caching-providers-redis/README.md) | Configuring distributed Redis cache and multi-tenant providers |
-| **06** | [Transaction Management (@Transactional)](06-transaction-management/README.md) | ACID guarantees, declarative @Transactional boundaries, and rollbacks |
-| **07** | [Entity to DTO Mapping](07-dto-mapping/README.md) | Decoupling persistence models with ModelMapper and MapStruct |
+| **01** | [Task Scheduling (@Scheduled)](01-task-scheduling/README.md) | ការរត់ការងារស្វ័យប្រវត្តិតាម fixedRate, fixedDelay, និង Cron |
+| **02** | [Sending Email via SMTP](02-sending-email-smtp/README.md) | ការផ្ញើអ៊ីមែលអត្ថបទធម្មតា និង HTML ជាមួយ Spring Mail |
+| **03** | [File Uploading & MultipartFile](03-file-handling-upload/README.md) | ការទទួល និងរក្សាទុក File Upload ជាមួយ MultipartFile |
+| **04** | [Spring Boot Caching Basics](04-caching/README.md) | ការបង្កើនល្បឿន API ជាមួយ @Cacheable, @CachePut, @CacheEvict |
+| **05** | [Caching with Redis & Other Providers](05-caching-providers-redis/README.md) | ការតភ្ជាប់ Distributed Redis Cache និង EhCache |
+| **06** | [Transaction Management (@Transactional)](06-transaction-management/README.md) | គោលការណ៍ ACID, Rollback Rules, និង Isolation Levels |
+| **07** | [Entity to DTO Mapping](07-dto-mapping/README.md) | ការបម្លែង Entity ទៅ DTO ជាមួយ ModelMapper, MapStruct, និង Records |
 
 ---
 
-## 🧭 Navigation
+## 🧭 ការរុករក (Navigation)
 
-| Previous | Main Index | Next Module |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Index) | បន្ទាប់ (Next Module) |
 | :--- | :---: | :--- |
-| [Module 5: Database & JPA](../05-spring-boot-database-and-data-jpa/README.md) | [📚 Spring Boot Home](../README.md) | [Module 7: Microservices →](../07-microservices-with-spring-boot/README.md) |
+| [Module 5: Database & JPA](../05-spring-boot-database-and-data-jpa/README.md) | [📚 មាតិកា Spring Boot](../README.md) | [Module 7: Microservices →](../07-microservices-with-spring-boot/README.md) |

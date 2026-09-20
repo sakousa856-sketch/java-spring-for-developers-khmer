@@ -1,306 +1,118 @@
-# មេរៀនទី ៩៖ Java Inheritance (ការទទួលមរតក)
+# មេរៀនទី ៩៖ Java Inheritance (ការផ្ទេរ និងទទួលមរតកកូដក្នុង OOP)
 
-### 🖥️ ស្លាយទី 41 ｜ Slide 41
+> **ស្វែងយល់ស៊ីជម្រៅអំពីសសរទ្រូងទី ២ នៃ OOP គឺ Inheritance៖ និយមន័យ Superclass vs Subclass ពាក្យគន្លឹះ extends ទំនាក់ទំនង IS-A និងប្រភេទនៃ Inheritance ក្នុង Java**
 
-> ## 📌 សេចក្តីផ្តើមអំពី Java Inheritance
-> 
-> ---
->
-> ### ➤ Inheritance នៅក្នុង Class
-> **Inheritance** គឺជាផ្នែកមួយនៃ OOP ដែលអនុញ្ញាតឱ្យមានការបង្កើត Class ថ្មីចេញមកពី Class ដែលមានស្រាប់។ 
-> - Class ដែលមានរួចស្រេចគេហៅថា: **Base Class** ឬ **Parent Class** ឬ **Super Class**។
-> - Class ដែលបង្កើតថ្មីត្រូវបានគេហៅថា: **Derived Class** ឬ **Child Class** ឬ **Sub Class**។
->
-> Inheritance គឺមកពីពាក្យ Inherit ដែលមានន័យថា Class មានស្រាប់ផ្ដល់មរតកមក Class ថ្មី។ មូលហេតុដែលយើងប្រើវាគឺដោយសារតែវាអាចកាត់បន្ថយការសរសេរកូដ ដោយយើងអាចប្រើ attributes និង methods ដែលមានក្នុង Super Class បាន។
+[![Lesson](https://img.shields.io/badge/Lesson-09-orange?style=for-the-badge&logo=java&logoColor=white)](#)
+[![Topic](https://img.shields.io/badge/Topic-Inheritance-blue?style=for-the-badge)](#)
+[![Language](https://img.shields.io/badge/Language-Khmer-red?style=for-the-badge)](#)
 
 ---
 
-### 🖥️ ស្លាយទី 42 ｜ Slide 42
+## 🧬 ១. អ្វីជា Inheritance? (What is Inheritance?)
 
-> ## 📌 សារប្រយោជន៍នៃការប្រើប្រាស់ Inheritance
-> 
-> ---
->
-> ### ➤ សារប្រយោជន៍នៃការប្រើប្រាស់ Inheritance:
-> - ប្រើប្រាស់សមត្ថភាពរបស់កូដឡើងវិញដោយពុំចាំបាច់ត្រូវសរសេរម្តងទៀត (Code Reusability)
-> - បង្កើនជំនឿចិត្តនៅលើកូដដោយមិនចាំបាច់បារម្ភអំពីកំហុស logic
-> - អនុញ្ញាតឱ្យ Class ថ្មីប្រើប្រាស់ attributes និង methods ឡើងវិញពី Super Class
-> - អនុញ្ញាតឱ្យ implement ក្នុង Class ថ្មី បើសិនត្រូវការ (អាចបន្ថែម attributes និង methods ថែមបាន)
-> - ងាយស្រួលគ្រប់គ្រងនិងពង្រីកកូដទៅមុខ
->
-> ---
->
-> ### ឧទាហរណ៍គ្រឹះនៃ Inheritance (Fruit និង Apple):
+នៅក្នុង Java, **Inheritance** គឺជាយន្តការមួយដែលអនុញ្ញាតឱ្យ Class មួយ (ហៅថា **Subclass / Child Class**) អាចស្នង ឬទទួលបាននូវ Attributes និង Methods ទាំងអស់ពី Class មួយទៀត (ហៅថា **Superclass / Parent Class**)។
+
+### 🔑 ពាក្យគន្លឹះ និងគំនិតសំខាន់ៗ៖
+* 👴 **Superclass (Parent / Base Class):** Class មេដែលជាម្ចាស់លក្ខណៈសម្បត្តិដើម។
+* 👶 **Subclass (Child / Derived Class):** Class កូនដែលស្នងយកលក្ខណៈពី Class មេ ដោយប្រើពាក្យគន្លឹះ **`extends`**។
+* 🤝 **ទំនាក់ទំនង IS-A (IS-A Relationship):** ឧទាហរណ៍ `Car` **IS-A** `Vehicle`, `Dog` **IS-A** `Animal`។
 
 ---
 
-### 🖥️ ស្លាយទី 43 ｜ Slide 43
+## 🚀 ២. ហេតុអ្វីត្រូវប្រើប្រាស់ Inheritance? (Why Use Inheritance?)
 
-> ## 📌 Super Class Fruit.java
-> 
-> ---
->
-> `Fruit.java` (Super class):
-> ```java
-> // Super class
-> public class Fruit {
->     // define attributes
->     protected String name;
->     protected Double price;
-> }
-> ```
+> [!NOTE]
+> 1. ♻️ **Code Reusability (កូដប្រើឡើងវិញបាន):** អ្នកមិនចាំបាច់សរសេរ Attributes ឬ Methods ដដែលៗក្នុង Class កូននោះទេ គឺគ្រាន់តែទាញយកពី Class មេមកប្រើជាការស្រេច (DRY Principle)។
+> 2. 🎭 **គាំទ្រដល់ Polymorphism:** Inheritance គឺជាមូលដ្ឋានគ្រឹះក្នុងការធ្វើ Method Overriding ដើម្បីបង្កើត Runtime Polymorphism។
 
 ---
 
-### 🖥️ ស្លាយទី 44 ｜ Slide 44
+## 💻 ៣. កូដគំរូអនុវត្តជាក់ស្តែង (Basic Inheritance Example)
 
-> ## 📌 Sub Class Apple.java
-> 
-> ---
->
-> `Apple.java` (Sub class):
-> ```java
-> // Sub class
-> public class Apple extends Fruit {
->     // implement method
->     public void output() {
->         System.out.println("Fruit name: " + name + " and price: $" + price);
->     }
-> }
-> ```
+```java
+// ១. Superclass (Parent Class)
+class Vehicle {
+    protected String brand = "Ford"; // Attribute អាចឱ្យ Subclass ចូលប្រើបាន
 
----
+    public void honk() {
+        System.out.println("ស៊ីផ្លេបន្លឺឡើង: ទីត... ទីត...! 📢");
+    }
+}
 
-### 🖥️ ស្លាយទី 45 ｜ Slide 45
+// ២. Subclass (Child Class) ស្នងពី Vehicle
+class Car extends Vehicle {
+    private String modelName = "Mustang";
 
-> ## 📌 Main.java Class
-> 
-> ---
->
-> `Main.java`:
-> ```java
-> public class Main {
->     public static void main(String[] args) {
->         // create an object
->         Apple apple = new Apple();
->         // add values to attribute of object
->         apple.name = "Apple";
->         apple.price = 1.0;
->         // output
->         apple.output();
->     }
-> }
-> ```
+    public static void main(String[] args) {
+        // បង្កើត Object ចេញពី Subclass
+        Car myCar = new Car();
+
+        // ហៅ Method ដែលបានស្នងមកពី Superclass
+        myCar.honk();
+
+        // ប្រើប្រាស់ Attribute ពី Superclass និង Subclass ចូលគ្នា
+        System.out.println(myCar.brand + " " + myCar.modelName);
+    }
+}
+```
+
+**Output:**
+```text
+ស៊ីផ្លេបន្លឺឡើង: ទីត... ទីត...! 📢
+Ford Mustang
+```
 
 ---
 
-### 🖥️ ស្លាយទី 46 ｜ Slide 46
+## 🌳 ៤. ប្រភេទនៃ Inheritance ក្នុង Java (Types of Inheritance)
 
-> ## 📌 The final Keyword លើ Class
-> 
-> ---
->
-> ### The final Keyword
-> ប្រសិនបើយើងមិនចង់ឱ្យ Class ណាមួយត្រូវបាន inherit ទៅឱ្យគេទេ យើងត្រូវប្រើពាក្យគន្លឹះ `final`:
-> ```java
-> final class Vehicle {
->     ...
-> }
->
-> class Car extends Vehicle { // Error: cannot inherit from final Vehicle
->     ...
-> }
-> ```
+```mermaid
+flowchart TD
+    subgraph Single["Single Inheritance"]
+        A1["Class A (Parent)"] --> B1["Class B (Child)"]
+    end
 
----
+    subgraph Multilevel["Multilevel Inheritance"]
+        A2["Class A (Grandparent)"] --> B2["Class B (Parent)"] --> C2["Class C (Child)"]
+    end
 
-### 🖥️ ស្លាយទី 47 ｜ Slide 47
+    subgraph Hierarchical["Hierarchical Inheritance"]
+        A3["Class A (Parent)"] --> B3["Class B (Child 1)"]
+        A3 --> C3["Class C (Child 2)"]
+    end
+```
 
-> ## 📌 ប្រភេទនៃ Inheritance ទាំង ៥
-> 
-> ---
->
-> ### ➤ ប្រភេទរបស់ Inheritance (Types of Inheritance)
-> Inheritance នៅក្នុង OOP មាន ៥ ប្រភេទ:
-> 1. **Single Inheritance**
-> 2. **Multiple Inheritance** (តាមរយៈ Interface ក្នុង Java)
-> 3. **Multilevel Inheritance**
-> 4. **Hierarchical Inheritance**
-> 5. **Hybrid Inheritance**
->
-> ---
->
-> ### ១. Single Inheritance
-> Derived Class មួយ inherited ចេញពី Base Class តែមួយ:
+### ១. Single Inheritance
+Class កូនមួយ ស្នងពី Class មេមួយ (`B extends A`)។
+
+### ២. Multilevel Inheritance
+ការផ្ទេរមរតកបន្តកន្ទុយគ្នាពីមួយជំនាន់ទៅមួយជំនាន់ (`C extends B`, ហើយ `B extends A`)។
+
+### ៣. Hierarchical Inheritance
+Class មេតែមួយ មាន Class កូនៗជាច្រើនស្នងពីវា (`B extends A` និង `C extends A`)។
+
+### ៤. Multiple Inheritance (ហេតុអ្វី Java មិនគាំទ្រលើ Class?)
+> [!IMPORTANT]
+> **សំណួរសម្ភាសន៍ការងារដ៏ល្បីល្បាញ:** *ហេតុអ្វី Java មិនអនុញ្ញាតឱ្យ Class មួយ `extends` ពី Class ច្រើនក្នុងពេលតែមួយ?*  
+> **ចម្លើយ:** ដើម្បីជៀសវាង **Diamond Problem (ភាពស្រពេចស្រពិល)**។ ឧបមាថា Class B និង C សុទ្ធតែស្នងពី A ហើយសុទ្ធតែ Override method `display()`។ ប្រសិនបើ Class D ស្នងទាំង B និង C នោះពេល D ហៅ `display()` Java Compiler នឹងមិនដឹងថាត្រូវដំណើរការកូដរបស់ B ឬ C ឡើយ។  
+> *(បញ្ហានេះត្រូវបាន Java ដោះស្រាយដោយប្រើប្រាស់ **Interfaces** ជំនួសវិញ)*។
 
 ---
 
-### 🖥️ ស្លាយទី 48 ｜ Slide 48
+## ⛔ ៥. តើអ្វីខ្លះដែល Subclass មិនអាចស្នងយកបាន?
 
-> ## 📌 ដ្យាក្រាម Single Inheritance
-> 
-> ---
->
-> ```
-> [A : Super Class]
->        ↑
-> [B : Sub Class]
-> ```
->
-> - `Fruit.java`:
-> ```java
-> // Super class
-> public class Fruit {
->     protected String name;
->     protected Double price;
-> }
-> ```
-> - `Banana.java`:
-> ```java
-> // Sub class
-> public class Banana extends Fruit {
->     public void output() {
->         System.out.println("Fruit name: " + name + " and price: $" + price);
->     }
-> }
-> ```
-> - `Main.java`:
-> ```java
-> public class Main {
->     public static void main(String[] args) {
->         Banana banna = new Banana();
->         banna.name = "Banna";
->         banna.price = 0.5;
->         banna.output();
->     }
-> }
-> ```
->
-> ---
->
-> ### ២. Multiple Inheritance
-> Derived Class មួយ inherited ចេញពី Base Class (Interfaces) ច្រើន:
+* 🔒 **`private` Members:** Subclass មិនអាចចូលប្រើ Field ឬ Method ដែលជា `private` របស់ Superclass ដោយផ្ទាល់បានទេ (ប៉ុន្តែអាចអានបានតាម Getter/Setter)។
+* 🏗️ **Constructors:** Subclass មិនស្នងយក Constructors របស់ Parent ឡើយ (ប៉ុន្តែអាចហៅដំណើរការបានតាមរយៈពាក្យគន្លឹះ `super()`)។
 
 ---
 
-### 🖥️ ស្លាយទី 52 ｜ Slide 52
+## 💡 សេចក្តីសង្ខេបសំខាន់ (Key Takeaways)
 
-> ## 📌 ដ្យាក្រាម Multiple Inheritance
-> 
-> ---
->
-> ```
-> [Super Class A]   [Super Class B]
->        ↑                 ↑
->        └────────┬────────┘
->           [Sub Class C]
-> ```
->
-> - `FruitName.java`:
-> ```java
-> public interface FruitName {
->     public void printFruitName();
-> }
-> ```
-> - `FruitPrice.java`:
-> ```java
-> public interface FruitPrice {
->     public void printFruitPrice();
-> }
-> ```
-> - `Apple.java`:
-> ```java
-> public class Apple implements FruitName, FruitPrice {
->     @Override
->     public void printFruitName() {
->         System.out.println("Fruit name: Apple");
->     }
->
->     @Override
->     public void printFruitPrice() {
->         System.out.println("Fruit price: $1.0");
->     }
-> }
-> ```
->
-> ---
->
-> ### ៣. Multilevel Inheritance
-> Derived Class មួយ inherited ចេញពី Derived Class មួយទៀត ដែលមាន Base Class តែមួយគត់:
+> [!TIP]
+> 1. **Inheritance** ប្រើពាក្យគន្លឹះ **`extends`** ដើម្បីបង្កើតទំនាក់ទំនង Parent-Child (IS-A)។
+> 2. ជួយកាត់បន្ថយកូដច្រំដែល និងធ្វើឱ្យការរៀបចំស្ថាបត្យកម្មកូដកាន់តែមានសណ្តាប់ធ្នាប់។
+> 3. Java គាំទ្រ **Single, Multilevel, និង Hierarchical Inheritance** លើ Classes ប៉ុន្តែមិនគាំទ្រ **Multiple Inheritance** លើ Class ឡើយ។
 
 ---
 
-### 🖥️ ស្លាយទី 56 ｜ Slide 56
-
-> ## 📌 ដ្យាក្រាម Multilevel Inheritance
-> 
-> ---
->
-> ```
-> [A : Super Class]
->        ↑
-> [B : Other Sub Class]
->        ↑
-> [C : Sub Class]
-> ```
->
-> - `Fruit.java` (Super Class)
-> - `Juice.java` extends Fruit (Sub Class)
-> - `Apple.java` extends Juice (Sub Class)
-> - `Main.java`:
-> ```java
-> public class Main {
->     public static void main(String[] args) {
->         Apple apple = new Apple();
->         apple.setName("Apple");
->         apple.setPrice(1.0);
->         apple.setFlavors("Sweet and sour");
->         apple.output();
->     }
-> }
-> ```
->
-> ---
->
-> ### ៤. Hierarchical Inheritance
-> Derived Class ច្រើន inherited ចេញពី Base Class តែមួយ:
-
----
-
-### 🖥️ ស្លាយទី 62 ｜ Slide 62
-
-> ## 📌 ដ្យាក្រាម Hierarchical Inheritance
-> 
-> ---
->
-> ```
->          [A : Super Class]
->        ┌────────┼────────┐
->        ↑        ↑        ↑
->      [Sub B]  [Sub C]  [Sub D]
-> ```
->
-> - `Fruit.java` (Super class)
-> - `Apple.java` extends Fruit
-> - `Banana.java` extends Fruit
-> - `Orange.java` extends Fruit
-> - `Main.java` បង្កើត objects និងប្រើប្រាស់ outputs រួមគ្នា។
->
-> ---
->
-> ### ៥. Hybrid Inheritance
-> គឺជាសំណុំ ឬបណ្តុំនៃ Inheritance ដែលរួមបញ្ចូលគ្នានូវប្រភេទ Inheritance ទាំងបួនខាងលើ (Single, Multiple, Multilevel, Hierarchical)។
-
----
-
-### 🖥️ ស្លាយទី 67 ｜ Slide 67
-
-> ## 📌 ដ្យាក្រាម Hybrid Inheritance
-> 
-> ---
->
->
-
----
-
-← [មេរៀនមុន](../08-packages/README.md) | [មាតិការួម](../README.md) | [មេរៀនបន្ទាប់](../10-this-keyword/README.md) →
+← [មេរៀនមុន (០៨៖ Java Packages & Imports)](../08-packages/README.md) ｜ [មាតិការួម](../README.md) ｜ [មេរៀនបន្ទាប់ (១០៖ this Keyword ក្នុង Java)](../10-this-keyword/README.md) →

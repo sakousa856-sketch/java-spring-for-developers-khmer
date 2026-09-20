@@ -1,58 +1,56 @@
-# Lesson 3: BeanFactory vs ApplicationContext Comparison
+# មេរៀនទី ៣: ការប្រៀបធៀប BeanFactory vs ApplicationContext
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../02-dependency-injection/README.md) | [មេរៀនបន្ទាប់ →](../04-spring-bean-lifecycle/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../02-dependency-injection/README.md) | [Next Lesson →](../04-spring-bean-lifecycle/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Spring IoC Container Hierarchy](#1-spring-ioc-container-hierarchy)
-- [2. Detailed Comparative Analysis](#2-detailed-comparative-analysis)
-- [3. Lazy vs Eager Instantiation Mechanics](#3-lazy-vs-eager-instantiation-mechanics)
-- [4. Summary](#4-summary)
+- [1. ឋានានុក្រមនៃ Spring IoC Containers](#1-ឋានានុក្រមនៃ-spring-ioc-containers)
+- [2. តារាងប្រៀបធៀបលម្អិត](#2-តារាងប្រៀបធៀបលម្អិត)
+- [3. Lazy Loading vs Eager Loading](#3-lazy-loading-vs-eager-loading)
+- [4. សង្ខេប](#4-សង្ខេប)
 
 ---
 
-## 1. Spring IoC Container Hierarchy
+## 1. ឋានានុក្រមនៃ Spring IoC Containers
 
-Spring exposes two fundamental container interfaces:
+Spring ផ្តល់នូវ Container Implementation ពីរប្រភេទធំៗ៖
 ```
-       BeanFactory (Foundational Root Interface)
+       BeanFactory (Interface មូលដ្ឋាន)
                ▲
                │ extends
-      ApplicationContext (Enterprise Container Interface)
+      ApplicationContext (Interface កម្រិតខ្ពស់)
 ```
 
 ---
 
-## 2. Detailed Comparative Analysis
+## 2. តារាងប្រៀបធៀបលម្អិត
 
-| Dimension | `BeanFactory` | `ApplicationContext` |
+| លក្ខណៈវិនិច្ឆ័យ | `BeanFactory` | `ApplicationContext` |
 | :--- | :--- | :--- |
-| **Abstraction Level** | Lightweight basic container | Full-featured enterprise container |
-| **Bean Instantiation** | **Lazy:** Instantiates beans upon explicit `getBean()` lookup | **Eager:** Pre-instantiates all singletons during startup |
-| **AOP Integration** | Requires manual programmatic proxies | Native declarative AOP support |
-| **Event Broadcasting** | Unsupported | Integrated via `ApplicationEventPublisher` |
-| **Internationalization** | Unsupported | Native message bundle resolution (`MessageSource`) |
-| **Recommended Usage** | Ultra-constrained memory environments (IoT devices) | **All standard enterprise applications and Spring Boot** |
+| **កម្រិត Abstraction** | Basic Container (គ្រឹះស្រាល) | Advanced Enterprise Container |
+| **យន្តការ Loading** | **Lazy Loading:** បង្កើត Bean តែពេលណាមានការហៅ `getBean()` | **Eager Loading:** បង្កើត Singleton Beans ទាំងអស់ភ្លាមៗពេល App ចាប់ផ្តើម |
+| **AOP Integration** | ពិបាកកំណត់រចនាសម្ព័ន្ធ | គាំទ្រ AOP, `@Aspect` មកជាមួយស្រាប់ |
+| **Event Handling** | មិនគាំទ្រ | គាំទ្រ Application Events (`ApplicationEventPublisher`) |
+| **i18n (Internationalization)** | មិនគាំទ្រ | គាំទ្រពហុភាសា (`MessageSource`) |
+| **កាលៈទេសៈប្រើប្រាស់** | ឧបករណ៍តូចៗ Memory តិចបំផុត (IoT / Mobile) | **គ្រប់កម្មវិធី Enterprise និង Spring Boot ទាំងអស់** |
 
 ---
 
-## 3. Lazy vs Eager Instantiation Mechanics
+## 3. Lazy Loading vs Eager Loading
 
-- **BeanFactory (Lazy):** Minimizes initial heap allocation. However, syntax errors and missing dependencies remain undetected until runtime invocation occurs.
-- **ApplicationContext (Eager):** Enforces a fail-fast guarantee. Invalid dependencies or broken wiring halt application bootstrap immediately, preventing broken deployments from reaching production clusters.
-
----
-
-## 4. Summary
-
-- Spring Boot uniformly standardizes upon **`ApplicationContext`** implementations (such as `AnnotationConfigServletWebServerApplicationContext`).
-
-
+- **BeanFactory (Lazy):** កម្មវិធី Start លឿន ប៉ុន្តែបើសិនមានកំហុសខ្វះ Class ឬ Config ខុស វានឹងផ្ទុះ Error នៅពេលដែល User កំពុងប្រើប្រាស់ជាក់ស្តែង (Runtime Failure)។
+- **ApplicationContext (Eager):** កម្មវិធីចំណាយពេល Startup បន្តិចដើម្បីបង្កើត Beans ទាំងអស់។ បើសិនមានបញ្ហា Config វាផ្ទុះ Error ពេល Start ភ្លាម (Fail-fast) ដែលការពារកុំឱ្យឡើងទៅខូចលើ Production!
 
 ---
-## 🧭 Lesson Navigation
 
-| Previous Lesson | Module Index | Next Lesson |
+## 4. សង្ខេប
+
+- Spring Boot ប្រើប្រាស់ **`ApplicationContext`** (ជាក់ស្តែងគឺ `AnnotationConfigServletWebServerApplicationContext`) ជាលំនាំដើមជានិច្ច។
+
+
+
+---
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
+
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Deep Dive into Dependency Injection (DI)](../02-dependency-injection/README.md) | [📚 Module Index](../README.md) | [Spring Bean Lifecycle Deep Dive →](../04-spring-bean-lifecycle/README.md) |
+| [← ការយល់ដឹងស៊ីជម្រៅអំពី Dependency Injection (DI)](../02-dependency-injection/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [វដ្តជីវិតរបស់ Spring Bean (Spring Bean Lifecycle) →](../04-spring-bean-lifecycle/README.md) |

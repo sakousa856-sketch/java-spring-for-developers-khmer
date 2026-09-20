@@ -1,10 +1,11 @@
-# Spring Application Events & SpEL Runnable Project
+# គម្រោងកូដគំរូ Spring Application Events & SpEL (ខេមរភាសា) 🇰🇭
 
-This project demonstrates:
-1. **Spring Application Events:** Publishing domain POJO events (`OrderPlacedEvent`) using `ApplicationEventPublisher`, and listening cleanly with `@EventListener`.
-2. **Spring Expression Language (SpEL):** Dynamic arithmetic, string manipulation, and static math method calls with `#{...}`.
+គម្រោងដែលអាចដំណើរការបាននេះបង្ហាញអំពី៖
+1. **Spring Application Events:** ការបញ្ជូន Event បែប Domain POJO (`OrderPlacedEvent`) ដោយប្រើប្រាស់ `ApplicationEventPublisher` និងការចាប់ស្ដាប់យ៉ាងស្អាតតាមរយៈ `@EventListener`។
+2. **Spring Expression Language (SpEL):** ការគណនាលេខបែប Dynamic, ការកែប្រែអក្សរ (String manipulation), និងការហៅ Static Methods របស់ Java Math តាមរយៈកន្សោម `#{...}`។
 
-## How to Run
+## របៀបដំណើរការ (How to Run)
 ```bash
+# Compile និង Run តាម Terminal ឬ Import ចូល IntelliJ IDEA / Eclipse
 mvn compile exec:java -Dexec.mainClass="com.example.eventandspel.MainEventAndSpELApp"
 ```

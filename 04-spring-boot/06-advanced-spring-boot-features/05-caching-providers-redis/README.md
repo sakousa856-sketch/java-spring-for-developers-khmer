@@ -1,27 +1,25 @@
-# Lesson 5: Distributed Caching with Redis
+# មេរៀនទី ៥: Caching Providers និង Redis Integration (Spring Boot Caching with Redis)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../04-caching/README.md) | [មេរៀនបន្ទាប់ →](../06-transaction-management/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../04-caching/README.md) | [Next Lesson →](../06-transaction-management/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Redis Cache Manager & Docker Compose](../../examples/03-redis-caching)  
-> 📄 **Source Code Files:** [`RedisConfig.java`](../../examples/03-redis-caching/src/main/java/com/example/cache/config/RedisConfig.java) | [`docker-compose.yml`](../../examples/03-redis-caching/docker-compose.yml) | [`application.yml`](../../examples/03-redis-caching/src/main/resources/application.yml) | [`ProductController.java`](../../examples/03-redis-caching/src/main/java/com/example/cache/controller/ProductController.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Redis Cache Manager & Docker Compose](../../examples/03-redis-caching)  
+> 📄 **File កូដជាក់ស្តែង:** [`RedisConfig.java`](../../examples/03-redis-caching/src/main/java/com/example/cache/config/RedisConfig.java) | [`docker-compose.yml`](../../examples/03-redis-caching/docker-compose.yml) | [`application.yml`](../../examples/03-redis-caching/src/main/resources/application.yml) | [`ProductController.java`](../../examples/03-redis-caching/src/main/java/com/example/cache/controller/ProductController.java)
 
 
 ---
 
-## Table of Contents
-1. [Why Distributed Caching (Redis) Over Local Caches?](#why-distributed-caching-redis)
+## មាតិកា (Table of Contents)
+1. [ហេតុអ្វីត្រូវប្រើ Distributed Cache (Redis) ជំនួស In-Memory Cache?](#ហេតុអ្វីត្រូវប្រើ-redis)
 2. [Maven Dependency Setup](#maven-dependency-setup)
-3. [Configuring Redis in application.yml](#configuring-redis)
-4. [Configuring RedisCacheManager with TTL and JSON Serialization](#configuring-rediscachemanager)
-5. [Using @Cacheable, @CachePut, and @CacheEvict with Redis](#using-cache-annotations)
-6. [Docker Compose for Redis](#docker-compose-for-redis)
+3. [ការកំណត់រចនាសម្ព័ន្ធ Redis ក្នុង application.yml](#ការកំណត់-redis)
+4. [ការបង្កើត RedisCacheManager Configuration ជាមួយ TTL](#ការបង្កើត-rediscachemanager)
+5. [ការប្រើប្រាស់ @Cacheable, @CachePut, @CacheEvict ជាមួយ Redis](#ការប្រើប្រាស់-cache-annotations)
+6. [Docker Compose សម្រាប់ Redis](#docker-compose-សម្រាប់-redis)
 
 ---
 
-## Why Distributed Caching (Redis)?
-In-memory caches (such as Caffeine or standard HashMaps) reside in local JVM heap space. When horizontally scaling an application across multiple container instances, local caching causes **data inconsistency** because cache writes on Instance A are invisible to Instance B. **Redis** solves this by serving as an external, blazing-fast shared caching layer.
+## ហេតុអ្វីត្រូវប្រើ Distributed Cache (Redis)?
+In-Memory Cache (ដូចជា ConcurrentHashMap ឬ Caffeine) ដំណើរការបានល្អតែលើ Single Server ប៉ុណ្ណោះ។ នៅពេលដែលប្រព័ន្ធត្រូវបាន Scale ជាច្រើន Instances នៅពីក្រោយ Load Balancer, In-Memory Cache នឹងបង្កឱ្យមានបញ្ហា **Cache Inconsistency**។ **Redis** ដើរតួជា Centralized In-Memory Key-Value Data Store ដែល Instances ទាំងអស់ចែករំលែកទិន្នន័យ Cache ជាមួយគ្នា។
 
 ```mermaid
 graph TD
@@ -31,6 +29,7 @@ graph TD
     S2 --> R
     S1 --> DB[("Database")]
     S2 --> DB
+
 ```
 
 ---
@@ -55,7 +54,7 @@ graph TD
 
 ---
 
-## Configuring Redis
+## ការកំណត់រចនាសម្ព័ន្ធ Redis
 
 ```yaml
 spring:
@@ -70,7 +69,7 @@ spring:
 
 ---
 
-## Configuring RedisCacheManager with TTL
+## ការបង្កើត RedisCacheManager Configuration ជាមួយ TTL
 
 ```java
 package com.example.config;
@@ -92,7 +91,7 @@ public class RedisConfig {
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(15))
+                .entryTtl(Duration.ofMinutes(15)) // Cache expire ក្នុងរយៈពេល 15 នាទី
                 .disableCachingNullValues()
                 .serializeValuesWith(
                         RedisSerializationContext.SerializationPair.fromSerializer(
@@ -109,7 +108,7 @@ public class RedisConfig {
 
 ---
 
-## Using Cache Annotations
+## ការប្រើប្រាស់ Cache Annotations
 
 ```java
 @Service
@@ -121,16 +120,20 @@ public class ProductService {
         this.productRepo = productRepo;
     }
 
+    // ទាញយកពី Redis បើមាន, បើអត់ទើប query database រួច save ចូល Redis
     @Cacheable(value = "products", key = "#id")
     public ProductResponse getById(Long id) {
         return productRepo.findById(id).map(this::toDto).orElseThrow();
     }
 
+    // ធ្វើបច្ចុប្បន្នភាពទិន្នន័យក្នុង DB និង Update Cache ក្នុងពេលតែមួយ
     @CachePut(value = "products", key = "#result.id()")
     public ProductResponse update(Long id, UpdateProductRequest req) {
+        // update logic
         return toDto(saved);
     }
 
+    // លុប Cache key ចេញពី Redis ពេល entity ត្រូវបានលុប
     @CacheEvict(value = "products", key = "#id")
     public void delete(Long id) {
         productRepo.deleteById(id);
@@ -140,8 +143,8 @@ public class ProductService {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Performance Optimization with Spring Boot Caching](../04-caching/README.md) | [📚 Module Index](../README.md) | [Declarative Transaction Management with @Transactional →](../06-transaction-management/README.md) |
+| [← ការបង្កើនល្បឿនប្រព័ន្ធជាមួយ Spring Boot Caching (Caching Abstraction)](../04-caching/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការគ្រប់គ្រង Transaction ជាមួយ @Transactional (Declarative Transaction Management) →](../06-transaction-management/README.md) |

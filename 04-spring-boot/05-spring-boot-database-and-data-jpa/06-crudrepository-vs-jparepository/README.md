@@ -1,27 +1,25 @@
-# Lesson 6: Repositories Comparison: CrudRepository vs JpaRepository
+# មេរៀនទី ៦: ការប្រៀបធៀប Repositories: CrudRepository vs JpaRepository
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../05-spring-boot-jdbc-jdbctemplate/README.md) | [មេរៀនបន្ទាប់ →](../07-h2-database-for-testing/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../05-spring-boot-jdbc-jdbctemplate/README.md) | [Next Lesson →](../07-h2-database-for-testing/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Todo JpaRepository Implementation](../../examples/02-spring-data-jpa-postgresql)  
-> 📄 **Source Code Files:** [`TodoRepository.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/repository/TodoRepository.java) | [`TodoService.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/service/TodoService.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Todo JpaRepository Implementation](../../examples/02-spring-data-jpa-postgresql)  
+> 📄 **File កូដជាក់ស្តែង:** [`TodoRepository.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/repository/TodoRepository.java) | [`TodoService.java`](../../examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/service/TodoService.java)
 
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Hierarchy of Spring Data Repositories](#1-hierarchy-of-spring-data-repositories)
-- [2. Comparing `CrudRepository` and `JpaRepository`](#2-comparing-crudrepository-and-jparepository)
-- [3. Automated Derived Query Methods](#3-automated-derived-query-methods)
-- [4. Custom Queries with `@Query` (JPQL vs Native SQL)](#4-custom-queries-with-query-jpql-vs-native-sql)
-- [5. Pagination and Sorting with `Pageable`](#5-pagination-and-sorting-with-pageable)
-- [6. Summary](#6-summary)
+- [1. រចនាសម្ព័ន្ធឋានានុក្រមនៃ Spring Data Repositories](#1-រចនាសម្ព័ន្ធឋានានុក្រមនៃ-spring-data-repositories)
+- [2. ភាពខុសគ្នារវាង `CrudRepository` និង `JpaRepository`](#2-ភាពខុសគ្នារវាង-crudrepository-និង-jparepository)
+- [3. ការបង្កើត Query ដោយស្វ័យប្រវត្តិតាមឈ្មោះ Method (Derived Query Methods)](#3-ការបង្កើត-query-ដោយស្វ័យប្រវត្តិតាមឈ្មោះ-method-derived-query-methods)
+- [4. ការសរសេរ Query ផ្ទាល់ខ្លួនជាមួយ `@Query` (JPQL vs Native SQL)](#4-ការសរសេរ-query-ផ្ទាល់ខ្លួនជាមួយ-query-jpql-vs-native-sql)
+- [5. ការធ្វើ Pagination និង Sorting ជាមួយ `Pageable`](#5-ការធ្វើ-pagination-និង-sorting-ជាមួយ-pageable)
+- [6. សង្ខេប](#6-សង្ខេប)
 
 ---
 
-## 1. Hierarchy of Spring Data Repositories
+## 1. រចនាសម្ព័ន្ធឋានានុក្រមនៃ Spring Data Repositories
 
-Spring Data repositories are organized in a clean, composable inheritance hierarchy:
+នៅក្នុង Spring Data Repositories ត្រូវបានរៀបចំឡើងជាលំដាប់ថ្នាក់យ៉ាងច្បាស់លាស់៖
 
 ```
                     Repository<T, ID>
@@ -40,23 +38,25 @@ ListCrudRepository<T, ID>     PagingAndSortingRepository<T, ID>
 
 ---
 
-## 2. Comparing `CrudRepository` and `JpaRepository`
+## 2. ភាពខុសគ្នារវាង `CrudRepository` និង `JpaRepository`
 
-| Feature / Aspect | `CrudRepository<T, ID>` | `JpaRepository<T, ID>` |
+| លក្ខណៈពិសេស | `CrudRepository<T, ID>` | `JpaRepository<T, ID>` |
+
 | :--- | :--- | :--- |
-| **Abstraction Level** | Storage-agnostic (works across SQL and NoSQL like Mongo, Cassandra) | Tailored strictly to JPA Relational Stores |
-| **Return Type** | Returns `Iterable<T>` | Returns `List<T>` (idiomatic & convenient) |
-| **Paging & Sorting** | Not included | Inherited natively |
-| **Batch Operations** | Not supported | Supported (`saveAllAndFlush()`, `deleteAllInBatch()`) |
-| **Session Flush Control** | Not supported | Explicit `flush()` support to sync persistence context |
+| **កម្រិត Abstraction** | Generic ខ្លាំង (ប្រើបានទាំង SQL និង NoSQL ដូចជា MongoDB, Cassandra) | ផ្តាច់មុខសម្រាប់ Relational Databases (JPA) |
+| **Return Type** | Return `Iterable<T>` | Return `List<T>` (ងាយស្រួលប្រើជាង) |
 
-> 💡 **Best Practice:** When architecting relational database applications with Spring Boot and JPA, always default to **`JpaRepository`**.
+| **Paging & Sorting** | គ្មាន | មានស្រាប់ក្នុងខ្លួន |
+| **Batch Operations** | គ្មាន | មានដូចជា `saveAllAndFlush()`, `deleteAllInBatch()` |
+| **Flush Control** | គ្មាន | មាន `flush()` ដើម្បី Push ទិន្នន័យទៅ DB ភ្លាមៗ |
+
+> 💡 **Best Practice:** ប្រសិនបើអ្នកកំពុងប្រើ Relational Database (MySQL, PostgreSQL, Oracle) ជាមួយ JPA នោះត្រូវជ្រើសរើស **`JpaRepository`** ជានិច្ច!
 
 ---
 
-## 3. Automated Derived Query Methods
+## 3. ការបង្កើត Query ដោយស្វ័យប្រវត្តិតាមឈ្មោះ Method (Derived Query Methods)
 
-Spring Data JPA inspects repository method signatures using a query creation Domain Specific Language (DSL) to derive SQL queries dynamically without explicit SQL code:
+Spring Data JPA មានសមត្ថភាពពិសេសមួយ គឺអាចយល់ពីឈ្មោះ Method ដែលយើងសរសេរ ហើយបម្លែងវាទៅជា SQL Query ដោយស្វ័យប្រវត្តិ៖
 
 ```java
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -70,22 +70,22 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // SELECT * FROM products WHERE price >= ? AND status = ?
     List<Product> findByPriceGreaterThanEqualAndStatus(BigDecimal minPrice, ProductStatus status);
 
-    // High performance existence verification (emits SELECT COUNT(1))
+    // ត្រួតពិនិត្យថាមានទិន្នន័យឬអត់ (លឿនខ្លាំង ដោយ SELECT COUNT(1))
     boolean existsByName(String name);
 
-    // Direct aggregation count
+    // រាប់ចំនួន
     long countByStatus(ProductStatus status);
 }
 ```
 
 ---
 
-## 4. Custom Queries with `@Query` (JPQL vs Native SQL)
+## 4. ការសរសេរ Query ផ្ទាល់ខ្លួនជាមួយ `@Query` (JPQL vs Native SQL)
 
-For complex domain logic involving multi-table joins or grouping, author custom queries:
+នៅពេល Business Logic មានភាពស្មុគស្មាញ (Join ច្រើន Table ឬ Group By) យើងអាចសរសេរ Query ដោយខ្លួនឯង៖
 
-### Approach 1: JPQL (Java Persistence Query Language) - *Recommended*
-JPQL queries target **Java Entity names and properties** instead of underlying database tables:
+### វិធីទី១៖ JPQL (Java Persistence Query Language) - *ណែនាំឱ្យប្រើ*
+JPQL ដំណើរការលើឈ្មោះ **Java Entity Class និង Field** (មិនមែន Table និង Column ក្នុង DB ទេ)៖
 
 ```java
 @Query("SELECT p FROM Product p WHERE p.status = :status AND p.price < :maxPrice")
@@ -95,48 +95,50 @@ List<Product> findActiveAffordableProducts(
 );
 ```
 
-### Approach 2: Native SQL (Database Engine Specific Optimization)
-Native SQL maps directly to raw database dialect features:
+### វិធីទី២៖ Native SQL (សម្រាប់ប្រើ Database Specific Features)
+Native SQL សរសេរកូដ SQL ផ្ទាល់លើ Database Tables៖
 
 ```java
 @Query(value = "SELECT * FROM products WHERE status = 'ACTIVE' ORDER BY RAND() LIMIT 5", nativeQuery = true)
 List<Product> findTop5RandomActiveProducts();
+
 ```
 
 ---
 
-## 5. Pagination and Sorting with `Pageable`
+## 5. ការធ្វើ Pagination និង Sorting ជាមួយ `Pageable`
 
-Querying unrestricted datasets from tables containing hundreds of thousands of rows risks heap memory exhaustion (`OutOfMemoryError`). Always apply pagination:
+នៅពេល Database មានទិន្នន័យរាប់ម៉ឺន ឬរាប់លាន Rows យើងមិនត្រូវ `SELECT *` ទាំងអស់ឡើយ ព្រោះវានឹងធ្វើឱ្យ Server គាំង Memory (Out Of Memory Error)។ យើងត្រូវចែកជាទំព័រ (Pagination)៖
 
 ```java
-// 1. In Repository Definition:
+// 1. ក្នុង Repository Interface:
 Page<Product> findByStatus(ProductStatus status, Pageable pageable);
 
-// 2. In Service or Controller execution:
-// Request Page 0 with a page size of 10 items, sorted by price descending
+// 2. ក្នុង Service ឬ Controller:
+// ទាញយកទំព័រទី ០ (Page 0) ចំនួន ១០ ធាតុ តម្រៀបតាម price ចុះក្រោម
 Pageable pageable = PageRequest.of(0, 10, Sort.by("price").descending());
 
 Page<Product> productPage = productRepository.findByStatus(ProductStatus.ACTIVE, pageable);
 
-// Metadata available for frontend client rendering:
-int totalPages = productPage.getTotalPages();
-long totalElements = productPage.getTotalElements();
-List<Product> items = productPage.getContent();
+// ព័ត៌មានលម្អិតនៃ Page សម្រាប់បញ្ជូនទៅ Frontend:
+int totalPages = productPage.getTotalPages();      // ចំនួនទំព័រសរុប
+long totalElements = productPage.getTotalElements(); // ចំនួនទិន្នន័យសរុប
+List<Product> items = productPage.getContent();      // ទិន្នន័យក្នុងទំព័រនេះ
+
 ```
 
 ---
 
-## 6. Summary
+## 6. សង្ខេប
 
-- `JpaRepository` is the standard repository choice for relational databases, offering batching, paging, and list-oriented returns out-of-the-box.
-- Rely on **Derived Query Methods** for intuitive, zero-boilerplate queries.
-- Use `@Query` with **JPQL** for type-safe, database-agnostic entity querying.
-- Always implement `Pageable` and `Page<T>` on unbounded collection endpoints to ensure memory safety.
+- `JpaRepository` គឺជាជម្រើសស្តង់ដារសម្រាប់កម្មវិធី JPA ព្រោះវាផ្តល់ Methods ពេញលេញរួមទាំង Batching, Paging, និង Sorting។
+- ប្រើ **Derived Query Methods** សម្រាប់ Queries សាមញ្ញៗដោយមិនបាច់សរសេរ SQL។
+- ប្រើ `@Query` ជាមួយ **JPQL** សម្រាប់ Custom Logic និងស្វែងយល់ពី Entity Graph។
+- ប្រើប្រាស់ `Pageable` និង `Page<T>` ជានិច្ច ដើម្បីទប់ស្កាត់ការទាញទិន្នន័យច្រើនលើសលុបដែលនាំឱ្យខូច Performance។
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Spring Boot JDBC with JdbcTemplate](../05-spring-boot-jdbc-jdbctemplate/README.md) | [📚 Module Index](../README.md) | [H2 In-Memory Database for Fast Testing →](../07-h2-database-for-testing/README.md) |
+| [← ការប្រើប្រាស់ Spring Boot JDBC និង JdbcTemplate (Spring Boot JDBC with JdbcTemplate)](../05-spring-boot-jdbc-jdbctemplate/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការប្រើប្រាស់ H2 In-Memory Database សម្រាប់ Testing (H2 In-Memory Database) →](../07-h2-database-for-testing/README.md) |

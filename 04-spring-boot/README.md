@@ -1,38 +1,36 @@
-# Spring Boot for Developers 🇬🇧
+# Spring Boot for Developers (ខេមរភាសា) 🇰🇭
 
-> **Course 04: Developing Production-Grade Microservices and Cloud-Native APIs with Spring Boot**
-
-> 🌐 **Language / ភាសា:** 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md) | 🇬🇧 **[English](README.md)**
+> **វគ្គសិក្សាទី ៤៖ ការអភិវឌ្ឍ Microservices និង Cloud-Native APIs ជាមួយ Spring Boot**
 
 ![Spring Boot Banner](assets/spring_boot_main.webp)
 
-[![Lessons](https://img.shields.io/badge/Course%2004-Spring%20Boot%20(78%20Lessons)-green.svg)](#-course-syllabus-table-of-contents)
-[![Modules](https://img.shields.io/badge/Modules-10%20Modules-blue.svg)](#-course-syllabus-table-of-contents)
-[![Language](https://img.shields.io/badge/Language-English%20%2F%20Khmer-blue.svg)](#)
+[![Lessons](https://img.shields.io/badge/Course%2004-Spring%20Boot%20(78%20Lessons)-green.svg)](#-មាតិកាវគ្គសិក្សា-table-of-contents)
+[![Modules](https://img.shields.io/badge/Modules-10%20Modules-blue.svg)](#-មាតិកាវគ្គសិក្សា-table-of-contents)
+[![Language](https://img.shields.io/badge/Language-Khmer%20%28%E1%9E%81%E1%9F%82%E1%9E%98%E1%9E%94%E1%9E%97%E1%9E%B8%E1%9E%9F%E1%9E%B8%29-red.svg)](#)
 [![Source](https://img.shields.io/badge/Curriculum-GeeksforGeeks%20Spring%20Boot-orange.svg)](https://www.geeksforgeeks.org/advance-java/spring-boot/)
 [![Parent](https://img.shields.io/badge/Main%20Vault-Java%20%26%20Spring-blue.svg)](../README.md)
 
 ---
 
-## 📖 About This Course
+## 📖 អំពីវគ្គសិក្សា Spring Boot
 
-**Spring Boot** is the premier enterprise industry standard for architecting **Microservices**, **RESTful APIs**, and **Cloud-Native Backend Systems**.
+**Spring Boot** គឺជាបច្ចេកវិទ្យាកម្រិតស្តង់ដារឧស្សាហកម្មសម្រាប់សាងសង់ **Microservices**, **RESTful APIs**, និង **Enterprise Backend Systems** ក្នុងយុគសម័យ Cloud-Native។
 
-This complete curriculum is systematically synthesized from the **[GeeksforGeeks Spring Boot Tutorial](https://www.geeksforgeeks.org/advance-java/spring-boot/)**, structured into **78 comprehensive lessons** across **10 modules**:
-1. **Module 1: Getting Started with Spring Boot (7 Lessons)**
-2. **Module 2: Spring Core Concepts & Fundamentals (10 Lessons)**
-3. **Module 3: Spring Boot Core Features & Runtime Engine (8 Lessons)**
-4. **Module 4: Building RESTful Web APIs with Spring Boot (11 Lessons)**
-5. **Module 5: Database Persistence & Spring Data JPA (9 Lessons)**
-6. **Module 6: Advanced Enterprise Features in Spring Boot (7 Lessons)**
-7. **Module 7: Microservices Architecture with Spring Boot (4 Lessons)**
-8. **Module 8: Event-Driven Messaging with Apache Kafka (9 Lessons)**
-9. **Module 9: Aspect-Oriented Programming (AOP) in Spring Boot (9 Lessons)**
-10. **Module 10: Automated Testing in Spring Boot (4 Lessons)**
+វគ្គសិក្សានេះត្រូវបានដកស្រង់ និងចងក្រងយ៉ាងផ្ចិតផ្ចង់ចេញពីកម្មវិធីសិក្សាពេញលេញរបស់ **[GeeksforGeeks Spring Boot Tutorial](https://www.geeksforgeeks.org/advance-java/spring-boot/)** ដោយបែងចែកជា **៧៨ មេរៀន** ស្ថិតក្នុង **១០ ផ្នែកធំៗ (10 Modules)**៖
+1. **Module 1: Getting Started with Spring Boot (៧ មេរៀន)**
+2. **Module 2: Spring Core Concept (១០ មេរៀន)**
+3. **Module 3: Spring Boot Core Features (៨ មេរៀន)**
+4. **Module 4: Spring Boot with REST API (១១ មេរៀន)**
+5. **Module 5: Spring Boot with Database and Data JPA (៩ មេរៀន)**
+6. **Module 6: Advanced Spring Boot Features (៧ មេរៀន)**
+7. **Module 7: Microservices with Spring Boot (៤ មេរៀន)**
+8. **Module 8: Spring Boot with Kafka (៩ មេរៀន)**
+9. **Module 9: Spring Boot with AOP (៩ មេរៀន)**
+10. **Module 10: Spring Boot Testing (៤ មេរៀន)**
 
 ---
 
-## 🗺️ Master Course Roadmap
+## 🗺️ ផែនទីសិក្សាធំ (Master Course Roadmap)
 
 ```mermaid
 flowchart TD
@@ -45,198 +43,202 @@ flowchart TD
     M7 --> M8["Module 8: Spring Boot with Kafka (9 Lessons)"]
     M8 --> M9["Module 9: Aspect-Oriented Programming (9 Lessons)"]
     M9 --> M10["Module 10: Automated Testing (4 Lessons)"]
+
 ```
 
 ---
 
-## 📚 Course Syllabus (Table of Contents - 78 Lessons)
+## 📂 គម្រោងកូដគំរូជាក់ស្តែង (Runnable Example Projects)
 
-### 📁 [Module 1: Getting Started with Spring Boot](01-getting-started-with-spring-boot/README.md)
-*Foundational overview of Spring Boot: core motivations, the 4 architectural pillars, Spring vs Spring Boot vs Spring MVC, and workspace setup across STS, Eclipse, and IntelliJ IDEA.*
+វគ្គសិក្សានេះផ្តល់ជូននូវ Folder `examples/` ដែលផ្ទុកគម្រោងកូដ Maven ពេញលេញ អាច Clone ឬបើកដំណើរការ (Run) ក្នុង IntelliJ IDEA, Eclipse, ឬ Terminal បានភ្លាមៗ៖
 
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Introduction to Spring Boot](01-getting-started-with-spring-boot/01-introduction-to-spring-boot/README.md) | Core definition and 4 architectural pillars |
-| **02** | [Spring vs Spring Boot](01-getting-started-with-spring-boot/02-spring-vs-spring-boot/README.md) | Exhaustive comparison of Spring Framework vs Spring Boot |
-| **03** | [Spring MVC vs Spring Boot](01-getting-started-with-spring-boot/03-spring-mvc-vs-spring-boot/README.md) | Distinguishing web framework presentation from holistic bootstrapping |
-| **04** | [Spring Tool Suite (STS) Setup](01-getting-started-with-spring-boot/04-sts-project-setup/README.md) | Scaffolding Spring Boot projects inside Spring Tool Suite 4 |
-| **05** | [Eclipse IDE Setup](01-getting-started-with-spring-boot/05-eclipse-ide-setup/README.md) | Integrating Spring Tools suite plugins into Eclipse IDE |
-| **06** | [IntelliJ IDEA Project Setup](01-getting-started-with-spring-boot/06-intellij-idea-setup/README.md) | Bootstrapping Spring Boot projects via Spring Initializr in IntelliJ |
-| **07** | [Run Spring Boot Application](01-getting-started-with-spring-boot/07-run-spring-boot-application/README.md) | 4 execution mechanics: IDE, Maven wrapper, standalone JAR, CLI |
-
----
-
-### 📁 [Module 2: Spring Core Concepts & Fundamentals](02-spring-core-concept/README.md)
-*Deep dive into Spring's architectural engine: Inversion of Control (IoC), Dependency Injection (DI), Bean lifecycles, Bean scopes, Autowiring, and DispatcherServlet.*
-
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Inversion of Control (IoC)](02-spring-core-concept/01-inversion-of-control/README.md) | Understanding the Inversion of Control paradigm |
-| **02** | [Dependency Injection (DI)](02-spring-core-concept/02-dependency-injection/README.md) | Practical Dependency Injection in enterprise Java |
-| **03** | [BeanFactory vs ApplicationContext](02-spring-core-concept/03-beanfactory-vs-applicationcontext/README.md) | Comparing Spring's lightweight BeanFactory and rich ApplicationContext |
-| **04** | [Spring Bean Lifecycle](02-spring-core-concept/04-spring-bean-lifecycle/README.md) | The complete lifecycle phases of a managed Spring Bean |
-| **05** | [Singleton and Prototype Scopes](02-spring-core-concept/05-singleton-and-prototype-scopes/README.md) | Deep dive into Singleton (default) vs Prototype bean scopes |
-| **06** | [Custom Bean Scope in Spring](02-spring-core-concept/06-custom-bean-scope/README.md) | Creating custom bean scopes in Spring |
-| **07** | [Create a Spring Bean in 3 Ways](02-spring-core-concept/07-create-spring-bean-3-ways/README.md) | 3 ways to declare beans: XML, Java @Bean, and @Component scan |
-| **08** | [Spring Autowiring (@Autowired)](02-spring-core-concept/08-spring-autowiring/README.md) | Automated dependency wiring with @Autowired and @Qualifier |
-| **09** | [What is DispatcherServlet in Spring](02-spring-core-concept/09-dispatcherservlet/README.md) | DispatcherServlet: Front Controller pattern and HTTP routing |
-| **10** | [Build Tools: Maven vs Gradle](02-spring-core-concept/10-build-tools-maven-gradle/README.md) | Build automation tools: Maven POM vs Gradle DSL |
-
----
-
-### 📁 [Module 3: Spring Boot Core Features & Runtime Engine](03-spring-boot-core-features/README.md)
-*Mastering the runtime engine of Spring Boot: layered architecture, core annotations, auto-configuration conditions, dependency management, YAML profiles, Actuator, and DevTools.*
-
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Spring Boot Architecture](03-spring-boot-core-features/01-spring-boot-architecture/README.md) | Layered architecture and internal request-response flow |
-| **02** | [Spring Boot Core Annotations](03-spring-boot-core-features/02-spring-boot-annotations/README.md) | Comprehensive guide to indispensable Spring Boot annotations |
-| **03** | [Auto-Configuration Deep Dive](03-spring-boot-core-features/03-auto-configuration/README.md) | Under the hood: Auto-Configuration and @Conditional annotations |
-| **04** | [Dependency Management & Starters](03-spring-boot-core-features/04-dependency-management/README.md) | Opinionated starter POMs and transitive dependency management |
-| **05** | [Application Properties Configuration](03-spring-boot-core-features/05-application-properties/README.md) | Configuration via application.properties and type-safe binding |
-| **06** | [YAML Configuration (application.yml)](03-spring-boot-core-features/06-yaml-configuration/README.md) | Configuring application.yml and multi-environment profiles |
-| **07** | [Spring Boot Actuator](03-spring-boot-core-features/07-spring-boot-actuator/README.md) | Production telemetry via Actuator health, metrics, and env endpoints |
-| **08** | [Spring Boot DevTools](03-spring-boot-core-features/08-spring-boot-devtools/README.md) | Accelerating development with sub-second restarts and LiveReload |
-
----
-
-### 📁 [Module 4: Building RESTful Web APIs with Spring Boot](04-spring-boot-with-rest-api/README.md)
-*Production RESTful API architecture: controllers, semantic routing, parameters, request body binding, Jackson serialization, DTOs, Bean Validation, and centralized exception handling.*
-
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Introduction to RESTful Services](04-spring-boot-with-rest-api/01-intro-to-restful-web-services/README.md) | REST architecture, constraints, and HTTP semantics |
-| **02** | [@RestController in Spring Boot](04-spring-boot-with-rest-api/02-rest-controller/README.md) | @RestController meta-annotation and JSON conversion |
-| **03** | [@RequestMapping Deep Dive](04-spring-boot-with-rest-api/03-request-mapping/README.md) | Path routing, headers, and media type mapping with @RequestMapping |
-| **04** | [@GetMapping and @PostMapping](04-spring-boot-with-rest-api/04-get-and-post-mapping/README.md) | Handling read requests with @GetMapping and writes with @PostMapping |
-| **05** | [@PutMapping and @DeleteMapping](04-spring-boot-with-rest-api/05-put-and-delete-mapping/README.md) | Resource updates with @PutMapping and removals with @DeleteMapping |
-| **06** | [@PathVariable vs @RequestParam](04-spring-boot-with-rest-api/06-pathvariable-and-requestparam/README.md) | Extracting path variables vs query string parameters |
-| **07** | [@RequestBody Payload Extraction](04-spring-boot-with-rest-api/07-requestbody/README.md) | Capturing and deserializing incoming request payloads with @RequestBody |
-| **08** | [Complete REST API Implementation](04-spring-boot-with-rest-api/08-build-rest-api-example/README.md) | Step-by-step implementation of an end-to-end REST API |
-| **09** | [JSON Serialization with Jackson](04-spring-boot-with-rest-api/09-json-serialization-jackson/README.md) | JSON serialization/deserialization, annotations, and Java Records |
-| **10** | [Global Exception Handling](04-spring-boot-with-rest-api/10-exception-handling/README.md) | Centralized fault handling with @RestControllerAdvice and RFC 7807 |
-| **11** | [Input Validation with Hibernate Validator](04-spring-boot-with-rest-api/11-validation/README.md) | Declarative validation constraints with Jakarta Bean Validation |
-
----
-
-### 📁 [Module 5: Database Persistence & Spring Data JPA](05-spring-boot-database-and-data-jpa/README.md)
-*Robust relational and document persistence: MySQL, PostgreSQL, MongoDB, Spring Data JPA, JdbcTemplate, repository hierarchies, in-memory H2 testing, and a production CRUD project.*
-
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Spring Boot with MySQL](05-spring-boot-database-and-data-jpa/01-integration-with-mysql/README.md) | Configuring MySQL drivers, HikariCP, and application.yml settings |
-| **02** | [Spring Boot with PostgreSQL](05-spring-boot-database-and-data-jpa/02-integration-with-postgresql/README.md) | Integrating enterprise PostgreSQL with Spring Boot |
-| **03** | [Spring Boot with MongoDB](05-spring-boot-database-and-data-jpa/03-integration-with-mongodb/README.md) | NoSQL document persistence with Spring Data MongoDB |
-| **04** | [Spring Data JPA Basics](05-spring-boot-database-and-data-jpa/04-spring-data-jpa-basics/README.md) | ORM architecture, JPA annotations, and primary key strategies |
-| **05** | [Spring Boot with JDBC (JdbcTemplate)](05-spring-boot-database-and-data-jpa/05-spring-boot-jdbc-jdbctemplate/README.md) | Direct database querying with Spring JdbcTemplate |
-| **06** | [CrudRepository vs JpaRepository](05-spring-boot-database-and-data-jpa/06-crudrepository-vs-jparepository/README.md) | Comparing repository abstractions and automated query derivation |
-| **07** | [H2 In-Memory Database for Testing](05-spring-boot-database-and-data-jpa/07-h2-database-for-testing/README.md) | In-memory H2 database setup and automated testing configuration |
-| **08** | [CRUD Operations with JPA Repositories](05-spring-boot-database-and-data-jpa/08-crud-operations-jpa/README.md) | End-to-end CRUD operations using JpaRepository and services |
-| **09** | [Todo List API Project with MySQL](05-spring-boot-database-and-data-jpa/09-todo-list-api-project/README.md) | Hands-on project: Building a complete Todo API backed by MySQL |
-
----
-
-### 📁 [Module 6: Advanced Enterprise Features in Spring Boot](06-advanced-spring-boot-features/README.md)
-*Enterprise capabilities: task scheduling, SMTP email dispatch, file upload handling, caching abstraction and Redis, declarative @Transactional management, and DTO mapping.*
-
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Task Scheduling (@Scheduled)](06-advanced-spring-boot-features/01-task-scheduling/README.md) | Automating background jobs with @Scheduled and cron expressions |
-| **02** | [Sending Email via SMTP](06-advanced-spring-boot-features/02-sending-email-smtp/README.md) | Configuring JavaMailSender for text and HTML email dispatch |
-| **03** | [File Uploading & MultipartFile](06-advanced-spring-boot-features/03-file-handling-upload/README.md) | Handling single and multi-file uploads with MultipartFile |
-| **04** | [Spring Boot Caching Basics](06-advanced-spring-boot-features/04-caching/README.md) | Spring Cache abstraction: @Cacheable, @CachePut, and @CacheEvict |
-| **05** | [Caching with Redis & Other Providers](06-advanced-spring-boot-features/05-caching-providers-redis/README.md) | Configuring distributed Redis cache and multi-tenant providers |
-| **06** | [Transaction Management (@Transactional)](06-advanced-spring-boot-features/06-transaction-management/README.md) | ACID guarantees, declarative @Transactional boundaries, and rollbacks |
-| **07** | [Entity to DTO Mapping](06-advanced-spring-boot-features/07-dto-mapping/README.md) | Decoupling persistence models with ModelMapper and MapStruct |
-
----
-
-### 📁 [Module 7: Microservices Architecture with Spring Boot](07-microservices-with-spring-boot/README.md)
-*Architecting distributed systems: microservices principles, inter-service REST communication (RestClient, Feign), deploying to AWS Elastic Beanstalk, and sample project design.*
-
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Microservices Step-by-Step Guide](07-microservices-with-spring-boot/01-microservices-step-by-step-guide/README.md) | Step-by-step guide to microservices fundamentals and service boundaries |
-| **02** | [Communication Between Microservices](07-microservices-with-spring-boot/02-inter-service-communication/README.md) | Synchronous inter-service communication: RestClient, WebClient, Feign |
-| **03** | [Deploy on AWS Elastic Beanstalk](07-microservices-with-spring-boot/03-deploy-aws-elastic-beanstalk/README.md) | Packaging and deploying containerized microservices to AWS Beanstalk |
-| **04** | [Microservices Sample Project](07-microservices-with-spring-boot/04-microservices-sample-project/README.md) | Architectural walkthrough of a multi-service eCommerce ecosystem |
-
----
-
-### 📁 [Module 8: Event-Driven Messaging with Apache Kafka](08-spring-boot-with-kafka/README.md)
-*Asynchronous event streaming: Kafka producers, consumers, publishing JSON/String payloads, topic partitioning, Elasticsearch & Grafana observability, and dynamic listeners.*
-
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Kafka Producer in Spring Boot](08-spring-boot-with-kafka/01-kafka-producer/README.md) | Configuring KafkaTemplate and emitting streaming records |
-| **02** | [Kafka Consumer in Spring Boot](08-spring-boot-with-kafka/02-kafka-consumer/README.md) | Consuming topic events asynchronously with @KafkaListener |
-| **03** | [Publishing JSON Messages to Kafka](08-spring-boot-with-kafka/03-publish-json-messages/README.md) | Serializing domain objects into JSON payloads for Kafka topics |
-| **04** | [Consuming JSON Messages from Kafka](08-spring-boot-with-kafka/04-consume-json-messages/README.md) | Deserializing incoming JSON payloads into strongly-typed objects |
-| **05** | [Publishing String Messages to Kafka](08-spring-boot-with-kafka/05-publish-string-messages/README.md) | Publishing plain-text string payloads to Kafka topics |
-| **06** | [Consuming String Messages from Kafka](08-spring-boot-with-kafka/06-consume-string-messages/README.md) | Consuming string messages across consumer group partitions |
-| **07** | [Create and Configure Kafka Topics](08-spring-boot-with-kafka/07-create-configure-topics/README.md) | Programmatic topic creation and partition replication configuration |
-| **08** | [Kafka, Elasticsearch & Grafana Pipeline](08-spring-boot-with-kafka/08-kafka-elasticsearch-grafana/README.md) | Building a real-time data pipeline from Kafka to Elasticsearch & Grafana |
-| **09** | [Start/Stop Kafka Listener Dynamically](08-spring-boot-with-kafka/09-dynamic-kafka-listener/README.md) | Dynamically starting, pausing, and resuming Kafka listeners at runtime |
-
----
-
-### 📁 [Module 9: Aspect-Oriented Programming (AOP) in Spring Boot](09-spring-boot-with-aop/README.md)
-*Decoupling cross-cutting concerns: AOP architecture, all 5 advice types (@Before, @After, @Around, @AfterReturning, @AfterThrowing), pointcuts, AOP vs OOP, and Spring AOP vs AspectJ.*
-
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Introduction to Spring Boot AOP](09-spring-boot-with-aop/01-aop-introduction/README.md) | Foundations of Aspect-Oriented Programming in Spring Boot |
-| **02** | [Spring Boot Advices Overview](09-spring-boot-with-aop/02-aop-advices-overview/README.md) | Comparative guide to all 5 AOP advice types in a unified project |
-| **03** | [Spring Boot AOP @Before Advice](09-spring-boot-with-aop/03-before-advice/README.md) | Executing interceptor logic prior to target method execution |
-| **04** | [Spring Boot AOP @After Advice](09-spring-boot-with-aop/04-after-advice/README.md) | Unconditional post-execution cleanup with @After advice |
-| **05** | [Spring Boot AOP @Around Advice](09-spring-boot-with-aop/05-around-advice/README.md) | Surrounding method execution with ProceedingJoinPoint and @Around |
-| **06** | [Spring Boot AOP @AfterThrowing](09-spring-boot-with-aop/06-after-throwing-advice/README.md) | Intercepting and auditing thrown exceptions with @AfterThrowing |
-| **07** | [Spring Boot AOP @AfterReturning](09-spring-boot-with-aop/07-after-returning-advice/README.md) | Capturing and inspecting successful method outputs with @AfterReturning |
-| **08** | [Difference between AOP and OOP](09-spring-boot-with-aop/08-aop-vs-oop/README.md) | Comparing Object-Oriented Programming (OOP) and Aspect-Oriented (AOP) |
-| **09** | [Spring AOP vs AspectJ](09-spring-boot-with-aop/09-aop-vs-aspectj/README.md) | Evaluating Spring runtime proxy AOP against full-blown AspectJ weaving |
-
----
-
-### 📁 [Module 10: Automated Testing in Spring Boot](10-spring-boot-testing/README.md)
-*Production-grade automated testing: Unit testing with JUnit 5, mock objects via Mockito, web layer integration testing with MockMVC, and declarative API testing with ZeroCode.*
-
-| # | Lesson | Description |
-| :---: | :--- | :--- |
-| **01** | [Unit Testing with JUnit 5](10-spring-boot-testing/01-unit-testing-junit/README.md) | Core unit testing principles with JUnit 5 annotations and AssertJ |
-| **02** | [Testing with Mockito](10-spring-boot-testing/02-testing-with-mockito/README.md) | Creating isolated test doubles using Mockito mocks and verifications |
-| **03** | [Integration Testing with MockMVC](10-spring-boot-testing/03-integration-testing-mockmvc/README.md) | Web slice testing and JSON path assertion with MockMvc |
-| **04** | [Using ZeroCode for Testing](10-spring-boot-testing/04-zerocode-testing/README.md) | Declarative automated API testing in Spring Boot using ZeroCode |
-
----
-
-## 🧭 Course Navigation
-
-| Previous | Main Vault | Next Course |
-| :--- | :---: | :--- |
-| [← Course 03: Spring Framework](../03-spring-framework/README.md) | [🏠 Root Index](../README.md) | *End of Curriculum* |
-
-
----
-
-## 📂 Runnable Example Projects
-
-This course provides a standalone `examples/` directory containing complete, production-ready Maven projects ready to import and run immediately in IntelliJ IDEA, Eclipse, or via Terminal:
-
-| Project | Tech Stack | Description | Key Files |
+| គម្រោង (Project) | បច្ចេកវិទ្យា (Stack) | ការពិពណ៌នា (Description) | ឯកសារសំខាន់ៗ (Key Files) |
 | :--- | :--- | :--- | :--- |
-| [**01-rest-api-crud**](examples/01-rest-api-crud) | Spring Boot 3.3, REST, DTO Records, Validation | Complete Bookstore CRUD API with Global Exception Handling | [`BookController.java`](examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java)<br>[`BookService.java`](examples/01-rest-api-crud/src/main/java/com/example/bookstore/service/BookService.java)<br>[`GlobalExceptionHandler.java`](examples/01-rest-api-crud/src/main/java/com/example/bookstore/exception/GlobalExceptionHandler.java) |
-| [**02-spring-data-jpa-postgresql**](examples/02-spring-data-jpa-postgresql) | Spring Data JPA, Hibernate, PostgreSQL, H2 | Todo List Persistence API with Transactional Service | [`Todo.java`](examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/model/Todo.java)<br>[`TodoRepository.java`](examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/repository/TodoRepository.java)<br>[`TodoService.java`](examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/service/TodoService.java) |
-| [**03-redis-caching**](examples/03-redis-caching) | Spring Cache, Redis, Docker Compose | Redis CacheManager with 10-min TTL and JSON Serializer | [`RedisConfig.java`](examples/03-redis-caching/src/main/java/com/example/cache/config/RedisConfig.java)<br>[`ProductService.java`](examples/03-redis-caching/src/main/java/com/example/cache/service/ProductService.java)<br>[`docker-compose.yml`](examples/03-redis-caching/docker-compose.yml) |
-| [**04-kafka-messaging**](examples/04-kafka-messaging) | Spring Kafka, Event-Driven, Docker Compose | Order Event Streaming with KafkaTemplate & `@KafkaListener` | [`OrderEventProducer.java`](examples/04-kafka-messaging/src/main/java/com/example/kafka/producer/OrderEventProducer.java)<br>[`OrderEventConsumer.java`](examples/04-kafka-messaging/src/main/java/com/example/kafka/consumer/OrderEventConsumer.java)<br>[`OrderCreatedEvent.java`](examples/04-kafka-messaging/src/main/java/com/example/kafka/event/OrderCreatedEvent.java) |
-| [**05-microservices-ecommerce**](examples/05-microservices-ecommerce) | Spring Cloud, Eureka, Gateway, OpenFeign | 4-Service E-Commerce Cloud Platform with Docker Compose | [`eureka-server`](examples/05-microservices-ecommerce/eureka-server)<br>[`api-gateway`](examples/05-microservices-ecommerce/api-gateway)<br>[`product-service`](examples/05-microservices-ecommerce/product-service)<br>[`order-service`](examples/05-microservices-ecommerce/order-service)<br>[`docker-compose.yml`](examples/05-microservices-ecommerce/docker-compose.yml) |
+| [**01-rest-api-crud**](examples/01-rest-api-crud) | Spring Boot 3.3, REST, DTO Records, Validation | Bookstore CRUD API ពេញលេញជាមួយ Global Exception Handling | [`BookController.java`](examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java)<br>[`BookService.java`](examples/01-rest-api-crud/src/main/java/com/example/bookstore/service/BookService.java)<br>[`GlobalExceptionHandler.java`](examples/01-rest-api-crud/src/main/java/com/example/bookstore/exception/GlobalExceptionHandler.java) |
 
-> 💡 **Tip:** In each lesson, you will find direct links pointing to the relevant project and exact source files for hands-on inspection.
+| [**02-spring-data-jpa-postgresql**](examples/02-spring-data-jpa-postgresql) | Spring Data JPA, Hibernate, PostgreSQL, H2 | Todo List Persistence API ជាមួយ Transactional Service | [`Todo.java`](examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/model/Todo.java)<br>[`TodoRepository.java`](examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/repository/TodoRepository.java)<br>[`TodoService.java`](examples/02-spring-data-jpa-postgresql/src/main/java/com/example/todo/service/TodoService.java) |
+
+| [**03-redis-caching**](examples/03-redis-caching) | Spring Cache, Redis, Docker Compose | Redis CacheManager កំណត់ TTL 10 នាទី និង JSON Serializer | [`RedisConfig.java`](examples/03-redis-caching/src/main/java/com/example/cache/config/RedisConfig.java)<br>[`ProductService.java`](examples/03-redis-caching/src/main/java/com/example/cache/service/ProductService.java)<br>[`docker-compose.yml`](examples/03-redis-caching/docker-compose.yml) |
+
+| [**04-kafka-messaging**](examples/04-kafka-messaging) | Spring Kafka, Event-Driven, Docker Compose | Order Event Streaming ជាមួយ KafkaTemplate & `@KafkaListener` | [`OrderEventProducer.java`](examples/04-kafka-messaging/src/main/java/com/example/kafka/producer/OrderEventProducer.java)<br>[`OrderEventConsumer.java`](examples/04-kafka-messaging/src/main/java/com/example/kafka/consumer/OrderEventConsumer.java)<br>[`OrderCreatedEvent.java`](examples/04-kafka-messaging/src/main/java/com/example/kafka/event/OrderCreatedEvent.java) |
+
+| [**05-microservices-ecommerce**](examples/05-microservices-ecommerce) | Spring Cloud, Eureka, Gateway, OpenFeign | ស្ថាបត្យកម្ម Microservices ពាណិជ្ជកម្មអេឡិចត្រូនិច ៤ សេវាកម្ម | [`eureka-server`](examples/05-microservices-ecommerce/eureka-server)<br>[`api-gateway`](examples/05-microservices-ecommerce/api-gateway)<br>[`product-service`](examples/05-microservices-ecommerce/product-service)<br>[`order-service`](examples/05-microservices-ecommerce/order-service)<br>[`docker-compose.yml`](examples/05-microservices-ecommerce/docker-compose.yml) |
+
+> 💡 **គន្លឹះ:** នៅក្នុងមេរៀននីមួយៗ អ្នកអាននឹងឃើញ Banner ភ្ជាប់ទៅកាន់ Project និង File កូដពាក់ព័ន្ធដោយផ្ទាល់ ងាយស្រួលចុចបើកផ្ទៀងផ្ទាត់ពេលកំពុងរៀន។
 
 ---
 
-## 🔗 Sister Repositories in the Master Curriculum
-- 📘 [Basic Java Fundamentals](https://github.com/sakousa856-sketch/java-basic-for-developers-khmer)
-- 📗 [Advance Java OOP](https://github.com/sakousa856-sketch/java-advance-for-developers-khmer)
+## 📚 មាតិកាវគ្គសិក្សា (Table of Contents - 78 Lessons)
+
+### 📁 [Module 1: ចាប់ផ្តើមដំបូងជាមួយ Spring Boot (Getting Started)](01-getting-started-with-spring-boot/README.md)
+*ស្វែងយល់ពីប្រវត្តិ និយមន័យ សសរទ្រូងទាំង ៤ ភាពខុសគ្នារវាង Spring vs Spring Boot vs Spring MVC និងការដំឡើងបរិស្ថានអភិវឌ្ឍន៍លើ STS, Eclipse, និង IntelliJ IDEA។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Introduction to Spring Boot](01-getting-started-with-spring-boot/01-introduction-to-spring-boot/README.md) | និយមន័យ និងសសរទ្រូងទាំង ៤ របស់ Spring Boot |
+| **02** | [Spring vs Spring Boot](01-getting-started-with-spring-boot/02-spring-vs-spring-boot/README.md) | ការប្រៀបធៀបស៊ីជម្រៅរវាង Spring Framework និង Spring Boot |
+| **03** | [Spring MVC vs Spring Boot](01-getting-started-with-spring-boot/03-spring-mvc-vs-spring-boot/README.md) | បែងចែកឱ្យច្បាស់រវាង Web MVC Layer និង Application Bootstrapper |
+| **04** | [Spring Tool Suite (STS) Setup](01-getting-started-with-spring-boot/04-sts-project-setup/README.md) | ការដំឡើង និងបង្កើតគម្រោងដំបូងលើ Spring Tool Suite 4 |
+| **05** | [Eclipse IDE Setup](01-getting-started-with-spring-boot/05-eclipse-ide-setup/README.md) | ការតម្លើង Spring Tools Plugin និងបង្កើត Maven Project លើ Eclipse |
+| **06** | [IntelliJ IDEA Project Setup](01-getting-started-with-spring-boot/06-intellij-idea-setup/README.md) | ការបង្កើតគម្រោងតាម Spring Initializr លើ IntelliJ IDEA |
+| **07** | [Run Spring Boot Application](01-getting-started-with-spring-boot/07-run-spring-boot-application/README.md) | វិធីទាំង ៤ ក្នុងការ Run App (IDE, CLI, Maven Wrapper, JAR) |
+
+---
+
+### 📁 [Module 2: គោលគំនិតគ្រឹះនៃ Spring Core (Spring Core Concepts)](02-spring-core-concept/README.md)
+*សិក្សាស៊ីជម្រៅអំពីយន្តការស្នូលរបស់ Spring Framework រួមមាន Inversion of Control (IoC), Dependency Injection, Bean Scopes, Bean Lifecycle, និង DispatcherServlet។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Inversion of Control (IoC)](02-spring-core-concept/01-inversion-of-control/README.md) | ស្វែងយល់អំពីគោលការណ៍ IoC និង IoC Container |
+| **02** | [Dependency Injection (DI)](02-spring-core-concept/02-dependency-injection/README.md) | ការអនុវត្ត Dependency Injection ជាក់ស្តែងក្នុង Java |
+| **03** | [BeanFactory vs ApplicationContext](02-spring-core-concept/03-beanfactory-vs-applicationcontext/README.md) | ការប្រៀបធៀបប្រភេទ Container ទាំងពីររបស់ Spring |
+| **04** | [Spring Bean Lifecycle](02-spring-core-concept/04-spring-bean-lifecycle/README.md) | ដំណាក់កាលទាំង ៧ នៃវដ្តជីវិតរបស់ Spring Bean |
+| **05** | [Singleton and Prototype Scopes](02-spring-core-concept/05-singleton-and-prototype-scopes/README.md) | ការយល់ដឹងអំពី Singleton (default) និង Prototype Scope |
+| **06** | [Custom Bean Scope in Spring](02-spring-core-concept/06-custom-bean-scope/README.md) | របៀបបង្កើត Scope ផ្ទាល់ខ្លួនតាមតម្រូវការអាជីវកម្ម |
+| **07** | [Create a Spring Bean in 3 Ways](02-spring-core-concept/07-create-spring-bean-3-ways/README.md) | វិធីទាំង ៣ ក្នុងការបង្កើត Bean (XML, Java Config, Component Scan) |
+| **08** | [Spring Autowiring (@Autowired)](02-spring-core-concept/08-spring-autowiring/README.md) | យន្តការចាក់បញ្ចូល Bean ដោយស្វ័យប្រវត្តិតាម Type/Name |
+| **09** | [What is DispatcherServlet in Spring](02-spring-core-concept/09-dispatcherservlet/README.md) | ស្ថាបត្យកម្ម Front Controller និងការគ្រប់គ្រង Web Request |
+| **10** | [Build Tools: Maven vs Gradle](02-spring-core-concept/10-build-tools-maven-gradle/README.md) | ការគ្រប់គ្រង Dependencies, Plugins, និង Lifecycle ក្នុង Maven & Gradle |
+
+---
+
+### 📁 [Module 3: លក្ខណៈពិសេសស្នូលរបស់ Spring Boot (Core Features)](03-spring-boot-core-features/README.md)
+*ស្វែងយល់ពីបច្ចេកវិទ្យាស្នូលរបស់ Spring Boot៖ ស្ថាបត្យកម្ម Layered, Annotations សំខាន់ៗ, យន្តការ Auto-Configuration, Starters, Properties/YAML, Actuator, និង DevTools។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Spring Boot Architecture](03-spring-boot-core-features/01-spring-boot-architecture/README.md) | ស្ថាបត្យកម្ម 4-Layer និងដំណើរការ Request-Response |
+| **02** | [Spring Boot Core Annotations](03-spring-boot-core-features/02-spring-boot-annotations/README.md) | បណ្តុំ Annotations សំខាន់ៗបំផុតដែលត្រូវចេះក្នុង Spring Boot |
+| **03** | [Auto-Configuration Deep Dive](03-spring-boot-core-features/03-auto-configuration/README.md) | យន្តការកំណត់រចនាសម្ព័ន្ធស្វ័យប្រវត្តិ និង @Conditional |
+| **04** | [Dependency Management & Starters](03-spring-boot-core-features/04-dependency-management/README.md) | ការគ្រប់គ្រង Dependencies តាម Starters និង Spring Boot BOM |
+| **05** | [Application Properties Configuration](03-spring-boot-core-features/05-application-properties/README.md) | ការកំណត់ Properties, @Value, និង @ConfigurationProperties |
+| **06** | [YAML Configuration (application.yml)](03-spring-boot-core-features/06-yaml-configuration/README.md) | ការប្រើប្រាស់ YAML, Hierarchical structure, និង Multi-Profiles |
+| **07** | [Spring Boot Actuator](03-spring-boot-core-features/07-spring-boot-actuator/README.md) | ការត្រួតពិនិត្យសុខភាពប្រព័ន្ធតាម /health, /metrics, /info |
+| **08** | [Spring Boot DevTools](03-spring-boot-core-features/08-spring-boot-devtools/README.md) | បង្កើនល្បឿនអភិវឌ្ឍន៍ជាមួយ Automatic Restart និង LiveReload |
+
+---
+
+### 📁 [Module 4: ការកសាង RESTful Web APIs (REST API with Spring Boot)](04-spring-boot-with-rest-api/README.md)
+*ស្ថាបត្យកម្ម Web API ទំនើប៖ Controllers, Routing, Request Parameters, Request Body, Jackson JSON, DTO Pattern, Input Validation, និង Global Exception Handling។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Introduction to RESTful Services](04-spring-boot-with-rest-api/01-intro-to-restful-web-services/README.md) | ស្ថាបត្យកម្ម REST គោលការណ៍ HTTP Methods និង Best Practices |
+| **02** | [@RestController in Spring Boot](04-spring-boot-with-rest-api/02-rest-controller/README.md) | @RestController vs @Controller និង ResponseBody |
+| **03** | [@RequestMapping Deep Dive](04-spring-boot-with-rest-api/03-request-mapping/README.md) | ការកំណត់ Route, Base URL, និង HTTP Method Filtering |
+| **04** | [@GetMapping and @PostMapping](04-spring-boot-with-rest-api/04-get-and-post-mapping/README.md) | ការទាញយកទិន្នន័យ (GET) និងការបង្កើត Resource ថ្មី (POST) |
+| **05** | [@PutMapping and @DeleteMapping](04-spring-boot-with-rest-api/05-put-and-delete-mapping/README.md) | ការកែប្រែទិន្នន័យទាំងមូល (PUT) និងការលុប (DELETE) |
+| **06** | [@PathVariable vs @RequestParam](04-spring-boot-with-rest-api/06-pathvariable-and-requestparam/README.md) | ការចាប់យក URL Path Segments និង Query Parameters |
+| **07** | [@RequestBody Payload Extraction](04-spring-boot-with-rest-api/07-requestbody/README.md) | ការទទួល និងបម្លែង JSON Payload មកជា Java Object |
+| **08** | [Complete REST API Implementation](04-spring-boot-with-rest-api/08-build-rest-api-example/README.md) | កូដគំរូជាក់ស្តែងពេញលេញនៃការបង្កើត REST API មួយ |
+| **09** | [JSON Serialization with Jackson](04-spring-boot-with-rest-api/09-json-serialization-jackson/README.md) | ការបម្លែង JSON, Jackson Annotations, DTOs, និង Java Records |
+| **10** | [Global Exception Handling](04-spring-boot-with-rest-api/10-exception-handling/README.md) | ការគ្រប់គ្រង Error កម្រិតសកលជាមួយ @RestControllerAdvice |
+| **11** | [Input Validation with Hibernate Validator](04-spring-boot-with-rest-api/11-validation/README.md) | ការផ្ទៀងផ្ទាត់ទិន្នន័យជាមួយ Jakarta Bean Validation (@Valid) |
+
+---
+
+### 📁 [Module 5: ការតភ្ជាប់ Database និង Spring Data JPA (Database & Data JPA)](05-spring-boot-database-and-data-jpa/README.md)
+*គ្រប់គ្រងទិន្នន័យ Database ប្រកបដោយប្រសិទ្ធភាព៖ MySQL, PostgreSQL, MongoDB, Spring Data JPA, JDBC Template, Repositories, In-memory H2, និងគម្រោង Todo List CRUD។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Spring Boot with MySQL](05-spring-boot-database-and-data-jpa/01-integration-with-mysql/README.md) | ការតភ្ជាប់ និងកំណត់ DataSource ជាមួយ MySQL Database |
+| **02** | [Spring Boot with PostgreSQL](05-spring-boot-database-and-data-jpa/02-integration-with-postgresql/README.md) | ការតភ្ជាប់ និងដំណើរការជាមួយ PostgreSQL Database |
+| **03** | [Spring Boot with MongoDB](05-spring-boot-database-and-data-jpa/03-integration-with-mongodb/README.md) | ការតភ្ជាប់ NoSQL Document Database ជាមួយ Spring Data MongoDB |
+| **04** | [Spring Data JPA Basics](05-spring-boot-database-and-data-jpa/04-spring-data-jpa-basics/README.md) | ORM Architecture, @Entity, @Table, @Id, @GeneratedValue |
+| **05** | [Spring Boot with JDBC (JdbcTemplate)](05-spring-boot-database-and-data-jpa/05-spring-boot-jdbc-jdbctemplate/README.md) | ការប្រើប្រាស់ JdbcTemplate សម្រាប់ High-performance Raw SQL |
+| **06** | [CrudRepository vs JpaRepository](05-spring-boot-database-and-data-jpa/06-crudrepository-vs-jparepository/README.md) | ការប្រៀបធៀប Repositories និងការបង្កើត Query Methods |
+| **07** | [H2 In-Memory Database for Testing](05-spring-boot-database-and-data-jpa/07-h2-database-for-testing/README.md) | ការប្រើប្រាស់ H2 Console និងការកំណត់ Embedded DB |
+| **08** | [CRUD Operations with JPA Repositories](05-spring-boot-database-and-data-jpa/08-crud-operations-jpa/README.md) | ការអនុវត្តប្រតិបត្តិការ Create, Read, Update, Delete ពេញលេញ |
+| **09** | [Todo List API Project with MySQL](05-spring-boot-database-and-data-jpa/09-todo-list-api-project/README.md) | គម្រោងជាក់ស្តែង៖ បង្កើត Todo REST API ភ្ជាប់ជាមួយ MySQL |
+
+---
+
+### 📁 [Module 6: មុខងារកម្រិតខ្ពស់របស់ Spring Boot (Advanced Features)](06-advanced-spring-boot-features/README.md)
+*មុខងារសំខាន់ៗសម្រាប់ប្រព័ន្ធ Enterprise៖ Task Scheduling, ការផ្ញើ Email តាម SMTP, ការ Upload ឯកសារ, Caching (Redis), Transaction Management (@Transactional), និង DTO Mapping។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Task Scheduling (@Scheduled)](06-advanced-spring-boot-features/01-task-scheduling/README.md) | ការរត់ការងារស្វ័យប្រវត្តិតាម fixedRate, fixedDelay, និង Cron |
+| **02** | [Sending Email via SMTP](06-advanced-spring-boot-features/02-sending-email-smtp/README.md) | ការផ្ញើអ៊ីមែលអត្ថបទធម្មតា និង HTML ជាមួយ Spring Mail |
+| **03** | [File Uploading & MultipartFile](06-advanced-spring-boot-features/03-file-handling-upload/README.md) | ការទទួល និងរក្សាទុក File Upload ជាមួយ MultipartFile |
+| **04** | [Spring Boot Caching Basics](06-advanced-spring-boot-features/04-caching/README.md) | ការបង្កើនល្បឿន API ជាមួយ @Cacheable, @CachePut, @CacheEvict |
+| **05** | [Caching with Redis & Other Providers](06-advanced-spring-boot-features/05-caching-providers-redis/README.md) | ការតភ្ជាប់ Distributed Redis Cache និង EhCache |
+| **06** | [Transaction Management (@Transactional)](06-advanced-spring-boot-features/06-transaction-management/README.md) | គោលការណ៍ ACID, Rollback Rules, និង Isolation Levels |
+| **07** | [Entity to DTO Mapping](06-advanced-spring-boot-features/07-dto-mapping/README.md) | ការបម្លែង Entity ទៅ DTO ជាមួយ ModelMapper, MapStruct, និង Records |
+
+---
+
+### 📁 [Module 7: ស្ថាបត្យកម្ម Microservices ជាមួយ Spring Boot (Microservices)](07-microservices-with-spring-boot/README.md)
+*ការកសាងប្រព័ន្ធ Microservices ខ្នាតធំ៖ មូលដ្ឋានគ្រឹះ Microservices, ការប្រាស្រ័យទាក់ទងគ្នា (RestClient, Feign), ការ Deploy លើ AWS Elastic Beanstalk, និងគម្រោង Microservices គំរូ។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Microservices Step-by-Step Guide](07-microservices-with-spring-boot/01-microservices-step-by-step-guide/README.md) | ការស្វែងយល់អំពី Microservices Architecture និងការបំបែក Domain |
+| **02** | [Communication Between Microservices](07-microservices-with-spring-boot/02-inter-service-communication/README.md) | ការហៅឆ្លង Service ជាមួយ RestClient, WebClient, និង OpenFeign |
+| **03** | [Deploy on AWS Elastic Beanstalk](07-microservices-with-spring-boot/03-deploy-aws-elastic-beanstalk/README.md) | ការវេចខ្ចប់ JAR និងការ Deploy ទៅកាន់ AWS Cloud |
+| **04** | [Microservices Sample Project](07-microservices-with-spring-boot/04-microservices-sample-project/README.md) | ស្ថាបត្យកម្មគម្រោងជាក់ស្តែង៖ Order, Product, និង Payment Services |
+
+---
+
+### 📁 [Module 8: ស្ថាបត្យកម្ម Event-Driven ជាមួយ Apache Kafka (Spring Boot with Kafka)](08-spring-boot-with-kafka/README.md)
+*ស្ថាបត្យកម្ម Asynchronous Event-Driven៖ Kafka Producers, Consumers, JSON/String Messages, Topic Configurations, Elasticsearch & Grafana integration, និង Dynamic Listeners។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Kafka Producer in Spring Boot](08-spring-boot-with-kafka/01-kafka-producer/README.md) | ការបង្កើត Kafka Producer និងការប្រើប្រាស់ KafkaTemplate |
+| **02** | [Kafka Consumer in Spring Boot](08-spring-boot-with-kafka/02-kafka-consumer/README.md) | ការបង្កើត Kafka Consumer ជាមួយ @KafkaListener |
+| **03** | [Publishing JSON Messages to Kafka](08-spring-boot-with-kafka/03-publish-json-messages/README.md) | ការបម្លែង Java Object ទៅជា JSON បញ្ជូនទៅ Kafka |
+| **04** | [Consuming JSON Messages from Kafka](08-spring-boot-with-kafka/04-consume-json-messages/README.md) | ការទទួល និង Deserializing JSON Event មកជា Java DTO |
+| **05** | [Publishing String Messages to Kafka](08-spring-boot-with-kafka/05-publish-string-messages/README.md) | ការផ្ញើសារជា Text/String ធម្មតាទៅកាន់ Topic |
+| **06** | [Consuming String Messages from Kafka](08-spring-boot-with-kafka/06-consume-string-messages/README.md) | ការចាប់យក Text Message ពី Topic តាម Consumer Group |
+| **07** | [Create and Configure Kafka Topics](08-spring-boot-with-kafka/07-create-configure-topics/README.md) | ការបង្កើត និងគ្រប់គ្រង Partitions & Replicas តាម Java Code |
+| **08** | [Kafka, Elasticsearch & Grafana Pipeline](08-spring-boot-with-kafka/08-kafka-elasticsearch-grafana/README.md) | Data Pipeline: ទាញទិន្នន័យពី Kafka រក្សាទុកក្នុង ES និង Plot លើ Grafana |
+| **09** | [Start/Stop Kafka Listener Dynamically](08-spring-boot-with-kafka/09-dynamic-kafka-listener/README.md) | ការគ្រប់គ្រង Lifecycle នៃ Kafka Listener Container ក្នុង Runtime |
+
+---
+
+### 📁 [Module 9: Aspect-Oriented Programming ក្នុង Spring Boot (Spring Boot with AOP)](09-spring-boot-with-aop/README.md)
+*ការគ្រប់គ្រង Cross-Cutting Concerns៖ គោលការណ៍ AOP, Advices ទាំង ៥ (@Before, @After, @Around, @AfterReturning, @AfterThrowing), Pointcuts, AOP vs OOP, និង AOP vs AspectJ។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Introduction to Spring Boot AOP](09-spring-boot-with-aop/01-aop-introduction/README.md) | មូលដ្ឋានគ្រឹះ AOP, Aspect, JoinPoint, Pointcut, និង Advice |
+| **02** | [Spring Boot Advices Overview](09-spring-boot-with-aop/02-aop-advices-overview/README.md) | ការប្រើប្រាស់ Advices ទាំង ៥ ក្នុងគម្រោង AOP ជាក់ស្តែង |
+| **03** | [Spring Boot AOP @Before Advice](09-spring-boot-with-aop/03-before-advice/README.md) | ការដំណើរការកូដមុនពេល Method រត់ (Validation, Logging) |
+| **04** | [Spring Boot AOP @After Advice](09-spring-boot-with-aop/04-after-advice/README.md) | ការដំណើរការកូដក្រោយពេល Method រត់ចប់ (Finally cleanup) |
+| **05** | [Spring Boot AOP @Around Advice](09-spring-boot-with-aop/05-around-advice/README.md) | Advice ខ្លាំងបំផុតសម្រាប់វាស់ស្ទង់ Latency និងកែប្រែ Arguments |
+| **06** | [Spring Boot AOP @AfterThrowing](09-spring-boot-with-aop/06-after-throwing-advice/README.md) | ការចាប់ Exception និងការកត់ត្រា Error Logs ស្វ័យប្រវត្តិ |
+| **07** | [Spring Boot AOP @AfterReturning](09-spring-boot-with-aop/07-after-returning-advice/README.md) | ការចាប់ Return Value របស់ Method ពេលដំណើរការជោគជ័យ |
+| **08** | [Difference between AOP and OOP](09-spring-boot-with-aop/08-aop-vs-oop/README.md) | ការប្រៀបធៀបស្ថាបត្យកម្ម Object-Oriented និង Aspect-Oriented |
+| **09** | [Spring AOP vs AspectJ](09-spring-boot-with-aop/09-aop-vs-aspectj/README.md) | ការប្រៀបធៀប Proxy-based AOP និង Bytecode Weaving របស់ AspectJ |
+
+---
+
+### 📁 [Module 10: ការធ្វើតេស្តកម្មវិធី Spring Boot (Spring Boot Testing)](10-spring-boot-testing/README.md)
+*ធានាគុណភាពកូដកម្រិតវិស្វកម្ម៖ Unit Testing ជាមួយ JUnit 5, Mockito Test Doubles, Integration Testing ជាមួយ MockMVC, និង ZeroCode Testing Framework។*
+
+| # | មេរៀន (Lesson) | ការពិពណ៌នា (Description) |
+| :---: | :--- | :--- |
+| **01** | [Unit Testing with JUnit 5](10-spring-boot-testing/01-unit-testing-junit/README.md) | មូលដ្ឋានគ្រឹះ JUnit 5, Assertions, Test Lifecycle (@BeforeEach, @Test) |
+| **02** | [Testing with Mockito](10-spring-boot-testing/02-testing-with-mockito/README.md) | ការ Mock Dependencies ជាមួយ @Mock, @InjectMocks, when().thenReturn() |
+| **03** | [Integration Testing with MockMVC](10-spring-boot-testing/03-integration-testing-mockmvc/README.md) | ការក្លែងធ្វើជា HTTP Request និងផ្ទៀងផ្ទាត់ JSON Response ជាមួយ MockMvc |
+| **04** | [Using ZeroCode for Testing](10-spring-boot-testing/04-zerocode-testing/README.md) | ការធ្វើតេស្ត REST APIs ដោយប្រើ declarative JSON tests ជាមួយ ZeroCode |
+
+---
+
+## 🧭 ការរុករកវគ្គសិក្សា (Course Navigation)
+
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Vault) | វគ្គបន្ទាប់ (Next Course) |
+| :--- | :---: | :--- |
+| [← Course 03: Spring Framework](../03-spring-framework/README.md) | [🏠 មាតិកាធំ](../README.md) | *បញ្ចប់វគ្គសិក្សា (End of Curriculum)* |
+
+---
+
+## 🔗 ស៊េរីវគ្គសិក្សាពាក់ព័ន្ធ (Sister Repositories)
+- 📘 [មូលដ្ឋានគ្រឹះ Java (Basic Java)](https://github.com/sakousa856-sketch/java-basic-for-developers-khmer)
+- 📗 [Java កម្រិតខ្ពស់ OOP (Advance Java)](https://github.com/sakousa856-sketch/java-advance-for-developers-khmer)
 - 📙 [Spring Framework Core Architecture](https://github.com/sakousa856-sketch/spring-framework-for-developers-khmer)
 - 📕 [Spring Boot Enterprise & Microservices](https://github.com/sakousa856-sketch/spring-boot-for-developers-khmer)
 - 💼 [Java & Spring Interview Handbook](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)

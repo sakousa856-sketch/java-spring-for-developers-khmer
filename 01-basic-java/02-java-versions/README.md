@@ -45,6 +45,7 @@ timeline
 | **២០០០** | **Java 1.3** | **៧៦** | **១,៨៤២** | បង្កើតមុខងារឱ្យ **HotSpot Virtual Machine** |
 | **២០០២** | **Java 1.4** | **១៣៥** | **២,៩៩១** | កែលម្អ **New I/O (NIO)** និងគាំទ្រ **XML Processing** |
 | **២០០៤** | **Java 1.5** | **១៦៥** | **> ៣,០០០** | កែលម្អ **Multithreading**, **Metadata/Annotations**, និង **Generics** |
+
 | **២០០៦** | **Java 1.6** | **២០០** | **> ៣,៧០០** | ពង្រឹង **Web Services**, **Scripting Engine**, និង Performance |
 
 ---

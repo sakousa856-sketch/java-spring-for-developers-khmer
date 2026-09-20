@@ -1,32 +1,30 @@
-# Lesson 9: Spring AOP vs AspectJ
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../08-aop-vs-oop/README.md) | [Next Lesson →](../../10-spring-boot-testing/01-unit-testing-junit/README.md)
+# មេរៀនទី ៩: ការប្រៀបធៀប Spring AOP និង AspectJ (Spring AOP vs AspectJ)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../08-aop-vs-oop/README.md) | [មេរៀនបន្ទាប់ →](../../10-spring-boot-testing/01-unit-testing-junit/README.md)
 
 ---
 
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Proxy-based Interception vs Bytecode Weaving](#mechanisms)
-3. [Comprehensive Comparison Matrix](#comparison-matrix)
-4. [Decision Framework: Which to Use?](#decision-framework)
+## មាតិកា (Table of Contents)
+1. [សេចក្តីផ្តើម](#សេចក្តីផ្តើម)
+2. [យន្តការ Proxy-based vs Bytecode Weaving](#យន្តការ)
+3. [តារាងប្រៀបធៀប Spring AOP vs AspectJ](#តារាងប្រៀបធៀប)
+4. [ពេលណាត្រូវជ្រើសរើសមួយណា?](#ការជ្រើសរើស)
 
 ---
 
-## Comprehensive Comparison Matrix
+## តារាងប្រៀបធៀប Spring AOP vs AspectJ
 
-| Feature | Spring AOP | AspectJ |
+| លក្ខណៈពិសេស | Spring AOP | AspectJ |
 | :--- | :--- | :--- |
-| **Design Goal** | Lightweight AOP coupled with Spring IoC | Comprehensive standalone AOP language |
-| **Implementation** | Dynamic Runtime Proxies (JDK / CGLIB) | Bytecode Weaving (Compile-time, Load-time) |
-| **Join Point Support** | Method Execution only | Field, Constructor, Method, Exception |
-| **Performance** | Modest runtime proxy overhead | High execution speed (Direct bytecode) |
-| **Tooling Burden** | Zero additional compiler requirements | Requires AspectJ compiler (`ajc`) or Java agent |
+| **គោលដៅ** | សាមញ្ញ ងាយស្រួលប្រើជាមួយ Spring IoC | Full-featured AOP Solution |
+| **យន្តការអនុវត្ត** | Dynamic Proxies (JDK Proxy / CGLIB) | Bytecode Weaving (Compile, Post-compile, Load-time) |
+| **Join Points** | គាំទ្រតែ Method Execution ប៉ុណ្ណោះ | គាំទ្រ Method, Field Access, Constructor, Object Creation |
+| **Performance** | យឺតជាង AspectJ បន្តិច (Proxy Overhead) | លឿនបំផុត (Direct Bytecode) |
+| **ភាពស្មុគស្មាញ** | ងាយស្រួល មិនបាច់ compile ពិសេស | ត្រូវមាន AspectJ Compiler (ajc) ឬ Java Agent |
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← AOP vs OOP (Aspect-Oriented vs Object-Oriented Programming)](../08-aop-vs-oop/README.md) | [📚 Module Index](../README.md) | [Unit Testing Spring Boot Applications with JUnit 5 & AssertJ →](../../10-spring-boot-testing/01-unit-testing-junit/README.md) |
+| [← ការប្រៀបធៀប AOP និង OOP (Aspect-Oriented vs Object-Oriented Programming)](../08-aop-vs-oop/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការធ្វើតេស្តកម្មវិធី Spring Boot ជាមួយ JUnit 5 និង AssertJ (Unit Testing) →](../../10-spring-boot-testing/01-unit-testing-junit/README.md) |

@@ -1,31 +1,28 @@
-# Part 7: Types of IoC Containers
+# Part 7: ប្រភេទនៃ IoC Containers (Types of IoC Containers)
+![ប្រភេទនៃ IoC Containers](./assets/what-are-the-types-of-ioc-container-in-spring.jpg "What are the types of IOC container in spring")
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+## មាតិកា (Table of Contents)
 
-![Types of IoC Container](./assets/what-are-the-types-of-ioc-container-in-spring.jpg "What are the types of IOC container in spring")
-
-## Table of Contents
-
-- [1. The Two Primary Spring IoC Containers](#1-the-two-primary-spring-ioc-containers)
-- [2. Understanding BeanFactory](#2-understanding-beanfactory)
-- [3. Understanding ApplicationContext](#3-understanding-applicationcontext)
-- [4. Comparison Table: BeanFactory vs ApplicationContext](#4-comparison-table-beanfactory-vs-applicationcontext)
-- [5. Common ApplicationContext Implementations](#5-common-applicationcontext-implementations)
+- [1. ប្រភេទទាំង ២ នៃ Spring IoC Container](#1-ប្រភេទទាំង-២-នៃ-spring-ioc-container)
+- [2. ស្វែងយល់ពី BeanFactory](#2-ស្វែងយល់ពី-beanfactory)
+- [3. ស្វែងយល់ពី ApplicationContext](#3-ស្វែងយល់ពី-applicationcontext)
+- [4. តារាងប្រៀបធៀប៖ BeanFactory vs ApplicationContext](#4-តារាងប្រៀបធៀប-beanfactory-vs-applicationcontext)
+- [5. Implementations ពេញនិយមនៃ ApplicationContext](#5-implementations-ពេញនិយមនៃ-applicationcontext)
 
 ---
 
-## 1. The Two Primary Spring IoC Containers
+## 1. ប្រភេទទាំង ២ នៃ Spring IoC Container
 
-The Spring Framework provides two core container interfaces:
+នៅក្នុង Spring Framework កុងតឺន័រ **IoC Container** ត្រូវបានបែងចែកជា ២ ប្រភេទធំៗតាមរយៈ Java Interfaces៖
 
-1. **`BeanFactory`** — The lightweight, fundamental container interface.
-2. **`ApplicationContext`** — The advanced enterprise-grade container interface.
+1. **`BeanFactory`** — កុងតឺន័រមូលដ្ឋានកម្រិតស្រាល (Basic Container)
+2. **`ApplicationContext`** — កុងតឺន័រកម្រិតខ្ពស់សម្រាប់ Enterprise (Advanced Container)
 
 ```
         ┌──────────────────┐
         │   BeanFactory    │  (Basic IoC & DI)
         └────────┬─────────┘
-                 │ extends
+                 │ extends (ស្នងមរតក)
                  ▼
         ┌──────────────────┐
         │ApplicationContext│  (AOP, I18n, Events, Web)
@@ -34,47 +31,47 @@ The Spring Framework provides two core container interfaces:
 
 ---
 
-## 2. Understanding BeanFactory
+## 2. ស្វែងយល់ពី BeanFactory
 
-`org.springframework.beans.factory.BeanFactory` is the root interface for accessing the Spring bean registry:
-- Provides basic methods for dependency injection and bean retrieval (`getBean()`).
-- **Lazy Initialization:** Beans are not instantiated on startup; instead, they are created only when explicitly requested via `getBean()`.
-- **Target Use Case:** Highly resource-constrained environments (e.g., embedded devices or legacy mobile applications). Rarely used in modern web engineering.
-
----
-
-## 3. Understanding ApplicationContext
-
-`org.springframework.context.ApplicationContext` inherits from `BeanFactory` and incorporates a full suite of enterprise services:
-- **Eager Pre-instantiation:** Pre-creates all singleton beans at startup, allowing configuration errors to be caught immediately (Fail-Fast behavior).
-- **AOP Integration:** Automatic registration of aspect proxies and interceptors.
-- **Message Resolution (I18n):** Built-in support for internationalization through `MessageSource`.
-- **Event Publication:** Native decoupled application event routing via `ApplicationEventPublisher`.
-- **Environment Abstraction:** Profiles and environment-specific property resolution.
+`org.springframework.beans.factory.BeanFactory` គឺជា Interface មូលដ្ឋានគ្រឹះបំផុតរបស់ Spring Core Container៖
+- ផ្តល់នូវមុខងារចាំបាច់ក្នុងការកំណត់ និងហៅប្រើ Beans (`getBean()`)។
+- **Lazy Loading (ផ្ទុកយឺត):** BeanFactory នឹងមិនបង្កើត Instance របស់ Bean ភ្លាមៗពេល App ចាប់ផ្តើមនោះទេ លុះត្រាតែមានកូដហៅ `getBean()` ទើបវាចាប់ផ្តើមបង្កើត។
+- **សមស្របសម្រាប់:** ឧបករណ៍ដែលមាន Memory កម្រិតទាបបំផុតដូចជា Mobile ឬ Embedded IoT Devices (ប៉ុន្តែបច្ចុប្បន្នកម្រត្រូវបានប្រើណាស់)។
 
 ---
 
-## 4. Comparison Table: BeanFactory vs ApplicationContext
+## 3. ស្វែងយល់ពី ApplicationContext
 
-| Attribute | `BeanFactory` | `ApplicationContext` |
+`org.springframework.context.ApplicationContext` គឺជា Interface កម្រិតខ្ពស់ដែលស្នងមរតកពី `BeanFactory` និងបន្ថែមនូវមុខងារ Enterprise ជាច្រើន៖
+- **Eager Loading (ផ្ទុកជាមុន):** បង្កើត Singleton Beans ទាំងអស់ជាមុនពេល Application កំពុង Start ដែលជួយឱ្យយើងដឹងពីកំហុសភ្លាមៗ (Fail-Fast)។
+- **AOP Integration:** គាំទ្រការតភ្ជាប់ Aspect-Oriented Programming ដោយស្វ័យប្រវត្តិ។
+- **Message Resource (I18n):** គាំទ្រការបង្ហាញអក្សរ និងភាសាផ្សេងៗគ្នា (Internationalization)។
+- **Event Publication:** គាំទ្រប្រព័ន្ធបញ្ជូន Event ផ្ទៃក្នុង (ApplicationEventPublisher)។
+- **Environment & Profiles:** ការគ្រប់គ្រង Config តាម Dev, Staging, Prod។
+
+---
+
+## 4. តារាងប្រៀបធៀប៖ BeanFactory vs ApplicationContext
+
+| លក្ខណៈសម្បត្តិ | `BeanFactory` | `ApplicationContext` |
 | :--- | :--- | :--- |
-| **Bean Instantiation** | **Lazy** (on demand) | **Eager** (at application startup) |
-| **Enterprise Services** | Basic | Complete (AOP, I18n, Transactions) |
-| **Event Routing** | Not supported | Fully supported (`ApplicationEvent`) |
-| **Industry Adoption** | Rarely used directly | **Standard choice (100% in Spring Boot)** |
+| **យុទ្ធសាស្ត្របង្កើត Bean** | **Lazy** (បង្កើតពេលហៅប្រើ) | **Eager** (បង្កើតទុកជាមុនពេល Startup) |
+| **Enterprise Services** | មានតែកម្រិតមូលដ្ឋាន | ពេញលេញ (AOP, I18n, Validation) |
+| **Event Handling** | មិនគាំទ្រ | គាំទ្រយ៉ាងពេញលេញ (`ApplicationEvent`) |
+| **ការប្រើប្រាស់បច្ចុប្បន្ន** | កម្រប្រើណាស់ | **ជាជម្រើសស្តង់ដារ ១០០% ក្នុង Spring & Spring Boot** |
 
 ---
 
-## 5. Common ApplicationContext Implementations
+## 5. Implementations ពេញនិយមនៃ ApplicationContext
 
-1. **`AnnotationConfigApplicationContext`:** Loads standalone configurations directly from classes annotated with `@Configuration`.
-2. **`ClassPathXmlApplicationContext`:** Resolves XML configuration files located on the application classpath.
-3. **`AnnotationConfigServletWebServerApplicationContext`:** The default web application container created automatically by **Spring Boot**.
+1. **`AnnotationConfigApplicationContext`:** ប្រើសម្រាប់ Standalone Java App ដោយអាន `@Configuration` classes។
+2. **`ClassPathXmlApplicationContext`:** ប្រើសម្រាប់អានឯកសារ XML Configuration ពី Classpath។
+3. **`AnnotationConfigServletWebServerApplicationContext`:** ជា Container លំនាំដើមដែល **Spring Boot Web** ប្រើប្រាស់ដោយស្វ័យប្រវត្តិ។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 6: What Is IoC?](../06-what-is-ioc/README.md) | [📚 Spring Framework Index](../README.md) | [Part 8: Spring Configuration File →](../08-spring-configuration-file/README.md) |
+| [← Part 6: តើ Inversion of Control (IoC) ជាអ្វី?](../06-what-is-ioc/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 8: ឯកសារ Spring Configuration →](../08-spring-configuration-file/README.md) |

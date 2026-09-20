@@ -1,82 +1,81 @@
-# Part 13: Singleton Scope Deep Dive
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
-
+# Part 13: ការយល់ដឹងស៊ីជម្រៅអំពី Singleton Scope (Singleton Scope Deep Dive)
 ![Singleton Scope of a Spring Bean](./assets/what-is-a-singleton-scope-of-a-spring-bean.jpg "What Is a Singleton Scope of a Spring Bean")
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Mechanics of the Singleton Scope](#1-mechanics-of-the-singleton-scope)
-- [2. Spring Singleton vs. Gang of Four (GoF) Singleton Pattern](#2-spring-singleton-vs-gang-of-four-gof-singleton-pattern)
-- [3. Verifying Bean Identity in Code](#3-verifying-bean-identity-in-code)
-- [4. Internal Registry: The Singleton Cache](#4-internal-registry-the-singleton-cache)
+- [1. យន្តការដំណើរការនៃ Singleton Scope](#1-យន្តការដំណើរការនៃ-singleton-scope)
+- [2. Spring Singleton ខុសគ្នាដូចម្តេចពី GoF Singleton Pattern?](#2-spring-singleton-ខុសគ្នាដូចម្តេចពី-gof-singleton-pattern)
+- [3. ការផ្ទៀងផ្ទាត់ Bean Identity ក្នុងកូដជាក់ស្តែង](#3-ការផ្ទៀងផ្ទាត់-bean-identity-ក្នុងកូដជាក់ស្តែង)
+- [4. យន្តការផ្ទុក Bean ក្នុង Spring Container (Singleton Cache)](#4-យន្តការផ្ទុក-bean-ក្នុង-spring-container-singleton-cache)
 
 ---
 
-## 1. Mechanics of the Singleton Scope
+## 1. យន្តការដំណើរការនៃ Singleton Scope
 
-When a bean is configured with **`singleton` scope** in the Spring Framework:
-> **The Spring IoC Container instantiates exactly one instance per bean definition and caches it internally.**
+នៅពេលដែលយើងកំណត់ Bean មួយជា **Singleton Scope** នៅក្នុង Spring Framework៖
+> **Spring IoC Container នឹងបង្កើត Instance តែមួយគត់ (Exactly One Instance) សម្រាប់ Bean Definition នោះ រួចរក្សាទុកក្នុង Cache របស់កុងតឺន័រ។**
 
-Every subsequent injection or `context.getBean()` request returns a direct reference to that exact same cached instance in memory.
+រាល់ពេលដែលមាន Class ផ្សេងទៀតចង់ហៅប្រើ (Inject) ឬពេលដែលយើងហៅ `context.getBean()` នោះ Spring នឹងប្រគល់នូវ Reference នៃ Object ដដែលៗដែលបានរក្សាទុកក្នុង Cache នោះមកវិញជានិច្ច។
 
 ```mermaid
 flowchart TD
     Client1["Controller A"] -->|Inject| Container["Spring IoC Singleton Cache"]
     Client2["Controller B"] -->|Inject| Container
     Client3["Service C"] -->|Inject| Container
-    Container -->|Returns same reference| Instance["UserService Instance (Memory ID: #101)"]
+    Container -->|ផ្តល់ជូន Instance តែមួយគត់| Instance["UserService Instance (ID: #101)"]
+
 ```
 
 ---
 
-## 2. Spring Singleton vs. Gang of Four (GoF) Singleton Pattern
+## 2. Spring Singleton ខុសគ្នាដូចម្តេចពី GoF Singleton Pattern?
 
-A classic software engineering interview question:
+នេះជាចំណោទសួរញឹកញាប់បំផុតក្នុងបទសម្ភាសន៍ការងារ (Interview Question)៖
 
-| Dimension | Classic GoF Singleton Pattern | Spring Singleton Scope |
+| ចំណុចប្រៀបធៀប | GoF Singleton Pattern (Classic Java) | Spring Singleton Scope |
 | :--- | :--- | :--- |
-| **Scope Boundary** | **One instance per ClassLoader** | **One instance per Spring Container (`ApplicationContext`)** |
-| **Instantiation Hook** | `private` constructor + `static getInstance()` | Standard `public` constructor (Container instantiates) |
-| **Testability** | Hard to mock due to tight static coupling | **Effortless to mock** in standard unit tests |
-| **Flexibility** | Rigidly fixed across the entire JVM | Easily configurable to `prototype` via `@Scope` |
+| **វិសាលភាព (Scope)** | **១ Instance ក្នុង ១ Java ClassLoader** | **១ Instance ក្នុង ១ Spring Container (`ApplicationContext`)** |
+| **យន្តការបង្កើត** | Constructor ត្រូវបានដាក់ជា `private` និងមាន `static getInstance()` | Constructor នៅតែជា `public` (Spring ជាអ្នកបង្កើត) |
+| **ភាពងាយស្រួលតេស្ត** | ពិបាក Mock ខ្លាំង (ដោយសារ hardcoded static) | **ងាយស្រួល Mock ១០០%** សម្រាប់ Unit Testing |
+| **ភាពបត់បែន** | រឹងរូស ពិបាកផ្លាស់ប្តូរ | អាចផ្លាស់ប្តូរទៅជា Prototype ដោយគ្រាន់តែកែ `@Scope` |
 
 ---
 
-## 3. Verifying Bean Identity in Code
+## 3. ការផ្ទៀងផ្ទាត់ Bean Identity ក្នុងកូដជាក់ស្តែង
 
-You can verify that multiple lookups point to the exact same object reference using the `==` operator:
+យើងអាចធ្វើតេស្តផ្ទៀងផ្ទាត់ថា Instance ទាំងពីរគឺដូចគ្នាដោយប្រើសញ្ញា `==` (Reference Equality)៖
 
 ```java
 ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-// Retrieve the bean twice
+// ទាញយក Bean ពីរដងផ្សេងគ្នា
 UserService service1 = context.getBean(UserService.class);
 UserService service2 = context.getBean(UserService.class);
 
-// Returns true because both variables reference the identical heap object
+// លទ្ធផលចេញ true ពីព្រោះវាជា Object តែមួយក្នុង Memory
 System.out.println(service1 == service2); // Output: true
 ```
 
 ---
 
-## 4. Internal Registry: The Singleton Cache
+## 4. យន្តការផ្ទុក Bean ក្នុង Spring Container (Singleton Cache)
 
-Internally, the container (via `DefaultSingletonBeanRegistry`) stores singleton instances in a thread-safe map:
+នៅពីក្រោយខ្នង Spring IoC Container (ជាពិសេស `DefaultSingletonBeanRegistry`) រក្សាទុក Singleton Beans ទាំងអស់នៅក្នុង Concurrent Map មួយឈ្មោះថា៖
 
 ```java
 private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
+
 ```
 
-When a bean is requested:
-1. The container queries `singletonObjects` by the bean name.
-2. If present, it immediately returns the cached instance.
-3. If absent, it constructs the bean, executes lifecycle callbacks, places it in the cache, and returns it.
+នៅពេលមានការស្នើសុំ Bean៖
+1. Container នឹងស្វែងរកឈ្មោះ Bean ក្នុង `singletonObjects` Map ជាមុនសិន។
+2. បើមានរួចហើយ វានឹង Return Instance នោះមកភ្លាម។
+3. បើមិនទាន់មាន វានឹងបង្កើតថ្មី រក្សាទុកក្នុង Map រួចទើប Return មកវិញ។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 12: Default Bean Scope in Spring](../12-default-bean-scope/README.md) | [📚 Spring Framework Index](../README.md) | [Part 14: What Is Dependency Injection? →](../14-what-is-dependency-injection/README.md) |
+| [← Part 12: Default Bean Scope ក្នុង Spring Framework](../12-default-bean-scope/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 14: តើ Dependency Injection (DI) ជាអ្វី? →](../14-what-is-dependency-injection/README.md) |

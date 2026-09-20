@@ -1,72 +1,71 @@
-# Part 12: Default Bean Scope in Spring
+# Part 12: Default Bean Scope ក្នុង Spring Framework (Default Bean Scope in Spring)
+![Default Bean Scope ក្នុង Spring](./assets/what-is-the-default-bean-scope-in-spring-framework.jpg "What Is the Default Bean Scope in Spring Framework")
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+## មាតិកា (Table of Contents)
 
-![Default Bean Scope in Spring](./assets/what-is-the-default-bean-scope-in-spring-framework.jpg "What Is the Default Bean Scope in Spring Framework")
-
-## Table of Contents
-
-- [1. The Default Bean Scope Value](#1-the-default-bean-scope-value)
-- [2. Why Spring Selects Singleton by Default](#2-why-spring-selects-singleton-by-default)
-- [3. Code Comparison](#3-code-comparison)
-- [4. Crucial Consideration: Thread Safety](#4-crucial-consideration-thread-safety)
+- [1. តម្លៃលំនាំដើមនៃ Bean Scope](#1-តម្លៃលំនាំដើមនៃ-bean-scope)
+- [2. ហេតុអ្វីបានជា Spring ជ្រើសរើស Singleton ជា Default?](#2-ហេតុអ្វីបានជា-spring-ជ្រើសរើស-singleton-ជា-default)
+- [3. ការអនុវត្តក្នុងកូដជាក់ស្តែង](#3-ការអនុវត្តក្នុងកូដជាក់ស្តែង)
+- [4. បម្រុងប្រយ័ត្ន៖ Thread Safety លើ Singleton Bean](#4-បម្រុងប្រយ័ត្ន-thread-safety-លើ-singleton-bean)
 
 ---
 
-## 1. The Default Bean Scope Value
+## 1. តម្លៃលំនាំដើមនៃ Bean Scope
 
-In the **Spring Framework**, if you omit the `@Scope` annotation on a bean definition:
-> **The default scope assigned to any Spring Bean is `singleton`.**
+នៅក្នុង **Spring Framework** ប្រសិនបើអ្នកមិនបានបញ្ជាក់ `@Scope` ច្បាស់លាស់ទេនោះ៖
+> **តម្លៃលំនាំដើម (Default Bean Scope) របស់ Spring Bean គឺ `singleton`។**
 
-This means that for any `@Component`, `@Service`, `@Repository`, or `@Bean`, the Spring IoC Container creates and maintains exactly **one shared instance per container definition**. Every injection or lookup returns a reference to that single cached instance.
-
----
-
-## 2. Why Spring Selects Singleton by Default
-
-Spring defaults to `singleton` for three foundational engineering reasons:
-
-1. **Extreme Memory Efficiency:**
-   - In a high-traffic web application processing thousands of concurrent HTTP requests, creating new service and repository instances per request would rapidly degrade memory and trigger severe Garbage Collection pauses.
-2. **Superior Performance:**
-   - Singleton beans are eagerly created during container bootstrap. Runtime requests execute immediately without incurring allocation overhead.
-3. **Stateless Service Model:**
-   - Enterprise backend services, DAOs, and controllers are overwhelmingly **stateless**; therefore, sharing a single instance across worker threads is optimal.
+នេះមានន័យថា រាល់ `@Component`, `@Service`, `@Repository`, ឬ `@Bean` ទាំងអស់ដែលអ្នកបង្កើតឡើង នឹងត្រូវបាន Spring បង្កើតជា **Instance តែមួយគត់ (Single Shared Instance)** សម្រាប់ចែករំលែកប្រើប្រាស់រួមគ្នានៅទូទាំង Spring IoC Container ទាំងមូល។
 
 ---
 
-## 3. Code Comparison
+## 2. ហេតុអ្វីបានជា Spring ជ្រើសរើស Singleton ជា Default?
 
-Both snippets below are functionally identical:
+Spring ជ្រើសរើសយក `singleton` ជា Default ដោយសារមូលហេតុសំខាន់ៗ ៣៖
+
+1. **Memory Efficiency (សន្សំសំចៃ Memory ខ្ពស់):**
+   - ក្នុង Web Application ដែលមានរាប់ពាន់ Requests ក្នុងមួយវិនាទី ប្រសិនបើរាល់ Request ត្រូវបង្កើត Service និង Repository ថ្មី នោះ Heap Memory នឹងត្រូវពេញភ្លាមៗ ហើយ Garbage Collector នឹងធ្វើការធ្ងន់ធ្ងរ។ ការប្រើ Instance តែមួយជួយសន្សំសំចៃ RAM បានច្រើនបំផុត។
+
+2. **High Performance (ល្បឿនប្រតិបត្តិការលឿន):**
+   - Bean ត្រូវបានបង្កើតទុកជាមុន (Pre-instantiated) ក្នុងអំឡុងពេល Startup ដូច្នេះនៅពេលមាន Client ហៅប្រើ ប្រព័ន្ធមិនចាំបាច់ចំណាយពេល Instantiate Object ថ្មីឡើយ។
+
+3. **Stateless Service Architecture:**
+   - ភាគច្រើននៃ Services, Repositories, និង Controllers ក្នុង Enterprise Apps គឺជា **Stateless** (គ្មានផ្ទុក State ឬទិន្នន័យអថេររបស់ User ម្នាក់ៗក្នុង Instance Variables ឡើយ) ដូច្នេះការចែករំលែក Instance តែមួយមានសុវត្ថិភាពឥតខ្ចោះ។
+
+---
+
+## 3. ការអនុវត្តក្នុងកូដជាក់ស្តែង
+
+កូដទាំងពីរខាងក្រោមនេះមានប្រសិទ្ធភាពដូចគ្នាបេះបិទ ១០០%៖
 
 ```java
-// Option 1: Implicit default (Clean, standard Spring Boot convention)
+// វិធីទី ១៖ មិនដាក់ @Scope (Spring នឹងចាត់ទុកជា Singleton ដោយស្វ័យប្រវត្តិ)
 @Service
 public class PaymentService {
-    // Automatically registered as a singleton bean
+    // Singleton Bean
 }
 
-// Option 2: Explicit declaration
+// វិធីទី ២៖ ដាក់ @Scope("singleton") ដោយច្បាស់លាស់ (Explicit)
 @Service
 @Scope("singleton")
 public class PaymentService {
-    // Explicitly registered as a singleton bean
+    // Singleton Bean ដូចគ្នា
 }
 ```
 
 ---
 
-## 4. Crucial Consideration: Thread Safety
+## 4. បម្រុងប្រយ័ត្ន៖ Thread Safety លើ Singleton Bean
 
-> ⚠️ **Critical Developer Warning:**
-> Because a singleton bean is shared concurrently across multiple HTTP request threads (e.g., Tomcat worker threads):
-> - **Never maintain mutable state or user-specific data in instance variables of a singleton bean!**
-> - Singleton beans must always remain **stateless**—confining dynamic data strictly to method arguments or local method variables.
+> ⚠️ **ការព្រមានសំខាន់សម្រាប់ Developer:**
+> ដោយសារ Singleton Bean ត្រូវបានចែករំលែកប្រើប្រាស់ដោយ Threads ច្រើនក្នុងពេលតែមួយ (Multithreaded Environment ដូចជា Tomcat)៖
+> - **ដាច់ខាតកុំរក្សាទុកទិន្នន័យ User (User State) ក្នុង Instance Variable របស់ Singleton Bean ឡើយ!**
+> - Singleton Beans គួរតែជា **Stateless** ជានិច្ច (ប្រើប្រាស់តែ Method Arguments ឬ Local Variables ក្នុង Method)។
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 11: Defining Bean Scopes](../11-how-to-define-bean-scope/README.md) | [📚 Spring Framework Index](../README.md) | [Part 13: Singleton Scope Deep Dive →](../13-singleton-scope/README.md) |
+| [← Part 11: របៀបកំណត់វិសាលភាព Bean Scope](../11-how-to-define-bean-scope/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 13: ការយល់ដឹងស៊ីជម្រៅអំពី Singleton Scope →](../13-singleton-scope/README.md) |

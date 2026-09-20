@@ -1,32 +1,29 @@
-# Lesson 6: 06-custom-bean-scope
+# មេរៀនទី ៦: 06-custom-bean-scope
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../05-singleton-and-prototype-scopes/README.md) | [មេរៀនបន្ទាប់ →](../07-create-spring-bean-3-ways/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../05-singleton-and-prototype-scopes/README.md) | [Next Lesson →](../07-create-spring-bean-3-ways/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Motivations for Custom Scopes](#1-motivations-for-custom-scopes)
-- [2. Implementing `org.springframework.beans.factory.config.Scope`](#2-implementing-scope)
-- [3. Registering the Custom Scope in ApplicationContext](#3-registering-the-custom-scope-in-applicationcontext)
-- [4. Summary](#4-summary)
+- [1. ហេតុអ្វីបានជាត្រូវមាន Custom Scope?](#1-ហេតុអ្វីបានជាត្រូវមាន-custom-scope)
+- [2. ការ Implement Interface `org.springframework.beans.factory.config.Scope`](#2-ការ-implement-interface-scope)
+- [3. ការចុះឈ្មោះ Custom Scope ក្នុង Container](#3-ការចុះឈ្មោះ-custom-scope-ក្នុង-container)
+- [4. សង្ខេប](#4-សង្ខេប)
 
 ---
 
-## 1. Motivations for Custom Scopes
+## 1. ហេតុអ្វីបានជាត្រូវមាន Custom Scope?
 
-Beyond Singleton, Prototype, and Web Scopes (`request`, `session`), enterprise architectures occasionally mandate custom lifecycle boundaries, such as **TenantScope** for multi-tenant SaaS applications.
+ក្រៅពី Singleton និង Prototype (ព្រមទាំង Web Scopes ដូចជា Request, Session, Application) ពេលខ្លះអាជីវកម្មត្រូវការ Scope ផ្ទាល់ខ្លួន ដូចជា **TenantScope** (Instance មួយសម្រាប់ក្រុមហ៊ុន/Tenant នីមួយៗក្នុងប្រព័ន្ធ Multi-Tenant SAAS)។
 
 ---
 
-## 2. Implementing `Scope`
-
-Implement the foundational Spring `Scope` interface:
+## 2. ការ Implement Interface `Scope`
 
 ```java
 package com.example.demo.scope;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,7 +56,7 @@ public class SimpleThreadScope implements Scope {
 
 ---
 
-## 3. Registering the Custom Scope in ApplicationContext
+## 3. ការចុះឈ្មោះ Custom Scope ក្នុង Container
 
 ```java
 @Configuration
@@ -76,15 +73,15 @@ public class CustomScopeConfig {
 
 ---
 
-## 4. Summary
+## 4. សង្ខេប
 
-- Implement Spring's `Scope` interface and register it via `CustomScopeConfigurer` to instantiate custom lifecycle strategies.
+- Spring អនុញ្ញាតឱ្យយើងបង្កើត Custom Scope បានដោយគ្រាន់តែ Implement `org.springframework.beans.factory.config.Scope`។
 
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← ](../05-singleton-and-prototype-scopes/README.md) | [📚 Module Index](../README.md) | [ →](../07-create-spring-bean-3-ways/README.md) |
+| [← ](../05-singleton-and-prototype-scopes/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ →](../07-create-spring-bean-3-ways/README.md) |

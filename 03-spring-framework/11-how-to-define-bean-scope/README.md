@@ -1,42 +1,39 @@
-# Part 11: Defining Bean Scopes
+# Part 11: របៀបកំណត់វិសាលភាព Bean Scope (Defining Bean Scopes)
+![របៀបកំណត់ Bean Scope](./assets/how-to-define-the-scope-of-a-bean.jpg "How to Define the Scope of a Bean")
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+## មាតិកា (Table of Contents)
 
-![How to Define Bean Scope](./assets/how-to-define-the-scope-of-a-bean.jpg "How to Define the Scope of a Bean")
-
-## Table of Contents
-
-- [1. What Is a Bean Scope?](#1-what-is-a-bean-scope)
-- [2. How to Declare Bean Scopes in Code](#2-how-to-declare-bean-scopes-in-code)
-- [3. The 6 Available Spring Bean Scopes](#3-the-6-available-spring-bean-scopes)
-- [4. Scope Overview Table](#4-scope-overview-table)
+- [1. តើ Bean Scope ជាអ្វី?](#1-តើ-bean-scope-ជាអ្វី)
+- [2. របៀបកំណត់ Scope ក្នុងកូដជាក់ស្តែង](#2-របៀបកំណត់-scope-ក្នុងកូដជាក់ស្តែង)
+- [3. ប្រភេទ Scopes ទាំង ៦ ក្នុង Spring Framework](#3-ប្រភេទ-scopes-ទាំង-៦-ក្នុង-spring-framework)
+- [4. តារាងសង្ខេបវិសាលភាព (Scope Overview Table)](#4-តារាងសង្ខេបវិសាលភាព-scope-overview-table)
 
 ---
 
-## 1. What Is a Bean Scope?
+## 1. តើ Bean Scope ជាអ្វី?
 
-A **Bean Scope** defines the lifecycle, visibility, and instance creation strategy of a bean within the Spring IoC Container:
-- Does the container maintain a single shared instance throughout the application runtime?
-- Or should a fresh instance be produced every time a collaborator requests it?
-- Or should instances be tied to incoming web requests or user sessions?
+**Bean Scope** គឺជាវិសាលភាព និងអាយុកាល (Lifecycle / Visibility) របស់ Instance មួយនៅក្នុង Spring IoC Container។ វាជាអ្នកកំណត់ថា៖
+- តើ Spring ត្រូវបង្កើត Instance តែមួយគត់សម្រាប់ប្រើរួមគ្នាពេញទាំង Application ឬទេ?
+- ឬមួយក៏ត្រូវបង្កើត Instance ថ្មីរៀងរាល់ពេលដែលមានការហៅប្រើប្រាស់?
+- ឬមួយក៏បង្កើត Instance ថ្មីសម្រាប់រាល់ HTTP Request នីមួយៗ?
 
 ---
 
-## 2. How to Declare Bean Scopes in Code
+## 2. របៀបកំណត់ Scope ក្នុងកូដជាក់ស្តែង
 
-You have two primary ways to declare bean scopes:
+ដើម្បីកំណត់ Bean Scope យើងមាន ២ ជម្រើសចម្បង៖
 
-### Option 1: `@Scope` Annotation (Java / Spring Boot)
+### ជម្រើសទី ១៖ ប្រើ `@Scope` Annotation (Java / Spring Boot)
 
 ```java
-// On a component class
+// វិធីទី ១: កំណត់លើ Class ផ្ទាល់
 @Component
 @Scope("prototype")
 public class ReportGenerator {
-    // A fresh instance created on each request
+    // នឹងបង្កើត Instance ថ្មីរាល់ពេលហៅ
 }
 
-// On a @Bean method inside a @Configuration class
+// វិធីទី ២: កំណត់លើ @Bean Method ក្នុង @Configuration
 @Configuration
 public class AppConfig {
 
@@ -48,7 +45,7 @@ public class AppConfig {
 }
 ```
 
-### Option 2: XML `scope` Attribute
+### ជម្រើសទី ២៖ ប្រើ attribute `scope` ក្នុង XML
 
 ```xml
 <bean id="reportGenerator" class="com.example.ReportGenerator" scope="prototype"/>
@@ -56,33 +53,33 @@ public class AppConfig {
 
 ---
 
-## 3. The 6 Available Spring Bean Scopes
+## 3. ប្រភេទ Scopes ទាំង ៦ ក្នុង Spring Framework
 
-Spring provides 6 out-of-the-box scopes (2 universal scopes and 4 web-aware scopes):
+Spring ផ្តល់នូវ Scopes ចំនួន ៦ (២ Scopes ទូទៅ និង ៤ Scopes សម្រាប់ Web Applications)៖
 
-1. **`singleton` (Default):** Scopes a single bean definition to a single object instance per Spring IoC Container.
-2. **`prototype`:** Scopes a single bean definition to any number of object instances (new instance on every injection or `getBean()` invocation).
-3. **`request` (Web Only):** Scopes a single bean definition to the lifecycle of a single **HTTP request**.
-4. **`session` (Web Only):** Scopes a single bean definition to the lifecycle of an **HTTP session**.
-5. **`application` (Web Only):** Scopes a single bean definition to the lifecycle of a **`ServletContext`**.
-6. **`websocket` (Web Only):** Scopes a single bean definition to the lifecycle of a **WebSocket session**.
+1. **`singleton` (Default):** បង្កើត Instance តែមួយគត់ក្នុង Spring IoC Container។
+2. **`prototype`:** បង្កើត Instance ថ្មីស្រឡាងរាល់ពេលមានការស្នើសុំ (`getBean()`) ឬ Injection។
+3. **`request` (Web Only):** បង្កើត Instance ថ្មីមួយសម្រាប់រាល់ **HTTP Request** នីមួយៗ ហើយបំផ្លាញចោលពេល Request បញ្ចប់។
+4. **`session` (Web Only):** បង្កើត Instance មួយសម្រាប់រាល់ **HTTP Session** របស់អ្នកប្រើប្រាស់ (User Session)។
+5. **`application` (Web Only):** បង្កើត Instance មួយសម្រាប់រាល់ **`ServletContext`** ទាំងមូលនៃ Web App។
+6. **`websocket` (Web Only):** បង្កើត Instance មួយសម្រាប់វដ្តជីវិតនៃ **WebSocket Session** មួយ។
 
 ---
 
-## 4. Scope Overview Table
+## 4. តារាងសង្ខេបវិសាលភាព (Scope Overview Table)
 
-| Scope | Supported Context | Creation Strategy |
+| Scope | បរិស្ថាន (Environment) | ចំនួន Instance ដែលបង្កើត |
 | :--- | :--- | :--- |
-| **`singleton`** | Universal | **Exactly 1 shared instance** per container (Default) |
-| **`prototype`** | Universal | **Multiple** (new instance per lookup/injection) |
-| **`request`** | Web-aware | 1 per incoming **HTTP Request** |
-| **`session`** | Web-aware | 1 per active **HTTP Session** |
-| **`application`** | Web-aware | 1 per **ServletContext** |
+| **`singleton`** | គ្រប់ទីកន្លែង (Standalone/Web) | **តែ ១ គត់** ពេញ Container (Default) |
+| **`prototype`** | គ្រប់ទីកន្លែង (Standalone/Web) | **ច្រើន** (Instance ថ្មីរាល់ពេលហៅ) |
+| **`request`** | Spring Web MVC | ១ សម្រាប់រាល់ **HTTP Request** |
+| **`session`** | Spring Web MVC | ១ សម្រាប់រាល់ **HTTP Session** |
+| **`application`** | Spring Web MVC | ១ សម្រាប់រាល់ **ServletContext** |
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 10: What Is a Spring Bean?](../10-what-is-a-spring-bean/README.md) | [📚 Spring Framework Index](../README.md) | [Part 12: Default Bean Scope in Spring →](../12-default-bean-scope/README.md) |
+| [← Part 10: តើ Spring Bean ជាអ្វី?](../10-what-is-a-spring-bean/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 12: Default Bean Scope ក្នុង Spring Framework →](../12-default-bean-scope/README.md) |

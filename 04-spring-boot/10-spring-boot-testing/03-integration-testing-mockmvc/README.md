@@ -1,21 +1,19 @@
-# Lesson 3: REST Controller Integration Testing with MockMvc
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../02-testing-with-mockito/README.md) | [Next Lesson →](../04-zerocode-testing/README.md)
+# មេរៀនទី ៣: ការធ្វើ Integration Testing លើ REST Controller ជាមួយ MockMvc (Integration Testing with MockMvc)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../02-testing-with-mockito/README.md) | [មេរៀនបន្ទាប់ →](../04-zerocode-testing/README.md)
 
 ---
 
-## Table of Contents
-1. [What is MockMvc?](#what-is-mockmvc)
-2. [@WebMvcTest vs @SpringBootTest](#slicing-vs-full)
-3. [Building MockMvc Invocations (perform, get, post)](#building-requests)
-4. [Validating Assertions with jsonPath and status](#validating-assertions)
-5. [Complete REST Controller Test Suite](#complete-test-suite)
+## មាតិកា (Table of Contents)
+1. [តើអ្វីទៅជា MockMvc?](#តើអ្វីទៅជា-mockmvc)
+2. [@WebMvcTest vs @SpringBootTest](#webmvctest-vs-springboottest)
+3. [ការបង្កើត MockMvc Requests (perform, get, post)](#ការបង្កើត-mockmvc-requests)
+4. [ការផ្ទៀងផ្ទាត់ Response (status, jsonPath, content)](#ការផ្ទៀងផ្ទាត់-response)
+5. [ឧទាហរណ៍ពេញលេញលើ REST Controller](#ឧទាហរណ៍ពេញលេញ)
 
 ---
 
-## What is MockMvc?
-**MockMvc** provides end-to-end testing for Spring MVC controllers without firing up an actual HTTP server. By simulating the full `DispatcherServlet` pipeline, you verify route mapping, payload serialization, bean validation, and security constraints with sub-second execution speeds.
+## តើអ្វីទៅជា MockMvc?
+**MockMvc** គឺជាឧបករណ៍ដ៏មានឥទ្ធិពលក្នុង Spring Test Framework ដែលអនុវត្តការធ្វើតេស្ត HTTP Endpoints ដោយមិនចាំបាច់បើកដំណើរការ Embedded Servlet Container (Tomcat) ពិតប្រាកដឡើយ។ វាដំណើរការលឿនបំផុត និងអាចធ្វើតេស្ត Routing, Validation, Serialization, និង Exception Handling គ្រប់ជ្រុងជ្រោយ។
 
 ```mermaid
 graph LR
@@ -23,11 +21,12 @@ graph LR
     MockMvc --> Dispatcher["DispatcherServlet"]
     Dispatcher --> Controller["BookController (@RestController)"]
     Controller -.->|Mocked via @MockBean| Service["BookService"]
+
 ```
 
 ---
 
-## Complete @WebMvcTest Example
+## ឧទាហរណ៍ពេញលេញជាមួយ @WebMvcTest
 
 ```java
 package com.example.controller;
@@ -64,7 +63,7 @@ class BookControllerTest {
     private BookService bookService;
 
     @Test
-    @DisplayName("GET /api/v1/books should return HTTP 200 and JSON Array")
+    @DisplayName("GET /api/v1/books គួរតែ return HTTP 200 និង JSON Array")
     void shouldReturnAllBooks() throws Exception {
         BookResponse book1 = new BookResponse(1L, "Spring Boot", "Craig", "123", BigDecimal.valueOf(29.99));
         when(bookService.getAllBooks()).thenReturn(List.of(book1));
@@ -79,7 +78,7 @@ class BookControllerTest {
     }
 
     @Test
-    @DisplayName("POST /api/v1/books should return HTTP 201 Created on valid input")
+    @DisplayName("POST /api/v1/books គួរតែ return HTTP 201 Created ពេលទិន្នន័យត្រឹមត្រូវ")
     void shouldCreateBook() throws Exception {
         CreateBookRequest request = new CreateBookRequest("Clean Code", "Robert", "456", BigDecimal.valueOf(35.00));
         BookResponse created = new BookResponse(2L, "Clean Code", "Robert", "456", BigDecimal.valueOf(35.00));
@@ -98,8 +97,8 @@ class BookControllerTest {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Unit Testing with Mockito](../02-testing-with-mockito/README.md) | [📚 Module Index](../README.md) | [Declarative API Testing with ZeroCode →](../04-zerocode-testing/README.md) |
+| [← ការធ្វើ Unit Testing ជាមួយ Mockito (Unit Testing with Mockito)](../02-testing-with-mockito/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការធ្វើ Declarative API Testing ជាមួយ ZeroCode (ZeroCode Testing Framework) →](../04-zerocode-testing/README.md) |

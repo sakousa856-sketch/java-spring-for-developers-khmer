@@ -1,144 +1,148 @@
-# Part 18: Spring Bean Lifecycle & BeanPostProcessor Deep Dive
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+# Part 18: វដ្តជីវិតលម្អិតរបស់ Spring Bean និង BeanPostProcessor (Bean Lifecycle & BeanPostProcessor)
 > 
-> 📖 **Official Spring Documentation:** [Customizing the Nature of a Bean](https://docs.spring.io/spring-framework/reference/core/beans/factory-nature.html) | [Customizing Beans Using a BeanPostProcessor](https://docs.spring.io/spring-framework/reference/core/beans/factory-extension.html#beans-factory-extension-bpp)
+> 📖 **ឯកសារយោងផ្លូវការ Spring Docs:** [Customizing the Nature of a Bean](https://docs.spring.io/spring-framework/reference/core/beans/factory-nature.html) | [Customizing Beans Using a BeanPostProcessor](https://docs.spring.io/spring-framework/reference/core/beans/factory-extension.html#beans-factory-extension-bpp)
 
-![Spring Bean Lifecycle](./assets/bean-lifecycle-postprocessor.svg "Spring Bean Lifecycle & BeanPostProcessor Stages")
+![វដ្តជីវិតរបស់ Spring Bean](./assets/bean-lifecycle-postprocessor.svg "Spring Bean Lifecycle & BeanPostProcessor Stages")
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. The 11 Lifecycle Phases of a Spring Bean](#1-the-11-lifecycle-phases-of-a-spring-bean)
-- [2. Infrastructure Awareness with Aware Interfaces](#2-infrastructure-awareness-with-aware-interfaces)
-- [3. BeanPostProcessor — The Engine of AOP & Proxies](#3-beanpostprocessor--the-engine-of-aop--proxies)
-- [4. The 3 Mechanisms for Lifecycle Callbacks](#4-the-3-mechanisms-for-lifecycle-callbacks)
-- [5. BeanFactoryPostProcessor vs BeanPostProcessor](#5-beanfactorypostprocessor-vs-beanpostprocessor)
-- [6. Practical Code Challenge](#6-practical-code-challenge)
-- [🔗 Official Spring Documentation](#-official-spring-documentation)
+- [1. ដំណាក់កាលទាំង ១១ នៃវដ្តជីវិត Spring Bean](#1-ដំណាក់កាលទាំង-១១-នៃវដ្តជីវិត-spring-bean)
+- [2. Aware Interfaces](#2-aware-interfaces)
+- [3. យន្តការ BeanPostProcessor — បេះដូងនៃ AOP និង Proxies](#3-យន្តការ-beanpostprocessor--បេះដូងនៃ-aop-និង-proxies)
+- [4. វិធីទាំង ៣ ក្នុងការកំណត់ Initialization និង Destruction Callbacks](#4-វិធីទាំង-៣-ក្នុងការកំណត់-initialization-និង-destruction-callbacks)
+- [5. យន្តការ BeanFactoryPostProcessor](#5-យន្តការ-beanfactorypostprocessor)
+- [6. លំហាត់អនុវត្តកូដ (Code Challenge)](#6-លំហាត់អនុវត្តកូដ-code-challenge)
+- [🔗 ឯកសារយោងផ្លូវការ Spring Docs](#-ឯកសារយោងផ្លូវការ-spring-docs)
 
 ---
 
-## 1. The 11 Lifecycle Phases of a Spring Bean
+## 1. ដំណាក់កាលទាំង ១១ នៃវដ្តជីវិត Spring Bean
 
-A Spring Bean is not simply an object instantiated with `new`. The Spring IoC Container executes an elaborate lifecycle pipeline:
+នៅក្នុង **Spring Framework** វដ្តជីវិតរបស់ Bean មិនមែនគ្រាន់តែហៅ `new` រួចចប់នោះទេ។ ខាងក្រោមនេះជាលំដាប់លំដោយពេញលេញដែល Spring IoC Container ដំណើរការ៖
 
 ```mermaid
 flowchart TD
-    S1["1. Instantiation (Constructor invocation)"] --> S2["2. Populate Properties (DI & Autowiring)"]
+    S1["1. Instantiation (Constructor)"] --> S2["2. Populate Properties (DI)"]
     S2 --> S3["3. Aware Interfaces (BeanNameAware, ApplicationContextAware)"]
     S3 --> S4["4. BeanPostProcessor (postProcessBeforeInitialization)"]
-    S4 --> S5["5. @PostConstruct Lifecycle Hook"]
+    S4 --> S5["5. @PostConstruct Callback"]
     S5 --> S6["6. InitializingBean (afterPropertiesSet)"]
     S6 --> S7["7. Custom init-method"]
     S7 --> S8["8. BeanPostProcessor (postProcessAfterInitialization -> Proxy Wrapping)"]
-    S8 --> S9["9. Bean in Service (Ready for Use)"]
-    S9 --> S10["10. @PreDestroy Lifecycle Hook"]
+    S8 --> S9["9. Bean Ready in Container"]
+    S9 --> S10["10. @PreDestroy Callback"]
     S10 --> S11["11. DisposableBean (destroy) & Custom destroy-method"]
+
 ```
 
 ---
 
-## 2. Infrastructure Awareness with Aware Interfaces
+## 2. Aware Interfaces
 
-Occasionally, a bean requires direct access to infrastructure facilities. Spring provides **Aware Interfaces**:
+ជួនកាល Bean ត្រូវការដឹងអំពីព័ត៌មានហេដ្ឋារចនាសម្ព័ន្ធរបស់ Container។ Spring ផ្តល់នូវ **Aware Interfaces** សម្រាប់បញ្ជូនព័ត៌មានទាំងនោះ៖
 
 ```java
 @Component
-public class CacheManagerBean implements BeanNameAware, ApplicationContextAware {
+public class CustomService implements BeanNameAware, ApplicationContextAware {
 
-    private String name;
+    private String beanName;
     private ApplicationContext context;
 
     @Override
     public void setBeanName(String name) {
-        this.name = name;
+        this.beanName = name;
+        System.out.println("Bean Name is: " + name);
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.context = applicationContext;
+        System.out.println("ApplicationContext injected into bean!");
     }
 }
 ```
 
 ---
 
-## 3. BeanPostProcessor — The Engine of AOP & Proxies
+## 3. យន្តការ BeanPostProcessor — បេះដូងនៃ AOP និង Proxies
 
-The `BeanPostProcessor` interface is the most crucial extension mechanism in Spring Core. It intercepts every bean before and after its initialization:
+`BeanPostProcessor` គឺជា Extension Point ដ៏មានអនុភាពបំផុតក្នុង Spring Core។ វាអនុញ្ញាតឱ្យយើងលូកដៃកែប្រែ ឬស្រោប (Wrap) Instance របស់ Bean មុនពេល និងក្រោយពេល Bean ត្រូវបាន Initialize៖
 
 ```java
 @Component
-public class AuditLoggingBeanPostProcessor implements BeanPostProcessor {
+public class PerformanceMonitoringBPP implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
-        // Executes prior to @PostConstruct
-        return bean;
+        // ដំណើរការមុនពេល @PostConstruct រត់
+        return bean; 
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) {
-        // Critical step: This is where Spring wraps beans with AOP dynamic proxies!
+        // ដំណាក់កាលនេះហើយដែល Spring បង្កើត AOP Proxies (Dynamic Proxy / CGLIB)!
+        if (bean.getClass().isAnnotationPresent(Monitored.class)) {
+            System.out.println("Wrapping bean with monitoring proxy: " + beanName);
+            // អាច Return Dynamic Proxy ជំនួស Original Bean បាន
+        }
         return bean;
     }
 }
 ```
 
-> **💡 Under the Hood:**
-> Core features like `@Autowired`, `@Async`, `@Transactional`, and Spring AOP advice are powered by built-in `BeanPostProcessor` implementations!
+> **💡 តើអ្នកដឹងទេ?**  
+> មុខងារសំខាន់ៗដូចជា `@Autowired`, `@Async`, `@Transactional`, និង Spring AOP ទាំងអស់ សុទ្ធតែត្រូវបានអនុវត្តដោយប្រើ `BeanPostProcessor` នេះឯង!
 
 ---
 
-## 4. The 3 Mechanisms for Lifecycle Callbacks
+## 4. វិធីទាំង ៣ ក្នុងការកំណត់ Initialization និង Destruction Callbacks
 
-| Mechanism | Init Hook | Destroy Hook | Recommendation |
+| វិធីសាស្ត្រ | Initialization Hook | Destruction Hook | ការវាយតម្លៃ (Verdict) |
 | :--- | :--- | :--- | :--- |
-| **1. Annotations (JSR-250)** | `@PostConstruct` | `@PreDestroy` | **Best Practice** (Standard Java, non-invasive) |
-| **2. Spring Interfaces** | `InitializingBean` | `DisposableBean` | Tightly couples code to Spring interfaces |
-| **3. Bean Declaration** | `@Bean(initMethod = "init")` | `@Bean(destroyMethod = "close")` | Ideal for external 3rd-party classes |
+| **១. JSR-250 Annotations** | `@PostConstruct` | `@PreDestroy` | **ល្អបំផុត (Recommended)** - ស្តង់ដារ Java POJO មិនជាប់ជំពាក់នឹង Spring |
+| **២. Spring Interfaces** | `InitializingBean.afterPropertiesSet()` | `DisposableBean.destroy()` | ចងភ្ជាប់កូដទៅនឹង Spring APIs (Coupled) |
+| **៣. Config Declaration** | `@Bean(initMethod = "init")` | `@Bean(destroyMethod = "cleanup")` | ល្អបំផុតសម្រាប់បណ្ណាល័យក្រៅ (3rd Party Libraries) |
 
 ```java
 @Component
-public class ConnectionPoolManager {
+public class DatabaseConnectionPool {
 
     @PostConstruct
-    public void initialize() {
-        System.out.println("Allocating pool resources...");
+    public void init() {
+        System.out.println("1. បង្កើត Database Connection Pool...");
     }
 
     @PreDestroy
-    public void shutdown() {
-        System.out.println("Releasing socket connections...");
+    public void cleanup() {
+        System.out.println("2. បិទ Connections ទាំងអស់ និងសម្អាត Memory...");
     }
 }
 ```
 
 ---
 
-## 5. BeanFactoryPostProcessor vs BeanPostProcessor
+## 5. យន្តការ BeanFactoryPostProcessor
 
-- **`BeanFactoryPostProcessor`:** Operates on **Bean Definitions (Metadata)** before any bean instances are created. Example: `PropertySourcesPlaceholderConfigurer` resolves `${...}` placeholders.
-- **`BeanPostProcessor`:** Operates on **Bean Instances (Live Objects)** after instantiation.
+ខុសពី `BeanPostProcessor` ដែលដំណើរការលើ **Bean Instances (Objects)**, `BeanFactoryPostProcessor` ដំណើរការលើ **Bean Definitions (Metadata)** មុនពេល Bean ត្រូវបាន Instantiate!
+- ឧទាហរណ៍ជាក់ស្តែងគឺ `PropertySourcesPlaceholderConfigurer` ដែលស្វែងរកអក្សរ `${app.db.url}` ក្នុង metadata រួចជំនួសដោយតម្លៃពិតពី file `.properties` មុនពេល Bean ត្រូវបានបង្កើត។
 
 ---
 
-## 6. Practical Code Challenge
+## 6. លំហាត់អនុវត្តកូដ (Code Challenge)
 
-**Challenge:** Implement a custom `BeanPostProcessor` named `ExecutionTimeTracker` that logs every bean whose class name contains `"Service"` after initialization.
+**លំហាត់:** ចូរបង្កើត `AuditingBeanPostProcessor` ដែលពិនិត្យមើលគ្រប់ Bean ទាំងអស់ក្នុង Container ហើយបើឈ្មោះ Bean ចាប់ផ្តើមដោយពាក្យ `"order"` សូមកត់ត្រា Log បង្ហាញពីពេលវេលាដែល Bean នោះត្រូវបានបង្កើតរួចរាល់។
 
 <details>
-<summary>🔍 Click to view solution</summary>
+<summary>🔍 ចុចទីនេះដើម្បីមើលដំណោះស្រាយគំរូ</summary>
 
 ```java
 @Component
-public class ExecutionTimeTracker implements BeanPostProcessor {
+public class AuditingBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) {
-        if (bean.getClass().getSimpleName().contains("Service")) {
-            System.out.printf("[INIT-COMPLETE] Service bean initialized: %s (%s)%n", 
-                    beanName, bean.getClass().getName());
+        if (beanName.toLowerCase().startsWith("order")) {
+            System.out.println("[AUDIT] Bean '" + beanName + "' ready at: " + java.time.Instant.now());
         }
         return bean;
     }
@@ -148,16 +152,16 @@ public class ExecutionTimeTracker implements BeanPostProcessor {
 
 ---
 
-## 🔗 Official Spring Documentation
+## 🔗 ឯកសារយោងផ្លូវការ Spring Docs
 
 - [Customizing the Nature of a Bean](https://docs.spring.io/spring-framework/reference/core/beans/factory-nature.html)
-- [BeanPostProcessor Specification](https://docs.spring.io/spring-framework/reference/core/beans/factory-extension.html#beans-factory-extension-bpp)
-- [BeanFactoryPostProcessor Specification](https://docs.spring.io/spring-framework/reference/core/beans/factory-extension.html#beans-factory-extension-factory-postprocessors)
+- [BeanPostProcessor Documentation](https://docs.spring.io/spring-framework/reference/core/beans/factory-extension.html#beans-factory-extension-bpp)
+- [BeanFactoryPostProcessor Documentation](https://docs.spring.io/spring-framework/reference/core/beans/factory-extension.html#beans-factory-extension-factory-postprocessors)
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 17: Resolving Bean Ambiguity](../17-bean-ambiguity-primary-qualifier/README.md) | [📚 Spring Framework Index](../README.md) | [Part 19: Core Annotations & Environment Properties →](../19-core-annotations-and-properties/README.md) |
+| [← Part 17: ការដោះស្រាយភាពស្រពិចស្រពិលនៃ Bean](../17-bean-ambiguity-primary-qualifier/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 19: Core Annotations & Environment Properties →](../19-core-annotations-and-properties/README.md) |

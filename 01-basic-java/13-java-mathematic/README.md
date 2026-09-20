@@ -1,6 +1,6 @@
-# មេរៀនទី ១៣៖ Java Math (ថ្នាក់គណិតវិទ្យា Math Class)
+# មេរៀនទី ១៣៖ Java Math Class
 
-> **ការប្រើប្រាស់អនុគមន៍គណិតវិទ្យាដែលមានស្រាប់ក្នុងភាសា Java តាមរយៈថ្នាក់ `java.lang.Math`**
+> **ការប្រើប្រាស់អនុគមន៍គណិតវិទ្យាដែលមានស្រាប់ក្នុងភាសា Java តាមរយៈ Class `java.lang.Math`**
 
 [![Lesson](https://img.shields.io/badge/Lesson-13-orange?style=for-the-badge&logo=java&logoColor=white)](#)
 [![Topic](https://img.shields.io/badge/Topic-Java%20Math-blue?style=for-the-badge)](#)
@@ -10,10 +10,10 @@
 
 ## 📐 ១. ស្វែងយល់អំពី `Math` Class ក្នុង Java
 
-នៅក្នុងភាសា Java ថ្នាក់ **`Math`** ស្ថិតនៅក្នុង Package `java.lang` ដែលផ្តល់នូវអនុគមន៍គណិតវិទ្យាជាច្រើនសម្រាប់ដោះស្រាយការគណនាស្មុគស្មាញ។
+នៅក្នុងភាសា Java Class **`Math`** ស្ថិតនៅក្នុង Package `java.lang` ដែលផ្តល់នូវអនុគមន៍គណិតវិទ្យាជាច្រើនសម្រាប់ដោះស្រាយការគណនាស្មុគស្មាញ។
 
 > [!NOTE]
-> * **មិនបាច់ Import:** ថ្នាក់ `Math` ស្ថិតក្នុង `java.lang` ដូច្នេះយើងអាចហៅប្រើបានភ្លាមៗដោយមិនបាច់សរសេរ `import` ឡើយ។
+> * **មិនបាច់ Import:** Class `Math` ស្ថិតក្នុង `java.lang` ដូច្នេះយើងអាចហៅប្រើបានភ្លាមៗដោយមិនបាច់សរសេរ `import` ឡើយ។
 > * **Static Methods:** គ្រប់ Methods ទាំងអស់សុទ្ធតែជា `static` ដូច្នេះយើងហៅប្រើតាមរយៈឈ្មោះ Class ដោយផ្ទាល់៖ `Math.methodName(...)`។
 
 ---
@@ -29,6 +29,7 @@
 | **`Math.floor(x)`** | បង្គត់ទម្លាក់ចុះក្រោម | `Math.floor(5.9)` | `5.0` |
 | **`Math.ceil(x)`** | បង្គត់ឡើងទៅលើ | `Math.ceil(5.1)` | `6.0` |
 | **`Math.round(x)`** | បង្គត់តាមក្បួនគណិតវិទ្យា (>= .5 ឡើងលើ) | `Math.round(5.6)` | `6` |
+
 | **`Math.random()`** | បង្កើតលេខចៃដន្យចន្លោះពី `0.0` ដល់ `0.9999...` | `Math.random()` | `0.7291...` |
 
 ---

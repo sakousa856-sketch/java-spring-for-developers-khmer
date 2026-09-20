@@ -1,14 +1,14 @@
-# Spring Boot Slide Presentations
+# កម្រងស្លាយបង្រៀន Spring Boot (Spring Boot Slide Presentations) 🇰🇭
 
-> 📽️ **Comprehensive slide presentation deck for Spring Boot (Microservices, REST APIs, JPA & Cloud-Native)**.
+> 📽️ **កម្រងស្លាយបង្រៀន Spring Boot (Microservices, REST APIs, JPA & Cloud-Native)** សម្រាប់កម្មវិធីសិក្សា Spring Boot។
 
 [![Slides](https://img.shields.io/badge/Presentation-Spring%20Boot-green.svg)](#)
-[![Language](https://img.shields.io/badge/Language-English%20%2F%20Khmer-blue.svg)](#)
-[![Curriculum](https://img.shields.io/badge/Curriculum-04--spring--boot-blue.svg)](../../../../01-books-and-handbooks/05-java-and-spring/01-course-curriculum/04-spring-boot/README.md)
+[![Language](https://img.shields.io/badge/Language-Khmer%20%28%E1%9E%81%E1%9F%82%E1%9E%98%E1%9E%94%E1%9E%97%E1%9E%B8%E1%9E%9F%E1%9E%B8%29-red.svg)](#)
+[![Curriculum](https://img.shields.io/badge/Curriculum-04--spring--boot-blue.svg)../README.md)
 
 ---
 
-## 🗺️ Spring Boot Slide Modules (10 Modules)
+## 🗺️ កម្មវិធីមេរៀនស្លាយ Spring Boot (10 Modules)
 
 1. **Module 1:** Getting Started with Spring Boot (7 Lessons)
 2. **Module 2:** Spring Core Concepts (10 Lessons)
@@ -23,9 +23,9 @@
 
 ---
 
-## 🧭 Navigation
-- 📙 [Basic Java Slides (87 Slides)](../01-basic-java/README.md)
-- 📘 [Advance Java Slides (86 Slides)](../02-advance-java/README.md)
-- 🟩 [Spring Framework Slides (61 Slides)](../03-spring-framework/README.md)
-- 📑 [Main Presentation Portal](../../README.md)
-- 📖 [Spring Boot Curriculum (Handbooks)](../../../../01-books-and-handbooks/05-java-and-spring/01-course-curriculum/04-spring-boot/README.md)
+## 🧭 ការរុករក (Navigation)
+- 📙 [ស្លាយ Basic Java (៨៧ ស្លាយ)](../../01-basic-java/slides/README.md)
+- 📘 [ស្លាយ Advance Java (៨៦ ស្លាយ)](../../02-advance-java/slides/README.md)
+- 🟩 [ស្លាយ Spring Framework (៦១ ស្លាយ)](../../03-spring-framework/slides/README.md)
+- 📑 [មាតិកាស្លាយរួម (Main Presentation Portal)](../../README.md)
+- 📖 [វគ្គសិក្សា Spring Boot (Handbooks)../README.md)

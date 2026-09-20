@@ -1,116 +1,116 @@
-# Part 21: Spring Application Events & Event-Driven Architecture
-
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)
+# Part 21: ស្ថាបត្យកម្ម Event-Driven ក្នុង Spring (Spring Application Events: @EventListener)
 > 
-> 📖 **Official Spring Documentation:** [Standard and Custom Events](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events) | [Annotation-based Event Listeners](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events-annotation)
+> 📖 **ឯកសារយោងផ្លូវការ Spring Docs:** [Standard and Custom Events](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events) | [Annotation-based Event Listeners](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events-annotation)
 
 ![Spring Application Events Architecture](./assets/spring-application-events.svg "Spring Application Events: Publisher, Listeners & Async")
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Observer Pattern & Architectural Decoupling](#1-observer-pattern--architectural-decoupling)
-- [2. Defining POJO Domain Events](#2-defining-pojo-domain-events)
-- [3. Publishing Events with ApplicationEventPublisher](#3-publishing-events-with-applicationeventpublisher)
-- [4. Handling Events with @EventListener](#4-handling-events-with-eventlistener)
-- [5. Non-Blocking Execution with @Async](#5-non-blocking-execution-with-async)
+- [1. គោលការណ៍ Observer Pattern និងអត្ថប្រយោជន៍នៃ Decoupling](#1-គោលការណ៍-observer-pattern-និងអត្ថប្រយោជន៍នៃ-decoupling)
+- [2. ការបង្កើត Custom Event (POJO Event)](#2-ការបង្កើត-custom-event-pojo-event)
+- [3. ការបោះ Event ដោយ ApplicationEventPublisher](#3-ការបោះ-event-ដោយ-applicationeventpublisher)
+- [4. ការស្តាប់ Event ដោយ @EventListener](#4-ការស្តាប់-event-ដោយ-eventlistener)
+- [5. ការដំណើរការ Asynchronous Events ដោយស្រោប @Async](#5-ការដំណើរការ-asynchronous-events-ដោយស្រោប-async)
 - [6. Transaction-Bound Events (@TransactionalEventListener)](#6-transaction-bound-events-transactionaleventlistener)
-- [7. Practical Code Challenge](#7-practical-code-challenge)
-- [🔗 Official Spring Documentation](#-official-spring-documentation)
+- [7. លំហាត់អនុវត្តកូដ (Code Challenge)](#7-លំហាត់អនុវត្តកូដ-code-challenge)
+- [🔗 ឯកសារយោងផ្លូវការ Spring Docs](#-ឯកសារយោងផ្លូវការ-spring-docs)
 
 ---
 
-## 1. Observer Pattern & Architectural Decoupling
+## 1. គោលការណ៍ Observer Pattern និងអត្ថប្រយោជន៍នៃ Decoupling
 
-In enterprise architectures, primary business flows trigger secondary side-effects. For example, upon `registerUser()`:
-1. Save user to database
-2. Transmit welcome email
-3. Dispatch SMS OTP
-4. Initialize analytics profile
+នៅក្នុងស្ថាបត្យកម្ម Enterprise សេវាកម្មមួយអាចមានកិច្ចការបន្ទាប់បន្សំជាច្រើន។ ឧទាហរណ៍ ពេលអ្នកប្រើប្រាស់ចុះឈ្មោះ (`registerUser`):
+1. បង្កើតគណនីក្នុង Database
+2. ផ្ញើ Email ស្វាគមន៍
+3. ផ្ញើ SMS កូដ OTP
+4. បង្កើតប្រវត្តិ Analytics
 
-Directly injecting all secondary services into `UserService` creates severe tight coupling and violates the **Single Responsibility Principle**.
+ប្រសិនបើ `UserService` ត្រូវ Inject ទាំង `EmailService`, `SmsService`, និង `AnalyticsService` នោះកូដនឹងក្លាយជា **Tight Coupling** ស្មុគស្មាញ និងយឺត។
 
-Spring provides an in-memory event bus implementing the **Observer Pattern**:
-- `UserService` publishes a `UserRegisteredEvent`.
-- Secondary modules observe the event with `@EventListener`, completely independent of each other.
+ដំណោះស្រាយរបស់ Spring គឺ **Spring Application Events (Observer Pattern)**៖
+- `UserService` គ្រាន់តែបោះ `UserRegisteredEvent` រួចចប់ភារកិច្ច។
+- សេវាកម្មដទៃទៀតគ្រាន់តែដាក់ `@EventListener` ដើម្បីចាំទទួល Event នោះមកធ្វើការងាររៀងៗខ្លួន។
 
 ---
 
-## 2. Defining POJO Domain Events
+## 2. ការបង្កើត Custom Event (POJO Event)
 
-Since Spring 4.2, events need not extend framework classes. Java Records provide optimal immutability:
+តាំងពី Spring 4.2 មក Event មិនចាំបាច់ Extend ពី `ApplicationEvent` ឡើយ — វាគឺជា Java POJO ឬ Record សាមញ្ញ៖
 
 ```java
+// ប្រើ Java Record សម្រាប់ Immutability ខ្ពស់បំផុត
 public record UserRegisteredEvent(String userId, String email, String fullName) {
 }
 ```
 
 ---
 
-## 3. Publishing Events with ApplicationEventPublisher
+## 3. ការបោះ Event ដោយ ApplicationEventPublisher
 
-Inject Spring's built-in `ApplicationEventPublisher`:
+Spring ផ្តល់នូវ `ApplicationEventPublisher` មកស្រាប់សម្រាប់ធ្វើជា Event Bus៖
 
 ```java
 @Service
 public class UserService {
 
-    private final ApplicationEventPublisher publisher;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public UserService(ApplicationEventPublisher publisher) {
-        this.publisher = publisher;
+    public UserService(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
     }
 
     public void register(String userId, String email, String name) {
-        System.out.println("Persisting user to database...");
+        System.out.println("1. រក្សាទុក User ទៅក្នុង Database: " + userId);
 
-        // Fire event to all registered listeners
-        publisher.publishEvent(new UserRegisteredEvent(userId, email, name));
-
-        System.out.println("Registration transaction complete.");
+        // បោះ Event ចេញទៅកាន់ Container
+        eventPublisher.publishEvent(new UserRegisteredEvent(userId, email, name));
+        
+        System.out.println("2. ចុះឈ្មោះជោគជ័យ និងបានបោះ Event រួចរាល់!");
     }
 }
 ```
 
 ---
 
-## 4. Handling Events with @EventListener
+## 4. ការស្តាប់ Event ដោយ @EventListener
 
-Components register listeners simply by annotating method signatures matching the payload:
+សេវាកម្មដទៃគ្រាន់តែបង្កើត Method ដែលមាន Parameter ជាប្រភេទ Event នោះ រួចដាក់ `@EventListener`៖
 
 ```java
 @Component
-public class NotificationManager {
+public class NotificationListener {
 
     @EventListener
-    public void onUserRegistered(UserRegisteredEvent event) {
-        System.out.println("[EMAIL] Welcome dispatch sent to: " + event.email());
+    public void sendWelcomeEmail(UserRegisteredEvent event) {
+        System.out.println("[EMAIL] ផ្ញើអ៊ីមែលស្វាគមន៍ទៅកាន់: " + event.email());
     }
 
     @EventListener
-    public void onAuditLog(UserRegisteredEvent event) {
-        System.out.println("[AUDIT] Security audit recorded for: " + event.userId());
+    public void trackAnalytics(UserRegisteredEvent event) {
+        System.out.println("[ANALYTICS] កត់ត្រា Profile ថ្មីសម្រាប់ User: " + event.userId());
     }
 }
 ```
 
 ---
 
-## 5. Non-Blocking Execution with @Async
+## 5. ការដំណើរការ Asynchronous Events ដោយស្រោប @Async
 
-By default, event listeners run synchronously on the caller's thread. Annotating listeners with `@Async` runs them on a managed task executor pool:
+តាមលំនាំដើម `@EventListener` ដំណើរការលើ Thread តែមួយជាមួយអ្នកបោះ Event (Synchronous)។ ប្រសិនបើការងារនោះស៊ីពេលយូរ (ដូចជាការផ្ញើ Email) យើងអាចដំណើរការវាលើ Background Thread ដោយស្រោប `@Async`៖
 
 ```java
 @Configuration
 @EnableAsync
-public class AsyncConfig {}
+public class AsyncConfig {
+}
 
 @Component
-public class AsyncEmailDelivery {
+public class AsyncEmailService {
 
     @Async
     @EventListener
-    public void handle(UserRegisteredEvent event) {
-        System.out.println("[ASYNC] Background mail transmission on thread: " + Thread.currentThread().getName());
+    public void onUserRegistered(UserRegisteredEvent event) {
+        System.out.println("[ASYNC] ដំណើរការផ្ញើអ៊ីមែលលើ Thread ដាច់ដោយឡែក: " + Thread.currentThread().getName());
     }
 }
 ```
@@ -119,44 +119,44 @@ public class AsyncEmailDelivery {
 
 ## 6. Transaction-Bound Events (@TransactionalEventListener)
 
-Ensures listeners execute only after transactional phases complete:
+នៅក្នុងប្រព័ន្ធធនាគារ ឬទូទាត់ប្រាក់ យើងចង់ឱ្យ Event ដំណើរការ **លុះត្រាតែ Database Transaction ត្រូវបាន COMMIT ជោគជ័យជាមុនសិន** (ដើម្បីការពារកុំឱ្យផ្ញើ SMS ឬ Email ប្រសិនបើ Database មានបញ្ហា Rollback)៖
 
 ```java
 @Component
-public class AuditTransactionListener {
+public class TransactionalAuditListener {
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void onOrderSaved(OrderCreatedEvent event) {
-        System.out.println("Guaranteed execution strictly after database commit!");
+    public void onOrderCreated(OrderCreatedEvent event) {
+        System.out.println("ដំណើរការតែពេល Database Transaction បាន Commit ជោគជ័យប៉ុណ្ណោះ!");
     }
 }
 ```
 
 ---
 
-## 7. Practical Code Challenge
+## 7. លំហាត់អនុវត្តកូដ (Code Challenge)
 
-**Challenge:** Create an `OrderPlacedEvent(String orderId, double amount)`. Provide an `InventoryHandler` that deducts stock, and a `ReceiptHandler` that prints billing details.
+**លំហាត់:** ចូរបង្កើត Event ឈ្មោះ `OrderPlacedEvent` ផ្ទុក `orderId` និង `amount`។ បង្កើត `InventoryListener` ដែលមាន `@EventListener` កាត់បន្ថយស្តុកទំនិញ និង `ReceiptListener` ដែលមាន `@EventListener` បោះពុម្ពវិក្កយបត្រ។
 
 <details>
-<summary>🔍 Click to view solution</summary>
+<summary>🔍 ចុចទីនេះដើម្បីមើលដំណោះស្រាយគំរូ</summary>
 
 ```java
 public record OrderPlacedEvent(String orderId, double amount) {}
 
 @Component
-public class InventoryHandler {
+public class InventoryListener {
     @EventListener
-    public void onOrder(OrderPlacedEvent event) {
-        System.out.println("Reserved inventory for order: " + event.orderId());
+    public void reduceStock(OrderPlacedEvent event) {
+        System.out.println("កាត់បន្ថយស្តុកសម្រាប់ Order: " + event.orderId());
     }
 }
 
 @Component
-public class ReceiptHandler {
+public class ReceiptListener {
     @EventListener
-    public void onOrder(OrderPlacedEvent event) {
-        System.out.printf("Receipt generated for Order #%s: $%.2f%n", event.orderId(), event.amount());
+    public void printReceipt(OrderPlacedEvent event) {
+        System.out.printf("វិក្កយបត្រ Order #%s: $%.2f%n", event.orderId(), event.amount());
     }
 }
 ```
@@ -164,7 +164,7 @@ public class ReceiptHandler {
 
 ---
 
-## 🔗 Official Spring Documentation
+## 🔗 ឯកសារយោងផ្លូវការ Spring Docs
 
 - [Standard and Custom Events](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events)
 - [Annotation-based Event Listeners](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events-annotation)
@@ -172,8 +172,8 @@ public class ReceiptHandler {
 
 ---
 
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous | Main Index | Next |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Home) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Part 20: Spring Expression Language (SpEL)](../20-spring-expression-language-spel/README.md) | [📚 Spring Framework Index](../README.md) | [Part 22: Spring AOP & Proxies →](../22-spring-aop-and-proxies/README.md) |
+| [← Part 20: ភាសាកន្សោម SpEL](../20-spring-expression-language-spel/README.md) | [📚 មាតិកា Spring Framework](../README.md) | [Part 22: Spring AOP & Proxies →](../22-spring-aop-and-proxies/README.md) |

@@ -1,78 +1,77 @@
-# Lesson 7: Production Readiness & Observability with Spring Boot Actuator
+# មេរៀនទី ៧: ការត្រួតពិនិត្យសុខភាពប្រព័ន្ធ និង Monitoring ជាមួយ Spring Boot Actuator
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../06-yaml-configuration/README.md) | [មេរៀនបន្ទាប់ →](../08-spring-boot-devtools/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../06-yaml-configuration/README.md) | [Next Lesson →](../08-spring-boot-devtools/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. Production Readiness and the Role of Actuator](#1-production-readiness-and-the-role-of-actuator)
-- [2. Adding the `spring-boot-starter-actuator` Dependency](#2-adding-the-spring-boot-starter-actuator-dependency)
-- [3. Key Actuator Endpoints (`/health`, `/metrics`, `/info`)](#3-key-actuator-endpoints-health-metrics-info)
-- [4. Exposing and Securing Endpoints](#4-exposing-and-securing-endpoints)
-- [5. Implementing Custom Health Indicators](#5-implementing-custom-health-indicators)
-- [6. Integrating Prometheus & Grafana via Micrometer](#6-integrating-prometheus--grafana-via-micrometer)
-- [7. Summary](#7-summary)
+- [1. ស្វែងយល់អំពី Production Readiness និង Spring Boot Actuator](#1-ស្វែងយល់អំពី-production-readiness-និង-spring-boot-actuator)
+- [2. ការដំឡើង Starter `spring-boot-starter-actuator`](#2-ការដំឡើង-starter-spring-boot-starter-actuator)
+- [3. Actuator Endpoints សំខាន់ៗ (`/health`, `/metrics`, `/info`)](#3-actuator-endpoints-សំខាន់ៗ-health-metrics-info)
+- [4. ការបើក និងលាក់ Endpoints (Security & Exposing)](#4-ការបើក-និងលាក់-endpoints-security--exposing)
+- [5. ការបង្កើត Custom Health Indicator](#5-ការបង្កើត-custom-health-indicator)
+- [6. ការតភ្ជាប់ជាមួយ Prometheus & Grafana តាមរយៈ Micrometer](#6-ការតភ្ជាប់ជាមួយ-prometheus--grafana-តាមរយៈ-micrometer)
+- [7. សង្ខេប](#7-សង្ខេប)
 
 ---
 
-## 1. Production Readiness and the Role of Actuator
+## 1. ស្វែងយល់អំពី Production Readiness និង Spring Boot Actuator
 
-Deploying microservices into enterprise cloud topologies (Kubernetes, AWS ECS, Docker Swarms) requires visibility beyond clean business logic. SRE and DevOps teams require telemetry answering:
-- Is the service process alive or deadlocked?
-- Are downstream database and cache sockets active or severed?
-- What are the current JVM Heap memory pressure and garbage collection overheads?
-- What is the ingress HTTP request throughput and p99 latency?
+នៅពេលយកកម្មវិធីទៅដាក់លើ Production ក្នុង Cloud (Kubernetes, AWS, Docker) ការសរសេរកូដឱ្យដើរត្រឹមត្រូវមិនទាន់គ្រប់គ្រាន់ឡើយ។ ក្រុមការងារ DevOps/SRE ត្រូវការដឹងថា៖
+- តើ Application កំពុងរស់នៅល្អ (Healthy) ឬគាំង (Deadlock)?
+- តើ Database នៅភ្ជាប់ល្អ ឬដាច់?
+- តើ Memory (JVM Heap) និង CPU កំពុងប្រើអស់ប៉ុន្មានភាគរយ?
+- តើក្នុងមួយវិនាទីមាន HTTP Requests ចូលមកប៉ុន្មានដង?
 
-**Spring Boot Actuator** furnishes built-in production telemetry endpoints out of the box with zero boilerplate instrumentation.
+**Spring Boot Actuator** ផ្តល់នូវ Production-ready features ទាំងនេះភ្លាមៗដោយមិនបាច់សរសេរកូដច្រើនឡើយ។
 
 ---
 
-## 2. Adding the `spring-boot-starter-actuator` Dependency
+## 2. ការដំឡើង Starter `spring-boot-starter-actuator`
 
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
+
 </dependency>
 ```
 
 ---
 
-## 3. Key Actuator Endpoints
+## 3. Actuator Endpoints សំខាន់ៗ
 
-| Endpoint | Telemetry Provided |
+| Endpoint | ព័ត៌មានដែលផ្តល់ជូន |
 | :--- | :--- |
-| **`/actuator/health`** | Basic/detailed service vitality (`UP`, `DOWN`), used by Kubernetes Liveness & Readiness probes |
-| **`/actuator/info`** | Operational metadata (version numbers, git commit hashes, maintainer contacts) |
-| **`/actuator/metrics`** | Detailed operational indicators (JVM memory pools, thread dumps, HTTP request latency) |
-| **`/actuator/env`** | Current runtime environment properties and active profiles |
-| **`/actuator/beans`** | Complete registry of managed Spring beans initialized in the ApplicationContext |
+| **`/actuator/health`** | បង្ហាញស្ថានភាពសុខភាពកម្មវិធី (`UP`, `DOWN`) ប្រើសម្រាប់ Kubernetes Liveness & Readiness Probes |
+| **`/actuator/info`** | បង្ហាញព័ត៌មានទូទៅអំពី Version, Git Commit, និង Developer Contact |
+| **`/actuator/metrics`** | បង្ហាញទិន្នន័យស្ថិតិដូចជា JVM Memory, Garbage Collection, HTTP Response Times |
+| **`/actuator/env`** | បង្ហាញ Environment Properties របស់ប្រព័ន្ធ |
+| **`/actuator/beans`** | បង្ហាញបញ្ជី Spring Beans ទាំងអស់ដែលបានចុះឈ្មោះក្នុង IoC Container |
 
 ---
 
-## 4. Exposing and Securing Endpoints
+## 4. ការបើក និងលាក់ Endpoints (Security & Exposing)
 
-By default, only `/actuator/health` is exposed over HTTP for security reasons. Fine-tune endpoint exposure and health inspection depth in `application.yml`:
+តាមលំនាំដើមដើម្បីសុវត្ថិភាព មានតែ `/actuator/health` មួយគត់ដែលត្រូវបានបើកបង្ហាញ។ យើងអាចកំណត់ក្នុង `application.yml` ដើម្បីបើក Endpoints ផ្សេងៗ និងបង្ហាញព័ត៌មានលម្អិតនៃ Health Check៖
 
 ```yaml
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,prometheus # Expose strictly needed endpoints
+        include: health,info,metrics,prometheus # បើកតែ endpoints ដែលចាំបាច់
   endpoint:
     health:
-      show-details: always # Expose detailed diagnostic health for databases, disk space, and caches
+      show-details: always # បង្ហាញស្ថានភាព Database, Disk Space, Redis លម្អិត
 ```
 
-> 🛡️ **Production Security Guardrail:**
-> Never configure wildcard exposure (`include: "*"`) in production environments. Diagnostic endpoints like `/env` and `/heapdump` expose database credentials, environment secrets, and memory dumps. Always secure the `/actuator/**` path behind Spring Security.
+> 🛡️ **ការការពារសុវត្ថិភាព Production:**
+> ដាច់ខាតកុំប្រើ `include: "*"` លើ Production ឱ្យសោះ ព្រោះ Endpoints ដូចជា `/env` ឬ `/heapdump` អាចលេចធ្លាយ Password និង Secret Keys ទៅកាន់ពិភពខាងក្រៅ។ ត្រូវការពារ `/actuator` ជាមួយ Spring Security ជានិច្ច!
 
 ---
 
-## 5. Implementing Custom Health Indicators
+## 5. ការបង្កើត Custom Health Indicator
 
-Surface the health of critical external services (e.g., third-party payment gateways, specialized downstream APIs) directly within Spring's aggregate health status:
+ពេលខ្លះយើងចង់ត្រួតពិនិត្យសុវត្ថិភាពនៃ Third-party API ឬ External Payment Gateway ផ្ទាល់ខ្លួន៖
 
 ```java
 package com.example.demo.health;
@@ -97,12 +96,12 @@ public class PaymentGatewayHealthIndicator implements HealthIndicator {
 
         return Health.down()
                 .withDetail("GatewayService", "Wing/ABA Payment Gateway")
-                .withDetail("error", "Socket Timeout: Unable to establish handshake with payment gateway")
+                .withDetail("error", "Timeout: មិនអាចភ្ជាប់ទៅកាន់ Gateway បានឡើយ")
                 .build();
     }
 
     private boolean checkExternalPaymentGateway() {
-        // Ping external payment gateway socket
+        // Mock checking connection
         return true; 
     }
 }
@@ -110,32 +109,33 @@ public class PaymentGatewayHealthIndicator implements HealthIndicator {
 
 ---
 
-## 6. Integrating Prometheus & Grafana via Micrometer
+## 6. ការតភ្ជាប់ជាមួយ Prometheus & Grafana តាមរយៈ Micrometer
 
-Spring Boot Actuator integrates natively with **Micrometer**, the vendor-neutral metrics instrumentation facade. Include the Prometheus registry:
+Spring Boot Actuator រួមបញ្ចូល **Micrometer** ដែលជា Facade សម្រាប់ Metric Collection។ ដោយគ្រាន់តែបន្ថែម Dependency មួយទៀត៖
 
 ```xml
 <dependency>
     <groupId>io.micrometer</groupId>
     <artifactId>micrometer-registry-prometheus</artifactId>
+
 </dependency>
 ```
 
-This immediately activates the `/actuator/prometheus` endpoint, allowing Prometheus scraper daemons to ingest application telemetry and visualize it inside rich **Grafana** dashboards.
+នោះ Endpoint `/actuator/prometheus` នឹងដំណើរការភ្លាមៗ។ Prometheus Server អាចទាញយក (Scrape) Metrics ទាំងនេះទៅបង្ហាញជាផ្ទាំង Dashboard ពណ៌ចម្រុះលើ **Grafana** បានយ៉ាងស្រស់ស្អាត!
 
 ---
 
-## 7. Summary
+## 7. សង្ខេប
 
-- **Spring Boot Actuator** delivers out-of-the-box enterprise observability.
-- `/actuator/health` coordinates Kubernetes pod lifecycle management (liveness and readiness checks).
-- Implement custom `HealthIndicator` beans to monitor critical external dependencies.
-- Bridge metrics to **Prometheus & Grafana** via Micrometer for real-time observability.
+- **Spring Boot Actuator** គឺជាឧបករណ៍មិនអាចខ្វះបានសម្រាប់ Production Observability។
+- `/actuator/health` ដើរតួជាបេះដូងសម្រាប់ Kubernetes ក្នុងការត្រួតពិនិត្យថា Pods នៅរស់ឬស្លាប់។
+- ប្រើ Custom `HealthIndicator` ដើម្បីតាមដានសេវាកម្មខាងក្រៅសំខាន់ៗ។
+- ភ្ជាប់ជាមួយ **Micrometer & Prometheus** ដើម្បីតាមដាន Real-time Performance Metrics។
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Configuration with YAML in Spring Boot](../06-yaml-configuration/README.md) | [📚 Module Index](../README.md) | [Accelerating Development with Spring Boot DevTools →](../08-spring-boot-devtools/README.md) |
+| [← ការកំណត់រចនាសម្ព័ន្ធជាមួយ YAML (YAML Configuration in Spring Boot)](../06-yaml-configuration/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [បង្កើនល្បឿនអភិវឌ្ឍន៍ជាមួយ Spring Boot DevTools (Developer Tools) →](../08-spring-boot-devtools/README.md) |

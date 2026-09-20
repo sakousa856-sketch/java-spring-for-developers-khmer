@@ -1,51 +1,49 @@
-# Lesson 8: Autowiring in Spring with @Autowired
+# មេរៀនទី ៨: ការប្រើប្រាស់ Autowiring ជាមួយ @Autowired
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../07-create-spring-bean-3-ways/README.md) | [មេរៀនបន្ទាប់ →](../09-dispatcherservlet/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../07-create-spring-bean-3-ways/README.md) | [Next Lesson →](../09-dispatcherservlet/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Bookstore REST API (Service Injection)](../../examples/01-rest-api-crud)  
-> 📄 **Source Code Files:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`BookService.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/service/BookService.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Bookstore REST API (Service Injection)](../../examples/01-rest-api-crud)  
+> 📄 **File កូដជាក់ស្តែង:** [`BookController.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/controller/BookController.java) | [`BookService.java`](../../examples/01-rest-api-crud/src/main/java/com/example/bookstore/service/BookService.java)
 
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Autowiring Mechanics in Spring](#1-autowiring-mechanics-in-spring)
-- [2. The Ambiguity Dilemma (`NoUniqueBeanDefinitionException`)](#2-the-ambiguity-dilemma)
-- [3. Disambiguation with `@Primary` and `@Qualifier`](#3-disambiguation-with-primary-and-qualifier)
-- [4. Summary](#4-summary)
+- [1. យន្តការ Autowiring ក្នុង Spring](#1-យន្តការ-autowiring-ក្នុង-spring)
+- [2. បញ្ហាប្រឈមនៃ Ambiguity (ពេលមាន Bean ច្រើន)](#2-បញ្ហាប្រឈមនៃ-ambiguity)
+- [3. ដំណោះស្រាយជាមួយ `@Primary` និង `@Qualifier`](#3-ដំណោះស្រាយជាមួយ-primary-និង-qualifier)
+- [4. សង្ខេប](#4-សង្ខេប)
 
 ---
 
-## 1. Autowiring Mechanics in Spring
+## 1. យន្តការ Autowiring ក្នុង Spring
 
-Spring resolves dependencies declared on constructors or fields automatically using type-driven lookup.
+`@Autowired` ប្រាប់ Spring ឱ្យស្វែងរក Bean ណាដែលត្រូវគ្នាក្នុង Container មកចាក់បញ្ចូលដោយស្វ័យប្រវត្តិ (by Type)។
 
 ---
 
-## 2. The Ambiguity Dilemma
+## 2. បញ្ហាប្រឈមនៃ Ambiguity
 
-When an interface (e.g., `PaymentGateway`) possesses multiple candidate implementations (`StripePayment` and `PaypalPayment`):
+ប្រសិនបើយើងមាន Interface `PaymentGateway` មួយ តែមាន Class អនុវត្តចំនួន ២ (`StripePayment` និង `PaypalPayment`)៖
 ```java
 @Service
 public class CheckoutService {
-    // Throws NoUniqueBeanDefinitionException because candidate resolution is ambiguous
+    // នឹងបោះ NoUniqueBeanDefinitionException ព្រោះ Spring មិនដឹងថាត្រូវរើសយកមួយណា!
     public CheckoutService(PaymentGateway paymentGateway) { ... }
 }
 ```
 
 ---
 
-## 3. Disambiguation with `@Primary` and `@Qualifier`
+## 3. ដំណោះស្រាយជាមួយ `@Primary` និង `@Qualifier`
 
-### Approach 1: `@Primary` (Default Precedence)
+### ដំណោះស្រាយទី ១៖ `@Primary` (កំណត់អាទិភាពចម្បង)
 ```java
 @Component
-@Primary
+@Primary // បើគេមិនបញ្ជាក់ឈ្មោះ យក Stripe ជានិច្ច
 public class StripePayment implements PaymentGateway {}
 ```
 
-### Approach 2: `@Qualifier` (Explicit Bean Targeting)
+### ដំណោះស្រាយទី ២៖ `@Qualifier` (បញ្ជាក់ឈ្មោះជាក់លាក់)
 ```java
 @Service
 public class CheckoutService {
@@ -57,14 +55,14 @@ public class CheckoutService {
 
 ---
 
-## 4. Summary
+## 4. សង្ខេប
 
-- Spring resolves autowired dependencies primarily by type.
-- Resolve ambiguity using `@Primary` for defaults and `@Qualifier` for explicit named binding.
+- Spring Autowires Beans តាម Type ជាចម្បង។
+- ប្រើ `@Primary` ដើម្បីផ្តល់អាទិភាព Default និងប្រើ `@Qualifier` ដើម្បីបញ្ជាក់ឈ្មោះ Bean ច្បាស់លាស់។
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← ](../07-create-spring-bean-3-ways/README.md) | [📚 Module Index](../README.md) | [ →](../09-dispatcherservlet/README.md) |
+| [← ](../07-create-spring-bean-3-ways/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ →](../09-dispatcherservlet/README.md) |

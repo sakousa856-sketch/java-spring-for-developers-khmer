@@ -1,48 +1,46 @@
-# Lesson 1: Unit Testing Spring Boot Applications with JUnit 5 & AssertJ
+# មេរៀនទី ១: ការធ្វើតេស្តកម្មវិធី Spring Boot ជាមួយ JUnit 5 និង AssertJ (Unit Testing)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../../09-spring-boot-with-aop/09-aop-vs-aspectj/README.md) | [មេរៀនបន្ទាប់ →](../02-testing-with-mockito/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../../09-spring-boot-with-aop/09-aop-vs-aspectj/README.md) | [Next Lesson →](../02-testing-with-mockito/README.md)
+## មាតិកា (Table of Contents)
 
-## Table of Contents
-
-- [1. The Testing Pyramid in Spring Boot](#1-the-testing-pyramid-in-spring-boot)
-- [2. Tooling in `spring-boot-starter-test`](#2-tooling-in-spring-boot-starter-test)
-- [3. Unit Testing the Service Layer with Mockito](#3-unit-testing-the-service-layer-with-mockito)
-- [4. Controller Sliced Testing with `@WebMvcTest` and `MockMvc`](#4-controller-sliced-testing-with-webmvctest-and-mockmvc)
-- [5. Repository Sliced Testing with `@DataJpaTest`](#5-repository-sliced-testing-with-datajpatest)
-- [6. Full End-to-End Integration Testing with `@SpringBootTest`](#6-full-end-to-end-integration-testing-with-springboottest)
-- [7. Summary](#7-summary)
+- [1. ពីរ៉ាមីតនៃការធ្វើតេស្ត (The Testing Pyramid)](#1-ពីរ៉ាមីតនៃការធ្វើតេស្ត-the-testing-pyramid)
+- [2. បណ្ណាល័យក្នុង `spring-boot-starter-test`](#2-បណ្ណាល័យក្នុង-spring-boot-starter-test)
+- [3. Unit Testing Service Layer ជាមួយ Mockito](#3-unit-testing-service-layer-ជាមួយ-mockito)
+- [4. Controller Sliced Testing ជាមួយ `@WebMvcTest` និង `MockMvc`](#4-controller-sliced-testing-ជាមួយ-webmvctest-និង-mockmvc)
+- [5. Repository Sliced Testing ជាមួយ `@DataJpaTest`](#5-repository-sliced-testing-ជាមួយ-datajpatest)
+- [6. Full End-to-End Testing ជាមួយ `@SpringBootTest`](#6-full-end-to-end-testing-ជាមួយ-springboottest)
+- [7. សង្ខេប](#7-សង្ខេប)
 
 ---
 
-## 1. The Testing Pyramid in Spring Boot
+## 1. ពីរ៉ាមីតនៃការធ្វើតេស្ត (The Testing Pyramid)
 
-Automated test suites represent the demarcation between ad-hoc scripting and enterprise-grade software engineering. Thorough test coverage provides unwavering confidence during major architectural refactorings and dependency upgrades.
+ការធ្វើតេស្តដោយស្វ័យប្រវត្តិ (Automated Testing) គឺជាភាពខុសគ្នារវាង Junior Developer និង Senior/Lead Engineer។ វាកាត់បន្ថយ Bug និងផ្តល់ទំនុកចិត្ត 100% ពេលយើងកែ Code ឬ Refactor។
 
 ```mermaid
 flowchart TD
-    subgraph Pyramid ["The Spring Boot Testing Pyramid"]
-        E2E["1. End-to-End Tests (@SpringBootTest)<br/>Slowest execution; 100% full-stack fidelity"]
-        Slice["2. Slice Tests (@WebMvcTest, @DataJpaTest)<br/>Balanced speed; targets isolated layers"]
-        Unit["3. Unit Tests (JUnit 5 + Mockito)<br/>Sub-millisecond execution (< 50ms); pure domain logic"]
+    subgraph Pyramid ["Testing Pyramid ក្នុង Spring Boot"]
+        E2E["1. End-to-End Tests (@SpringBootTest)<br/>យឺតបំផុត តែឆ្លុះបញ្ចាំងការពិត 100%"]
+        Slice["2. Slice Tests (@WebMvcTest, @DataJpaTest)<br/>ល្បឿនមធ្យម តេស្តដាច់ដោយឡែកតាម Layer"]
+        Unit["3. Unit Tests (JUnit 5 + Mockito)<br/>លឿនដូចផ្លេកបន្ទោរ (< 50ms) តេស្តតែ Logic សុទ្ធ"]
     end
 ```
 
 ---
 
-## 2. Tooling in `spring-boot-starter-test`
+## 2. បណ្ណាល័យក្នុង `spring-boot-starter-test`
 
-Spring Boot automatically bundles a comprehensive, battle-tested testing stack within `spring-boot-starter-test`:
-- **JUnit 5:** The contemporary standard testing engine for Java.
-- **Mockito:** Industry-standard mocking framework for synthesizing test doubles.
-- **AssertJ:** Fluent assertion library (e.g., `assertThat(result).isNotNull()`).
-- **MockMvc:** Web layer simulation client bypassing live HTTP socket connections.
+នៅពេលបង្កើត Project ថ្មី Spring Boot បានបំពាក់ Starter Test មកជាមួយស្រាប់ ដែលមានបណ្ណាល័យលំដាប់ពិភពលោកដូចជា៖
+- **JUnit 5:** Core Testing Framework ក្នុង Java
+- **Mockito:** បណ្ណាល័យបង្កើត Mock Objects ក្លែងក្លាយ
+- **AssertJ:** Fluent assertions (ឧ. `assertThat(result).isNotNull()`)
+- **MockMvc:** ឧបករណ៍ក្លែងធ្វើជា HTTP Request ដោយមិនបាច់បើក Tomcat Server ពិត
 
 ---
 
-## 3. Unit Testing the Service Layer with Mockito
+## 3. Unit Testing Service Layer ជាមួយ Mockito
 
-Unit tests execute within a plain JVM process, completely isolated from databases and Spring contexts:
+Unit Test ត្រូវតែលឿន និងឯករាជ្យដាច់ពី Database។ យើងប្រើ Mockito ដើម្បី Mock `ProductRepository` ក្លែងក្លាយ៖
 
 ```java
 package com.example.demo.service;
@@ -67,34 +65,34 @@ import static org.mockito.Mockito.*;
 class ProductServiceTest {
 
     @Mock
-    private ProductRepository productRepository; // Synthesize mock double
+    private ProductRepository productRepository; // បង្កើត Mock ក្លែងក្លាយ
 
     @InjectMocks
-    private ProductService productService; // Inject mock into service
+    private ProductService productService; // ចាក់ Mock ចូលក្នុង Service
 
     @Test
-    @DisplayName("Successfully retrieve product by identifier")
+    @DisplayName("តេស្តទាញយកផលិតផលតាម ID ជោគជ័យ")
     void shouldReturnProductWhenIdExists() {
-        // 1. Given (Arrange)
+        // 1. Given (រៀបចំទិន្នន័យសន្មត)
         Product mockProduct = new Product("MacBook M3", new BigDecimal("1999.00"));
         when(productRepository.findById(1L)).thenReturn(Optional.of(mockProduct));
 
-        // 2. When (Act)
+        // 2. When (ដំណើរការ Method ពិត)
         ProductResponse result = productService.getById(1L);
 
-        // 3. Then (Assert)
+        // 3. Then (ផ្ទៀងផ្ទាត់លទ្ធផល)
         assertThat(result).isNotNull();
         assertThat(result.name()).isEqualTo("MacBook M3");
-        verify(productRepository, times(1)).findById(1L); // Confirm exact invocation count
+        verify(productRepository, times(1)).findById(1L); // ផ្ទៀងផ្ទាត់ថាហៅ DB តែម្តងគត់
     }
 }
 ```
 
 ---
 
-## 4. Controller Sliced Testing with `@WebMvcTest` and `MockMvc`
+## 4. Controller Sliced Testing ជាមួយ `@WebMvcTest` និង `MockMvc`
 
-`@WebMvcTest` instantiates only the web layer (controllers, interceptors, JSON converters) while mocking the service layer, keeping test execution blazingly fast:
+`@WebMvcTest` បើកតែ Web Layer (Controllers, Filters) ប៉ុណ្ណោះ ដោយមិនបើក Database ឬ Service ពិតឡើយ ដែលធ្វើឱ្យ Test រត់លឿនបំផុត៖
 
 ```java
 package com.example.demo.controller;
@@ -139,9 +137,9 @@ class ProductControllerTest {
 
 ---
 
-## 5. Repository Sliced Testing with `@DataJpaTest`
+## 5. Repository Sliced Testing ជាមួយ `@DataJpaTest`
 
-`@DataJpaTest` configures an embedded in-memory database (H2) and manages transactions that roll back automatically after each test execution:
+`@DataJpaTest` បើកដំណើរការ Embedded H2 Database ដោយស្វ័យប្រវត្តិដើម្បីតេស្ត Queries ក្នុង `JpaRepository`៖
 
 ```java
 @DataJpaTest
@@ -164,9 +162,9 @@ class ProductRepositoryTest {
 
 ---
 
-## 6. Full End-to-End Integration Testing with `@SpringBootTest`
+## 6. Full End-to-End Testing ជាមួយ `@SpringBootTest`
 
-`@SpringBootTest` bootstraps the complete production Spring ApplicationContext across an embedded servlet container:
+`@SpringBootTest` ដំណើរការ Spring Context ទាំងមូលរួមទាំង Embedded Web Server លើ Random Port៖
 
 ```java
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -186,18 +184,18 @@ class FullIntegrationTest {
 
 ---
 
-## 7. Summary
+## 7. សង្ខេប
 
-- Adhere to the **Testing Pyramid**: prioritize unit tests, balance with layer slices, and minimize slow end-to-end runs.
-- Use **Mockito** for blazingly fast unit testing of domain services.
-- Utilize **`@WebMvcTest` & `MockMvc`** to validate HTTP status codes, deserialization, and JSON path contracts.
-- Apply **`@DataJpaTest`** for query verification against embedded relational stores.
-- Reserve **`@SpringBootTest`** for high-confidence end-to-end deployment smoke tests.
+- អនុវត្តតាម **Testing Pyramid**: Unit Tests ច្រើនបំផុត, Sliced Tests មធ្យម, និង End-to-End Tests តិចតួច។
+- ប្រើ **Mockito** សម្រាប់ Unit Test Service Layer ដោយកាត់ផ្តាច់ Database។
+- ប្រើ **`@WebMvcTest` & `MockMvc`** សម្រាប់តេស្ត HTTP Status និង JSON Responses។
+- ប្រើ **`@DataJpaTest`** សម្រាប់តេស្ត Custom Repository Queries ជាមួយ Embedded Database។
+- ប្រើ **`@SpringBootTest`** សម្រាប់ Full Integration Test មុនពេល Release ឡើង Production។
 
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← Spring AOP vs AspectJ](../../09-spring-boot-with-aop/09-aop-vs-aspectj/README.md) | [📚 Module Index](../README.md) | [Unit Testing with Mockito →](../02-testing-with-mockito/README.md) |
+| [← ការប្រៀបធៀប Spring AOP និង AspectJ (Spring AOP vs AspectJ)](../../09-spring-boot-with-aop/09-aop-vs-aspectj/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [ការធ្វើ Unit Testing ជាមួយ Mockito (Unit Testing with Mockito) →](../02-testing-with-mockito/README.md) |

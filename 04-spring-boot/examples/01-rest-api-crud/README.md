@@ -1,30 +1,33 @@
-# Example Project: Bookstore RESTful API CRUD (Spring Boot 3)
+# គម្រោងគំរូ: Bookstore RESTful API CRUD (Spring Boot 3)
 
-[Khmer Version](./README.kh.md)
+[English Version](./README.md)
 
-This project demonstrates a production-grade RESTful API built with Spring Boot 3.3, Java 17 Records, Jakarta Validation, and Global Exception Handling.
+គម្រោងនេះអនុវត្តតាមស្តង់ដារ Clean Layered Architecture ជាមួយ Spring Boot 3.3, Java 17 Records, Jakarta Bean Validation, និង Global Exception Handling។
 
-## How to Run
+## របៀបដំណើរការ (How to Run)
 
 ```bash
+# 1. ចូលទៅកាន់ folder គម្រោង
 cd 03-spring-boot/examples/01-rest-api-crud
+
+# 2. Run កម្មវិធី
 mvn spring-boot:run
 ```
 
-## Test with cURL
+## ធ្វើតេស្តជាមួយ cURL
 
 ```bash
-# Create Book
+# បង្កើតសៀវភៅថ្មី (POST)
 curl -X POST http://localhost:8080/api/v1/books \
   -H "Content-Type: application/json" \
   -d '{"title":"Spring Boot in Action","author":"Craig Walls","isbn":"978-1617292545","price":39.99}'
 
-# Get all books
+# ទាញយកសៀវភៅទាំងអស់ (GET)
 curl -X GET http://localhost:8080/api/v1/books
 
-# Get by ID
+# ទាញយកសៀវភៅតាម ID (GET)
 curl -X GET http://localhost:8080/api/v1/books/1
 
-# Delete by ID
+# លុបសៀវភៅ (DELETE)
 curl -X DELETE http://localhost:8080/api/v1/books/1
 ```

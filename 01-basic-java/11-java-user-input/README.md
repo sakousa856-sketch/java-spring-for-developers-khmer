@@ -1,6 +1,6 @@
 # មេរៀនទី ១១៖ Java User Input (ការទទួលទិន្នន័យពី Keyboard)
 
-> **ការប្រើប្រាស់ថ្នាក់ `Scanner` ក្នុងភាសា Java ដើម្បីទទួលទិន្នន័យអន្តរកម្មពីអ្នកប្រើប្រាស់តាមរយៈ Keyboard**
+> **ការប្រើប្រាស់ Class `Scanner` ក្នុងភាសា Java ដើម្បីទទួលទិន្នន័យអន្តរកម្មពីអ្នកប្រើប្រាស់តាមរយៈ Keyboard**
 
 [![Lesson](https://img.shields.io/badge/Lesson-11-orange?style=for-the-badge&logo=java&logoColor=white)](#)
 [![Topic](https://img.shields.io/badge/Topic-Scanner%20Input-blue?style=for-the-badge)](#)
@@ -18,6 +18,7 @@
 flowchart LR
     S1["1. Import Package<br/>import java.util.Scanner;"] --> S2["2. បង្កើត Object<br/>Scanner input = new Scanner(System.in);"]
     S2 --> S3["3. អានទិន្នន័យ<br/>input.nextLine() / nextInt()"]
+
 ```
 
 1. **Import Package:** ដាក់នៅខាងលើបង្អស់នៃកូដ៖

@@ -1,47 +1,46 @@
-# Lesson 4: Performance Optimization with Spring Boot Caching
+# មេរៀនទី ៤: ការបង្កើនល្បឿនប្រព័ន្ធជាមួយ Spring Boot Caching (Caching Abstraction)
+> 🧭 **រុករក:** [📚 មាតិកា Module](../README.md) | [← មេរៀនមុន](../03-file-handling-upload/README.md) | [មេរៀនបន្ទាប់ →](../05-caching-providers-redis/README.md)
 
-> 🌐 **Language / ភាសា:** 🇬🇧 **[English](README.md)** | 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md)  
-> 🧭 **Navigation:** [📚 Module Index](../README.md) | [← Previous Lesson](../03-file-handling-upload/README.md) | [Next Lesson →](../05-caching-providers-redis/README.md)
-
-> 📂 **Runnable Example Project:**  
-> 👉 **Complete Project:** [Spring Boot Redis Caching Service](../../examples/03-redis-caching)  
-> 📄 **Source Code Files:** [`ProductService.java`](../../examples/03-redis-caching/src/main/java/com/example/cache/service/ProductService.java) | [`RedisConfig.java`](../../examples/03-redis-caching/src/main/java/com/example/cache/config/RedisConfig.java)
+> 📂 **កូដគំរូជាក់ស្តែង (Runnable Example Project):**  
+> 👉 **គម្រោងពេញលេញ:** [Spring Boot Redis Caching Service](../../examples/03-redis-caching)  
+> 📄 **File កូដជាក់ស្តែង:** [`ProductService.java`](../../examples/03-redis-caching/src/main/java/com/example/cache/service/ProductService.java) | [`RedisConfig.java`](../../examples/03-redis-caching/src/main/java/com/example/cache/config/RedisConfig.java)
 
 
-## Table of Contents
+## មាតិកា (Table of Contents)
 
-- [1. Understanding Caching and Its Necessity](#1-understanding-caching-and-its-necessity)
-- [2. Spring Cache Abstraction and Core Annotations](#2-spring-cache-abstraction-and-core-annotations)
-- [3. Deep Dive: `@Cacheable`, `@CachePut`, and `@CacheEvict`](#3-deep-dive-cacheable-cacheput-and-cacheevict)
-- [4. Custom Cache Key Resolution via SpEL (Spring Expression Language)](#4-custom-cache-key-resolution-via-spel-spring-expression-language)
-- [5. Transitioning from ConcurrentHashMap to Distributed Redis](#5-transitioning-from-concurrenthashmap-to-distributed-redis)
-- [6. Summary](#6-summary)
+- [1. ស្វែងយល់អំពី Caching និងសារៈសំខាន់](#1-ស្វែងយល់អំពី-caching-និងសារៈសំខាន់)
+- [2. Spring Cache Abstraction និង Annotations សំខាន់ៗ](#2-spring-cache-abstraction-និង-annotations-សំខាន់ៗ)
+- [3. ការប្រើប្រាស់ `@Cacheable`, `@CachePut`, និង `@CacheEvict`](#3-ការប្រើប្រាស់-cacheable-cacheput-និង-cacheevict)
+- [4. ការកំណត់ Cache Key តាមរយៈ SpEL (Spring Expression Language)](#4-ការកំណត់-cache-key-តាមរយៈ-spel-spring-expression-language)
+- [5. ការប្តូរពី ConcurrentHashMap ទៅជា Distributed Redis Cache](#5-ការប្តូរពី-concurrenthashmap-ទៅជា-distributed-redis-cache)
+- [6. សង្ខេប](#6-សង្ខេប)
 
 ---
 
-## 1. Understanding Caching and Its Necessity
+## 1. ស្វែងយល់អំពី Caching និងសារៈសំខាន់
 
-Whenever clients query static or slow-changing datasets (such as product catalogs, shipping rates, or exchange tickers):
-- Database queries incur **50ms to 500ms** of latency.
-- High concurrent load spikes database CPU utilization toward 100%.
+រាល់ពេលដែល Client ហៅ API ទាញយកទិន្នន័យ (ដូចជា Product Catalog ឬ Exchange Rates) ប្រសិនបើយើងតែងតែរត់ទៅ Query Database៖
+- Latency ចំណាយពេលពី **50ms ដល់ 500ms**។
+- Database CPU នឹងឡើងខ្ពស់ 100% នៅពេលមានមនុស្សចូលមើលរាប់ពាន់នាក់ក្នុងពេលតែមួយ។
 
-**Caching** retains frequently requested datasets in ultra-fast RAM storage, serving responses in **< 1ms** and eliminating unnecessary database roundtrips.
+**Caching** គឺជាការរក្សាទុកទិន្នន័យដែលគេឧស្សាហ៍ហៅមើល (Frequently Accessed Data) នៅក្នុងអង្គចងចាំ Memory (RAM) ដ៏លឿនដូចផ្លេកបន្ទោរ ដែលអាចទាញយកទិន្នន័យបានក្នុងរង្វង់ត្រឹមតែ **1ms**!
 
 ```mermaid
 flowchart TD
-    Client["Client Request"] --> CacheCheck{"Is item cached in RAM?"}
-    CacheCheck -- "1. Cache Hit" --> FastReturn["Return directly from RAM (1ms)"]
-    CacheCheck -- "2. Cache Miss" --> DB[("Execute DB Query (200ms)")]
-    DB --> SaveCache["Store in Cache for future calls"] --> FastReturn
+    Client["Client Request"] --> CacheCheck{"តើមានទិន្នន័យក្នុង Cache ទេ?"}
+    CacheCheck -- "1. Cache Hit (មាន)" --> FastReturn["ត្រឡប់ទិន្នន័យពី RAM ភ្លាមៗ (1ms)"]
+    CacheCheck -- "2. Cache Miss (អត់ទាន់មាន)" --> DB[("Query Database (200ms)")]
+    DB --> SaveCache["រក្សាទុកក្នុង Cache សម្រាប់លើកក្រោយ"] --> FastReturn
+
 ```
 
 ---
 
-## 2. Spring Cache Abstraction and Core Annotations
+## 2. Spring Cache Abstraction និង Annotations សំខាន់ៗ
 
-Spring provides a clean, declarative cache abstraction allowing developers to enable caching without coupling business logic to specific caching vendors.
+Spring ផ្តល់នូវ Abstraction ដ៏អស្ចារ្យ ដែលអនុញ្ញាតឱ្យអ្នកបើកប្រើ Caching ដោយគ្រាន់តែដាក់ Annotation លើ Method ប៉ុណ្ណោះ ដោយមិនបាច់សរសេរកូដរញ៉េរញ៉ៃឡើយ។
 
-Enable caching globally via **`@EnableCaching`**:
+ដំបូង ត្រូវដាក់ **`@EnableCaching`** លើ Configuration Class៖
 ```java
 @Configuration
 @EnableCaching
@@ -50,17 +49,17 @@ public class CacheConfig {}
 
 ---
 
-## 3. Deep Dive: `@Cacheable`, `@CachePut`, and `@CacheEvict`
+## 3. ការប្រើប្រាស់ `@Cacheable`, `@CachePut`, និង `@CacheEvict`
 
-| Annotation | Behavior and Lifecycle |
+| Annotation | តួនាទី និងអាកប្បកិរិយា |
 | :--- | :--- |
-| **`@Cacheable`** | Inspects cache first. On hit, short-circuits execution and returns the cached instance. On miss, invokes the underlying method and stores the returned value. |
-| **`@CachePut`** | Always executes the underlying method and refreshes the targeted cache entry with the method result (used during update mutations). |
-| **`@CacheEvict`** | Invalidates and purges one or more target entries from the cache (used during delete mutations). |
+| **`@Cacheable`** | ពិនិត្យមើល Cache មុន។ បើមាន (Hit) វាមិនដំណើរការ Method ទេ គឺយកពី Cache មក return ភ្លាម។ បើអត់ (Miss) ទើបដំណើរការ Method រួច Save លទ្ធផលចូល Cache។ |
+| **`@CachePut`** | ដំណើរការ Method ជានិច្ច ហើយយកលទ្ធផលថ្មីទៅ Update ជំនួសទិន្នន័យចាស់ក្នុង Cache (ប្រើពេល Edit/Update)។ |
+| **`@CacheEvict`** | លុបទិន្នន័យចេញពី Cache (ប្រើពេល Delete ឬពេលចង់ Clear Cache ចោល)។ |
 
 ---
 
-## 4. Custom Cache Key Resolution via SpEL (Spring Expression Language)
+## 4. ការកំណត់ Cache Key តាមរយៈ SpEL (Spring Expression Language)
 
 ```java
 @Service
@@ -72,45 +71,46 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    // 1. Cache lookups keyed by resource ID
+    // 1. រក្សាទុកក្នុង Cache ឈ្មោះ "products" ដោយយក ID ធ្វើជា Key
     @Cacheable(value = "products", key = "#id")
     public Product getProductById(Long id) {
-        System.out.println(">>> Executing expensive DB query for Product ID: " + id);
+        System.out.println(">>> កំពុង Query Database ស្វែងរក Product ID: " + id);
         return productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("រកមិនឃើញ"));
     }
 
-    // 2. Synchronize cache on mutation
+    // 2. ពេលកែប្រែទិន្នន័យ ត្រូវ Update Cache ភ្លាម
     @CachePut(value = "products", key = "#product.id")
     public Product updateProduct(Product product) {
         return productRepository.save(product);
     }
 
-    // 3. Purge specific cache entry on deletion
+    // 3. ពេលលុបទិន្នន័យ ត្រូវលុប Cache ចោលកុំឱ្យសល់ Data ចាស់
     @CacheEvict(value = "products", key = "#id")
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
 
-    // 4. Invalidate the entire cache namespace
+    // 4. លុបទិន្នន័យក្នុង Cache "products" ទាំងអស់ចោលតែម្តង
     @CacheEvict(value = "products", allEntries = true)
     public void clearAllProductCache() {
-        System.out.println("All product caches evicted successfully!");
+        System.out.println("បានលុប Cache ផលិតផលទាំងអស់!");
     }
 }
 ```
 
 ---
 
-## 5. Transitioning from ConcurrentHashMap to Distributed Redis
+## 5. ការប្តូរពី ConcurrentHashMap ទៅជា Distributed Redis Cache
 
-By default, Spring Boot instantiates an in-memory `ConcurrentHashMap`. In a horizontally scaled microservice deployment (e.g., 5 load-balanced instances), local JVM memory cannot be shared across nodes. Adopt **Redis** as a unified distributed cache:
+តាមលំនាំដើម Spring ប្រើ In-Memory `ConcurrentHashMap`។ ប៉ុន្តែនៅក្នុងស្ថាបត្យកម្ម Microservices ដែលមាន Server ចំនួន 5 ដំណើរការទន្ទឹមគ្នា (Load Balanced) Cache ក្នុង Memory ម៉ាស៊ីនមួយ មិនអាចចែករំលែកទៅម៉ាស៊ីនផ្សេងបានឡើយ។ យើងត្រូវប្រើ **Redis** ជា Distributed Centralized Cache!
 
 ### `pom.xml`:
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-redis</artifactId>
+
 </dependency>
 ```
 
@@ -120,7 +120,7 @@ spring:
   cache:
     type: redis
     redis:
-      time-to-live: 600000 # Time-to-live expiration (10 minutes)
+      time-to-live: 600000 # កំណត់អាយុកាល Cache 10 នាទី (TTL)
       cache-null-values: false
   data:
     redis:
@@ -130,17 +130,17 @@ spring:
 
 ---
 
-## 6. Summary
+## 6. សង្ខេប
 
-- Caching accelerates read performance by two orders of magnitude while preserving database health.
-- `@Cacheable` serves cached objects on hits and populates on misses.
-- `@CachePut` maintains cache freshness following updates.
-- `@CacheEvict` discards stale records to uphold data consistency.
-- Use default in-memory maps for local prototyping and distributed **Redis** for production clusters.
+- Caching កាត់បន្ថយ Latency ពី 500ms មកត្រឹម 1ms និងការពារ Database កុំឱ្យ Overload។
+- `@Cacheable`: ទាញយកពី Cache បើមាន បើអត់ទើបរត់ Method។
+- `@CachePut`: រត់ Method រួច Update Cache ជានិច្ច។
+- `@CacheEvict`: លុបទិន្នន័យដែលលែងត្រឹមត្រូវចេញពី Cache។
+- ប្រើ In-Memory Cache សម្រាប់ Local App និងប្រើ **Redis** សម្រាប់ Production Microservices។
 
 ---
-## 🧭 Lesson Navigation
+## 🧭 ការរុករកមេរៀន (Lesson Navigation)
 
-| Previous Lesson | Module Index | Next Lesson |
+| ថយក្រោយ (Previous) | មាតិកា Module (Index) | បន្ទាប់ (Next) |
 | :--- | :---: | :--- |
-| [← File Handling & Multipart Upload in Spring Boot](../03-file-handling-upload/README.md) | [📚 Module Index](../README.md) | [Distributed Caching with Redis →](../05-caching-providers-redis/README.md) |
+| [← ការគ្រប់គ្រង និង Upload File ក្នុង Spring Boot (File Handling & Multipart Upload)](../03-file-handling-upload/README.md) | [📚 បញ្ជីមេរៀន Module](../README.md) | [Caching Providers និង Redis Integration (Spring Boot Caching with Redis) →](../05-caching-providers-redis/README.md) |

@@ -23,6 +23,7 @@ flowchart TD
     Java --> F6["⚡ Multithreaded"]
     Java --> F7["🔒 Secure & Robust"]
     Java --> F8["🌐 Built-in Networking"]
+
 ```
 
 ---
@@ -49,6 +50,7 @@ flowchart TD
 flowchart LR
     A["📄 Code.java<br/>(Source Code)"] -->|"javac (Compiler)"| B["⚙️ Code.class<br/>(Bytecode)"]
     B -->|"JVM Interpreter"| C["💻 Machine Code<br/>(CPU Execution)"]
+
 ```
 
 ### 🌍 ៥. Architecture Neutral & Portable (មិនប្រកាន់ Platform — WORA)

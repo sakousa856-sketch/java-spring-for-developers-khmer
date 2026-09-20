@@ -1,23 +1,20 @@
-# Module 4: Building RESTful Web APIs with Spring Boot
-
-> 🌐 **Language / ភាសា:** 🇰🇭 [ភាសាខ្មែរ (Khmer)](README.kh.md) | 🇬🇧 **[English](README.md)**
-
+# Module 4: ការកសាង RESTful Web APIs (REST API with Spring Boot)
 ![Module 4: Building RESTful Web APIs with Spring Boot](../assets/restful_apis.webp)
 
 
-> 📂 **Runnable Example Project for this Module:**  
+> 📂 **គម្រោងកូដគំរូជាក់ស្តែងសម្រាប់ Module នេះ (Runnable Project):**  
 > 👉 **[Bookstore REST API CRUD (Spring Boot 3)](../examples/01-rest-api-crud)**  
-> Complete Maven project featuring Controller, Service, Repository, DTO Records, Validation, and Exception Handling.
+> គម្រោង Maven ពេញលេញរួមមាន Controller, Service, Repository, DTO Records, Validation, និង Exception Handling។
 
 ---
 
-## 📖 Module Overview
+## 📖 សេចក្តីផ្តើមអំពី Module
 
-Production RESTful API architecture: controllers, semantic routing, parameters, request body binding, Jackson serialization, DTOs, Bean Validation, and centralized exception handling.
+ស្ថាបត្យកម្ម Web API ទំនើប៖ Controllers, Routing, Request Parameters, Request Body, Jackson JSON, DTO Pattern, Input Validation, និង Global Exception Handling។
 
 ---
 
-## 🗺️ Module Learning Roadmap
+## 🗺️ ផែនទីសិក្សាប្រចាំ Module (Learning Roadmap)
 
 ```mermaid
 flowchart TD
@@ -31,30 +28,31 @@ flowchart TD
     L8["08. Complete REST API Implementation"] --> L9["09. JSON Serialization with Jackson"]
     L9["09. JSON Serialization with Jackson"] --> L10["10. Global Exception Handling"]
     L10["10. Global Exception Handling"] --> L11["11. Input Validation with Hibernate Validator"]
+
 ```
 
 ---
 
-## 📚 Lessons in This Module (11 Lessons)
+## 📚 បញ្ជីមេរៀនក្នុង Module (11 Lessons)
 
-| Lesson | Topic | Description |
+| មេរៀន (Lesson) | ប្រធានបទ (Topic) | ការពិពណ៌នា (Description) |
 | :---: | :--- | :--- |
-| **01** | [Introduction to RESTful Services](01-intro-to-restful-web-services/README.md) | REST architecture, constraints, and HTTP semantics |
-| **02** | [@RestController in Spring Boot](02-rest-controller/README.md) | @RestController meta-annotation and JSON conversion |
-| **03** | [@RequestMapping Deep Dive](03-request-mapping/README.md) | Path routing, headers, and media type mapping with @RequestMapping |
-| **04** | [@GetMapping and @PostMapping](04-get-and-post-mapping/README.md) | Handling read requests with @GetMapping and writes with @PostMapping |
-| **05** | [@PutMapping and @DeleteMapping](05-put-and-delete-mapping/README.md) | Resource updates with @PutMapping and removals with @DeleteMapping |
-| **06** | [@PathVariable vs @RequestParam](06-pathvariable-and-requestparam/README.md) | Extracting path variables vs query string parameters |
-| **07** | [@RequestBody Payload Extraction](07-requestbody/README.md) | Capturing and deserializing incoming request payloads with @RequestBody |
-| **08** | [Complete REST API Implementation](08-build-rest-api-example/README.md) | Step-by-step implementation of an end-to-end REST API |
-| **09** | [JSON Serialization with Jackson](09-json-serialization-jackson/README.md) | JSON serialization/deserialization, annotations, and Java Records |
-| **10** | [Global Exception Handling](10-exception-handling/README.md) | Centralized fault handling with @RestControllerAdvice and RFC 7807 |
-| **11** | [Input Validation with Hibernate Validator](11-validation/README.md) | Declarative validation constraints with Jakarta Bean Validation |
+| **01** | [Introduction to RESTful Services](01-intro-to-restful-web-services/README.md) | ស្ថាបត្យកម្ម REST គោលការណ៍ HTTP Methods និង Best Practices |
+| **02** | [@RestController in Spring Boot](02-rest-controller/README.md) | @RestController vs @Controller និង ResponseBody |
+| **03** | [@RequestMapping Deep Dive](03-request-mapping/README.md) | ការកំណត់ Route, Base URL, និង HTTP Method Filtering |
+| **04** | [@GetMapping and @PostMapping](04-get-and-post-mapping/README.md) | ការទាញយកទិន្នន័យ (GET) និងការបង្កើត Resource ថ្មី (POST) |
+| **05** | [@PutMapping and @DeleteMapping](05-put-and-delete-mapping/README.md) | ការកែប្រែទិន្នន័យទាំងមូល (PUT) និងការលុប (DELETE) |
+| **06** | [@PathVariable vs @RequestParam](06-pathvariable-and-requestparam/README.md) | ការចាប់យក URL Path Segments និង Query Parameters |
+| **07** | [@RequestBody Payload Extraction](07-requestbody/README.md) | ការទទួល និងបម្លែង JSON Payload មកជា Java Object |
+| **08** | [Complete REST API Implementation](08-build-rest-api-example/README.md) | កូដគំរូជាក់ស្តែងពេញលេញនៃការបង្កើត REST API មួយ |
+| **09** | [JSON Serialization with Jackson](09-json-serialization-jackson/README.md) | ការបម្លែង JSON, Jackson Annotations, DTOs, និង Java Records |
+| **10** | [Global Exception Handling](10-exception-handling/README.md) | ការគ្រប់គ្រង Error កម្រិតសកលជាមួយ @RestControllerAdvice |
+| **11** | [Input Validation with Hibernate Validator](11-validation/README.md) | ការផ្ទៀងផ្ទាត់ទិន្នន័យជាមួយ Jakarta Bean Validation (@Valid) |
 
 ---
 
-## 🧭 Navigation
+## 🧭 ការរុករក (Navigation)
 
-| Previous | Main Index | Next Module |
+| ថយក្រោយ (Previous) | មាតិកាចម្បង (Main Index) | បន្ទាប់ (Next Module) |
 | :--- | :---: | :--- |
-| [Module 3: Core Features](../03-spring-boot-core-features/README.md) | [📚 Spring Boot Home](../README.md) | [Module 5: Database & JPA →](../05-spring-boot-database-and-data-jpa/README.md) |
+| [Module 3: Core Features](../03-spring-boot-core-features/README.md) | [📚 មាតិកា Spring Boot](../README.md) | [Module 5: Database & JPA →](../05-spring-boot-database-and-data-jpa/README.md) |
