@@ -7,7 +7,7 @@
 [![Slides](https://img.shields.io/badge/Slide%20Deck-៨៧%20ស្លាយ-blue?style=for-the-badge)](slides/README.md)
 [![Language](https://img.shields.io/badge/ភាសា-ខេមរភាសា-red?style=for-the-badge)](#)
 [![Next Course](https://img.shields.io/badge/វគ្គបន្ទាប់-Java%20Advance-purple?style=for-the-badge)](../02-advance-java/README.md)
-[![License](https://img.shields.io/badge/អាជ្ញាប័ណ្ណ-MIT-green?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/អាជ្ញាប័ណ្ណ-MIT-green?style=for-the-badge)](../LICENSE)
 
 ---
 
@@ -17,7 +17,7 @@
 
 > [!TIP]
 > 🗺️ **ចង់ឃើញផែនទីបង្ហាញផ្លូវពេញលេញ?**  
-> សូមចូលទៅកាន់ [Java Full Stack Web Development Roadmap](ROADMAP.md) ដើម្បីមើលជំហានលម្អិតទាំង ៦ ចាប់ពីកម្រិតដំបូងរហូតដល់ក្លាយជា Senior Full Stack Engineer!
+> សូមចូលទៅកាន់ [Java Full Stack Web Development Roadmap](../ROADMAP.md) ដើម្បីមើលជំហានលម្អិតទាំង ៦ ចាប់ពីកម្រិតដំបូងរហូតដល់ក្លាយជា Senior Full Stack Engineer!
 
 ---
 
@@ -84,7 +84,7 @@ flowchart LR
 ## 🗺️ ផែនទីបង្ហាញផ្លូវអាជីព (Career Roadmap)
 
 វគ្គសិក្សានេះគឺជាជំហានដំបូងគេ (Phase 1) នៃមាគ៌ាវិស្វករសូហ្វវែរសហគ្រាស៖
-* 🚀 **[ផែនទីបង្ហាញផ្លូវពេញលេញ Java Full Stack Web Development](ROADMAP.md)**
+* 🚀 **[ផែនទីបង្ហាញផ្លូវពេញលេញ Java Full Stack Web Development](../ROADMAP.md)**
 
 ---
 

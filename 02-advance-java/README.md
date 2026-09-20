@@ -7,7 +7,7 @@
 [![Slides](https://img.shields.io/badge/Slide%20Deck-៨៦%20ស្លាយ-blue?style=for-the-badge)](slides/README.md)
 [![Language](https://img.shields.io/badge/ភាសា-ខេមរភាសា-red?style=for-the-badge)](#)
 [![Next Course](https://img.shields.io/badge/វគ្គបន្ទាប់-Spring%20Framework-green?style=for-the-badge)](../03-spring-framework/README.md)
-[![License](https://img.shields.io/badge/អាជ្ញាប័ណ្ណ-MIT-brightgreen?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/អាជ្ញាប័ណ្ណ-MIT-brightgreen?style=for-the-badge)](../LICENSE)
 
 ---
 
@@ -17,7 +17,7 @@
 
 > [!TIP]
 > 🗺️ **ចង់ឃើញផែនទីបង្ហាញផ្លូវពេញលេញ?**  
-> សូមចូលទៅកាន់ [Java Full Stack Web Development Roadmap](ROADMAP.md) ដើម្បីមើលជំហានលម្អិតទាំង ៦ ចាប់ពីកម្រិតដំបូងរហូតដល់ក្លាយជា Senior Full Stack Engineer!
+> សូមចូលទៅកាន់ [Java Full Stack Web Development Roadmap](../ROADMAP.md) ដើម្បីមើលជំហានលម្អិតទាំង ៦ ចាប់ពីកម្រិតដំបូងរហូតដល់ក្លាយជា Senior Full Stack Engineer!
 
 ---
 
@@ -85,7 +85,7 @@ flowchart LR
 
 វគ្គសិក្សានេះគឺជាជំហានទីពីរ (Phase 1 Part 2) នៃមាគ៌ាវិស្វករសូហ្វវែរសហគ្រាស៖
 
-- 🚀 **[ផែនទីបង្ហាញផ្លូវពេញលេញ Java Full Stack Web Development](ROADMAP.md)**
+- 🚀 **[ផែនទីបង្ហាញផ្លូវពេញលេញ Java Full Stack Web Development](../ROADMAP.md)**
 
 ---
 

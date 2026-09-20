@@ -1,4 +1,6 @@
 .DS_Store
+.AppleDouble
+.LSOverride
 Thumbs.db
 *.log
 
@@ -7,6 +9,8 @@ Thumbs.db
 target/
 .gradle/
 build/
+dist/
+out/
 *.jar
 *.war
 *.ear
@@ -18,3 +22,9 @@ build/
 .project
 .classpath
 .settings/
+*.swp
+*.swo
+*.sublime-workspace
+
+# Scratch
+scratch/
