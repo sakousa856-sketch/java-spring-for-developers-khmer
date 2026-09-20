@@ -7,15 +7,16 @@
 [![Java](https://img.shields.io/badge/Java-17%20%7C%2021%20LTS-orange.svg?logo=java&logoColor=white)](https://dev.java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x%20Enterprise-green.svg?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![Roadmap](https://img.shields.io/badge/Roadmap-Java%20Full%20Stack-success.svg)](ROADMAP.md)
-[![Tracks](https://img.shields.io/badge/វគ្គសិក្សា-៥%20កម្រិតធំៗ-blue.svg)](#-វគ្គសិក្សាស្នូលទាំង-៥-five-master-course-tracks)
-[![Lessons](https://img.shields.io/badge/មេរៀនសរុប-១៤៨%20មេរៀន%20%2B%20២៣៤%20ស្លាយ-purple.svg)](#)
+[![Tracks](https://img.shields.io/badge/វគ្គសិក្សា-៤%20កម្រិតធំៗ-blue.svg)](#-វគ្គសិក្សាស្នូលទាំង-៤-four-master-course-tracks)
+[![Handbook](https://img.shields.io/badge/Handbook-Interview%20Prep%20Kit-orange.svg)](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)
+[![Lessons](https://img.shields.io/badge/មេរៀនសរុប-១៣៦%20មេរៀន%20%2B%20២៣៤%20ស្លាយ-purple.svg)](#)
 [![License](https://img.shields.io/badge/អាជ្ញាប័ណ្ណ-MIT-brightgreen.svg)](LICENSE)
 
 ---
 
-## 🏛️ វគ្គសិក្សាស្នូលទាំង ៥ (Five Master Course Tracks)
+## 🏛️ វគ្គសិក្សាស្នូលទាំង ៤ (Four Master Course Tracks)
 
-កម្មវិធីសិក្សានេះត្រូវបានរៀបចំឡើងជា **៥ ដំណាក់កាលបន្តបន្ទាប់គ្នា (១៤៨ មេរៀន និង ២៣៤ ស្លាយបង្រៀន)** ដើម្បីបណ្តុះបណ្តាលអ្នកអភិវឌ្ឍន៍ចាប់ពីកម្រិតដំបូងរហូតដល់កម្រិតវិស្វករសូហ្វវែរសហគ្រាស៖
+កម្មវិធីសិក្សានេះត្រូវបានរៀបចំឡើងជា **៤ ដំណាក់កាលបន្តបន្ទាប់គ្នា (១៣៦ មេរៀន និង ២៣៤ ស្លាយបង្រៀន)** ដើម្បីបណ្តុះបណ្តាលអ្នកអភិវឌ្ឍន៍ចាប់ពីកម្រិតដំបូងរហូតដល់កម្រិតវិស្វករសូហ្វវែរសហគ្រាស៖
 
 ```mermaid
 flowchart LR
@@ -43,17 +44,24 @@ flowchart LR
         D2 --> D3["Security 6 & JWT"] --> D4["Microservices & Docker"]
     end
 
-    subgraph T5["កម្រិតទី ០៥: Interview Handbook (05-interview-handbook)"]
+    subgraph T5["ត្រៀមសម្ភាសន៍: Interview Handbook (Repo ឯករាជ្យ)"]
         direction TB
-        E1["Core Java Internals"] --> E2["Spring Architecture"]
-        E2 --> E3["System Design"] --> E4["Live Coding & STAR"]
+        E1["១២ សសរទ្រូងបច្ចេកទេស"] --> E2["JVM & System Design"]
+        E2 --> E3["Kafka & Microservices"] --> E4["Live Coding & STAR"]
     end
 
     T1 ==>|គ្រឹះរឹងមាំ| T2
     T2 ==>|ក្បួន OOP| T3
     T3 ==>|ស្ថាបត្យកម្មស្នូល| T4
-    T4 ==>|ត្រៀមអាជីព| T5
+    T4 -.->|ត្រៀមអាជីព| T5
+
+    click T5 "https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer" "បើកមើល Repo សម្ភាសន៍ការងារ"
 ```
+
+> [!TIP]
+> ### 💼 កញ្ចប់ឯកសារពិសេស៖ មគ្គុទ្ទេសក៍ត្រៀមសម្ភាសន៍ការងារ Java & Spring Boot
+> តើអ្នកកំពុងត្រៀមខ្លួនសម្ភាសន៍ការងារ ឬចង់ពង្រឹងស្ថាបត្យកម្មប្រព័ន្ធកម្រិតខ្ពស់មែនទេ? យើងបានបំបែកសៀវភៅនេះជា Repo ដាច់ដោយឡែកមួយយ៉ាងពេញលេញ៖
+> 👉 **[sakousa856-sketch/java-spring-interview-handbook-khmer](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)** (១២ ជំពូកធំៗ គ្របដណ្ដប់លើ JVM Internals, Spring Architecture, System Design, និង Live Coding)។
 
 ---
 
@@ -72,7 +80,7 @@ flowchart LR
 | **02** | **[Java កម្រិតខ្ពស់ OOP (Advance Java)](02-advance-java/README.kh.md)** | Encapsulation, Inheritance, Polymorphism, Abstraction, Memory | **១៨ មេរៀន (៨៦ ស្លាយ)** | [ចូលរៀនវគ្គ ០២ →](02-advance-java/README.kh.md) |
 | **03** | **[ស្ថាបត្យកម្មស្នូល Spring Framework](03-spring-framework/README.kh.md)** | IoC Container, Dependency Injection, Bean Lifecycles, AOP | **២៤ ជំពូក (៦១ ស្លាយ)** | [ចូលរៀនវគ្គ ០៣ →](03-spring-framework/README.kh.md) |
 | **04** | **[Spring Boot & Microservices](04-spring-boot/README.kh.md)** | RESTful APIs, Spring Data JPA, JWT Security, Microservices, Docker | **១០ Modules (៧៨ មេរៀន)** | [ចូលរៀនវគ្គ ០៤ →](04-spring-boot/README.kh.md) |
-| **05** | **[មគ្គុទ្ទេសក៍ត្រៀមសម្ភាសន៍ការងារ](05-interview-handbook/README.kh.md)** | ១២ មូលដ្ឋានបច្ចេកទេស, JVM Internals, System Design, Coding | **១២ Master Pillars** | [ចូលរៀនវគ្គ ០៥ →](05-interview-handbook/README.kh.md) |
+| **⭐** | **[មគ្គុទ្ទេសក៍ត្រៀមសម្ភាសន៍ការងារ](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)** | ១២ មូលដ្ឋានបច្ចេកទេស, JVM Internals, System Design, Coding | **១២ Master Pillars** | [បើកមើល Repo សម្ភាសន៍ →](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer) |
 
 ---
 
@@ -132,11 +140,15 @@ flowchart LR
 
 ---
 
-## 💼 កម្រិតទី ០៥៖ មគ្គុទ្ទេសក៍ត្រៀមសម្ភាសន៍ការងារ (`05-interview-handbook/`)
+## 💼 ឃ្លាំងឯកសារពិសេស៖ មគ្គុទ្ទេសក៍ត្រៀមសម្ភាសន៍ការងារ
 
-កម្រងសំណួរ-ចម្លើយ និងការត្រៀមខ្លួនសម្ភាសន៍ការងារកម្រិតវិស្វករសូហ្វវែរ៖
+តើអ្នកកំពុងស្វែងរកកម្រងសំណួរ-ចម្លើយស៊ីជម្រៅ គំរូស្ថាបត្យកម្មប្រព័ន្ធ (System Design) និងលំហាត់ Live Coding មែនទេ?
+យើងបានរៀបចំវាទៅជា Repo ដាច់ដោយឡែកមួយយ៉ាងពេញលេញ និងមានការគាំទ្រខ្ពស់៖
 
-* 📖 **[មគ្គុទ្ទេសក៍ត្រៀមសម្ភាសន៍ការងារ ១២ Pillars](05-interview-handbook/README.kh.md)**
+👉 **[sakousa856-sketch/java-spring-interview-handbook-khmer](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)**
+
+- **១២ សសរទ្រូងស្នូល (12 Master Pillars):** JVM Internals, OOP & SOLID, Multithreading & Virtual Threads, Spring Framework & Boot Core, SQL & JPA Indexing, Microservices, Event-Driven Kafka, Security, Testing, DevOps, និង System Design។
+- **ទម្រង់ពីរភាសា (Bilingual):** ការពន្យល់ជាភាសាខ្មែរ និងអង់គ្លេស អមដោយ Code ជាក់ស្តែង និងការវិភាគ Architectural Trade-offs។
 
 ---
 

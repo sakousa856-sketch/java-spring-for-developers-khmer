@@ -7,15 +7,16 @@
 [![Java](https://img.shields.io/badge/Java-17%20%7C%2021%20LTS-orange.svg?logo=java&logoColor=white)](https://dev.java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x%20Enterprise-green.svg?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![Roadmap](https://img.shields.io/badge/Roadmap-Java%20Full%20Stack-success.svg)](ROADMAP.md)
-[![Tracks](https://img.shields.io/badge/Curriculum-5%20Master%20Tracks-blue.svg)](#-five-master-course-tracks)
-[![Lessons](https://img.shields.io/badge/Total%20Lessons-148%20Lessons%20%2B%20234%20Slides-purple.svg)](#)
+[![Tracks](https://img.shields.io/badge/Curriculum-4%20Master%20Tracks-blue.svg)](#-four-master-course-tracks)
+[![Handbook](https://img.shields.io/badge/Handbook-Interview%20Prep%20Kit-orange.svg)](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)
+[![Lessons](https://img.shields.io/badge/Total%20Lessons-136%20Lessons%20%2B%20234%20Slides-purple.svg)](#)
 [![License](https://img.shields.io/badge/License-MIT-brightgreen.svg)](LICENSE)
 
 ---
 
-## 🏛️ Five Master Course Tracks
+## 🏛️ Four Master Course Tracks
 
-This curriculum is structured into **5 sequential tracks (148 lessons & 234 slide decks)** designed to train developers from ground zero to enterprise-grade backend and full-stack software engineers:
+This curriculum is structured into **4 sequential tracks (136 lessons & 234 slide decks)** designed to train developers from ground zero to enterprise-grade backend and full-stack software engineers:
 
 ```mermaid
 flowchart LR
@@ -43,17 +44,24 @@ flowchart LR
         D2 --> D3["Security 6 & JWT"] --> D4["Microservices & Docker"]
     end
 
-    subgraph T5["Track 05: Interview Handbook (05-interview-handbook)"]
+    subgraph T5["Career Prep: Interview Handbook (External Repo)"]
         direction TB
-        E1["Core Java Internals"] --> E2["Spring Architecture"]
-        E2 --> E3["System Design"] --> E4["Live Coding & STAR"]
+        E1["12 Master Pillars"] --> E2["JVM & System Design"]
+        E2 --> E3["Kafka & Microservices"] --> E4["Live Coding & STAR"]
     end
 
     T1 ==>|Foundations| T2
     T2 ==>|OOP Mastery| T3
     T3 ==>|Enterprise Core| T4
-    T4 ==>|Career Readiness| T5
+    T4 -.->|Career Readiness| T5
+    
+    click T5 "https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer" "Open Interview Handbook Repository"
 ```
+
+> [!TIP]
+> ### 💼 Bonus Career Kit: Java & Spring Boot Interview Handbook
+> Are you actively preparing for technical interviews or job placement? Check out our dedicated standalone repository:
+> 👉 **[sakousa856-sketch/java-spring-interview-handbook-khmer](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)** (12 Master Pillars covering Core Java Internals, Spring Internals, System Design, and Live Coding).
 
 ---
 
@@ -72,7 +80,7 @@ Looking for the overarching roadmap to guide your learning timeline?
 | **02** | **[Advance Java OOP](02-advance-java/README.md)** | Encapsulation, inheritance, polymorphism, abstraction, memory | **18 Lessons (86 Slides)** | [Open Track 02 →](02-advance-java/README.md) |
 | **03** | **[Spring Framework Core](03-spring-framework/README.md)** | Inversion of Control (IoC), Dependency Injection, Bean Lifecycles | **24 Lessons (61 Slides)** | [Open Track 03 →](03-spring-framework/README.md) |
 | **04** | **[Spring Boot & Microservices](04-spring-boot/README.md)** | RESTful APIs, Spring Data JPA, JWT Security, Microservices, Docker | **10 Modules (78 Lessons)** | [Open Track 04 →](04-spring-boot/README.md) |
-| **05** | **[Java & Spring Interview Handbook](05-interview-handbook/README.md)** | 12 technical pillars, JVM internals, system design, LeetCode patterns | **12 Master Pillars** | [Open Track 05 →](05-interview-handbook/README.md) |
+| **⭐** | **[Technical Interview Handbook](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)** | 12 technical pillars, JVM internals, system design, LeetCode patterns | **12 Master Pillars** | [Open Handbook Repo →](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer) |
 
 ---
 
@@ -132,11 +140,15 @@ Building Production-Ready RESTful Web Services, Security, and Microservices:
 
 ---
 
-## 💼 Track 05: Technical Interview Handbook (`05-interview-handbook/`)
+## 💼 Dedicated Repository: Technical Interview Handbook
 
-Comprehensive technical interview preparation synthesis:
+Looking for deep technical interview questions, architecture patterns, and live coding exercises?
+We have packaged this into an independent, high-impact repository:
 
-* 📖 **[Track 05 Interview Handbook](05-interview-handbook/README.md)**
+👉 **[sakousa856-sketch/java-spring-interview-handbook-khmer](https://github.com/sakousa856-sketch/java-spring-interview-handbook-khmer)**
+
+- **12 Master Pillars:** JVM Internals, OOP & SOLID, Multithreading, Spring Framework & Boot, SQL/JPA, Microservices, Kafka, Security, Testing, DevOps, and System Design.
+- **Bilingual Content:** Khmer and English explanations with code snippets and architectural trade-offs.
 
 ---
 
