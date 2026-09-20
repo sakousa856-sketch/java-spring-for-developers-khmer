@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <rect width="920" height="480" rx="16" fill="url(#bgGrad)" />
+  <rect x="2" y="2" width="916" height="476" rx="14" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Header -->
+  <rect x="40" y="24" width="840" height="52" rx="10" fill="url(#headerGrad)" filter="url(#shadow)" />
+  <text x="460" y="56" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" text-anchor="middle">
+    វដ្តជីវិតលម្អិតរបស់ Spring Bean និង BeanPostProcessor (Spring Bean Lifecycle & BeanPostProcessor)
+  </text>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="110" width="380" height="75" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <rect x="50" y="110" width="380" height="32" rx="10" fill="#3b82f6" />
+    <text x="62" y="132" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      1. Instantiation
+    </text>
+    <text x="62" y="164" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Spring invokes constructor: new MyBean()
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="490" y="110" width="380" height="75" rx="10" fill="#1e293b" stroke="#0ea5e9" stroke-width="2" />
+    <rect x="490" y="110" width="380" height="32" rx="10" fill="#0ea5e9" />
+    <text x="502" y="132" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      2. Populate Properties
+    </text>
+    <text x="502" y="164" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Dependency Injection: fields &amp; setters populated
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="200" width="380" height="75" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <rect x="50" y="200" width="380" height="32" rx="10" fill="#8b5cf6" />
+    <text x="62" y="222" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      3. Aware Interfaces
+    </text>
+    <text x="62" y="254" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      BeanNameAware, BeanFactoryAware, ApplicationContextAware
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="490" y="200" width="380" height="75" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <rect x="490" y="200" width="380" height="32" rx="10" fill="#f59e0b" />
+    <text x="502" y="222" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      4. BeanPostProcessor (Before)
+    </text>
+    <text x="502" y="254" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      postProcessBeforeInitialization() intercepts bean
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="290" width="380" height="75" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <rect x="50" y="290" width="380" height="32" rx="10" fill="#10b981" />
+    <text x="62" y="312" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      5. Initialization Callbacks
+    </text>
+    <text x="62" y="344" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      @PostConstruct -> afterPropertiesSet() -> init-method
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="490" y="290" width="380" height="75" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="2" />
+    <rect x="490" y="290" width="380" height="32" rx="10" fill="#ef4444" />
+    <text x="502" y="312" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      6. BeanPostProcessor (After)
+    </text>
+    <text x="502" y="344" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      postProcessAfterInitialization() wraps AOP PROXIES!
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="380" width="820" height="60" rx="10" fill="#1e293b" stroke="#64748b" stroke-width="2" />
+    <rect x="50" y="380" width="820" height="32" rx="10" fill="#64748b" />
+    <text x="62" y="402" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      7. Ready -> Destruction
+    </text>
+    <text x="62" y="434" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Bean in service. On context close: @PreDestroy -> destroy()
+    </text>
+  </g>
+</svg>

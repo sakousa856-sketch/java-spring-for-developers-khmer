@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <rect width="920" height="480" rx="16" fill="url(#bgGrad)" />
+  <rect x="2" y="2" width="916" height="476" rx="14" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Header -->
+  <rect x="40" y="24" width="840" height="52" rx="10" fill="url(#headerGrad)" filter="url(#shadow)" />
+  <text x="460" y="56" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" text-anchor="middle">
+    Annotations ស្នូល និងការគ្រប់គ្រងបរិស្ថាន Properties (Core Annotations & Environment Properties)
+  </text>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="110" width="380" height="85" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <rect x="50" y="110" width="380" height="32" rx="10" fill="#3b82f6" />
+    <text x="62" y="132" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      @PropertySource &amp; @Value
+    </text>
+    <text x="62" y="164" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Load app.properties &amp; inject values: @Value("${app.name:default}")
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="490" y="110" width="380" height="85" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <rect x="490" y="110" width="380" height="32" rx="10" fill="#10b981" />
+    <text x="502" y="132" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      @Profile("dev" / "prod")
+    </text>
+    <text x="502" y="164" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Environment-specific bean activation based on active profiles
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="215" width="380" height="85" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <rect x="50" y="215" width="380" height="32" rx="10" fill="#f59e0b" />
+    <text x="62" y="237" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      @Lazy Initialization
+    </text>
+    <text x="62" y="269" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Postpone bean instantiation until first requested (saves startup RAM)
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="490" y="215" width="380" height="85" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <rect x="490" y="215" width="380" height="32" rx="10" fill="#8b5cf6" />
+    <text x="502" y="237" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      @DependsOn("auditBean")
+    </text>
+    <text x="502" y="269" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Explicitly dictate bean creation sequence in IoC container
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="320" width="380" height="85" rx="10" fill="#1e293b" stroke="#ec4899" stroke-width="2" />
+    <rect x="50" y="320" width="380" height="32" rx="10" fill="#ec4899" />
+    <text x="62" y="342" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      @Order &amp; @Priority
+    </text>
+    <text x="62" y="374" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Sort autowired Collections: List&lt;Filter&gt; in deterministic order
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="490" y="320" width="380" height="85" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="2" />
+    <rect x="490" y="320" width="380" height="32" rx="10" fill="#06b6d4" />
+    <text x="502" y="342" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      @Conditional Fundamentals
+    </text>
+    <text x="502" y="374" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      The architectural bedrock enabling Spring Boot auto-configuration
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,20 @@
+.DS_Store
+Thumbs.db
+*.log
+
+# Java & Build Output
+*.class
+target/
+.gradle/
+build/
+*.jar
+*.war
+*.ear
+
+# IDE & Editor files
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/

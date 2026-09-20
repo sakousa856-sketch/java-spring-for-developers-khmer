@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <rect width="920" height="480" rx="16" fill="url(#bgGrad)" />
+  <rect x="2" y="2" width="916" height="476" rx="14" fill="none" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Header -->
+  <rect x="40" y="24" width="840" height="52" rx="10" fill="url(#headerGrad)" filter="url(#shadow)" />
+  <text x="460" y="56" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" text-anchor="middle">
+    ស្ថាបត្យកម្ម Event-Driven ក្នុង Spring Framework (Spring Application Events Architecture)
+  </text>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="110" width="380" height="85" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="2" />
+    <rect x="50" y="110" width="380" height="32" rx="10" fill="#3b82f6" />
+    <text x="62" y="132" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      1. Event Publisher
+    </text>
+    <text x="62" y="164" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      ApplicationEventPublisher publishes custom payload event
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="490" y="110" width="380" height="85" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="2" />
+    <rect x="490" y="110" width="380" height="32" rx="10" fill="#10b981" />
+    <text x="502" y="132" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      2. POJO Event Model
+    </text>
+    <text x="502" y="164" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Clean domain event: UserRegisteredEvent(userId, email)
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="215" width="380" height="85" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+    <rect x="50" y="215" width="380" height="32" rx="10" fill="#f59e0b" />
+    <text x="62" y="237" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      3. Sync Listener (@EventListener)
+    </text>
+    <text x="62" y="269" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Synchronous execution on same thread (immediate response)
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="490" y="215" width="380" height="85" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="2" />
+    <rect x="490" y="215" width="380" height="32" rx="10" fill="#8b5cf6" />
+    <text x="502" y="237" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      4. Async Listener (@Async)
+    </text>
+    <text x="502" y="269" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      Non-blocking background thread pool execution
+    </text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="320" width="820" height="85" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="2" />
+    <rect x="50" y="320" width="820" height="32" rx="10" fill="#ef4444" />
+    <text x="62" y="342" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">
+      5. Transactional Events
+    </text>
+    <text x="62" y="374" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+      @TransactionalEventListener: fire after commit or rollback
+    </text>
+  </g>
+</svg>
